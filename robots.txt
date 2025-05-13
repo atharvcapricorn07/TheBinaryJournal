@@ -2,6 +2,7 @@ User-agent: *
 Disallow: /admin/
 Disallow: /login/
 
+Allow:/
 Sitemap: https://atharvcapricorn07.github.io/TheBinaryJournal/sitemap.xml
 
 
