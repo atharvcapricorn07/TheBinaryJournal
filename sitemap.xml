@@ -3,7 +3,8 @@
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+      http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+      
 <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
 
@@ -55,6 +56,11 @@
 <url>
   <loc>https://atharvcapricorn07.github.io/TheBinaryJournal/articles/elon_jet_tracker.html</loc>
   <lastmod>2025-05-15T05:09:07+00:00</lastmod>
+  <priority>0.80</priority>
+</url>   
+<url>
+  <loc>https://atharvcapricorn07.github.io/TheBinaryJournal/articles/AI_stocks.html</loc>
+  <lastmod>2025-05-16T05:09:07+00:00</lastmod>
   <priority>0.80</priority>
 </url>   
 
