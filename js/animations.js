@@ -1,67 +1,68 @@
-const overlay = document.getElementById('dark-overlay');
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('dark-overlay');
+  const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
 
-function toggleTheme() {
-  const isDark = document.body.classList.contains('dark-mode');
+  // Page load fade-in
+  body.classList.add('page-enter');
 
-  // Reset all animation classes
-  overlay.classList.remove('slide-out-left', 'slide-out-right', 'slide-in');
-
-  // Trigger entry animation
-  overlay.classList.add('slide-in');
-
-  // Wait for animation to complete
-  setTimeout(() => {
-    // Toggle dark mode class
-    document.body.classList.toggle('dark-mode');
-
-    // Remove slide-in
-    overlay.classList.remove('slide-in');
-
-    // Apply exit animation based on direction
-    overlay.classList.add(isDark ? 'slide-out-left' : 'slide-out-right');
-
-    // Optional cleanup after animation finishes
-    setTimeout(() => {
-      overlay.classList.remove('slide-out-left', 'slide-out-right');
-    }, 500); // matches the CSS transition time
-  }, 500); // matches the CSS transition time
-}
-
-// Fade in on page load
-window.addEventListener('DOMContentLoaded', () => {
-  document.body.classList.add('page-enter');
-
-  // Page fade-in on scroll logic
-  const faders = document.querySelectorAll('.fade-in');
-
+  // Scroll-triggered fade-ins with stagger
+  const fadeEls = document.querySelectorAll('.fade-in');
   const fadeInObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
+    entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = `${index * 100}ms`;
         entry.target.classList.add('visible');
         observer.unobserve(entry.target); // Animate once
       }
     });
-  }, {
-    threshold: 0.1
-  });
+  }, { threshold: 0.1 });
 
-  faders.forEach(el => fadeInObserver.observe(el));
-});
+  fadeEls.forEach(el => fadeInObserver.observe(el));
 
-// Article exit animation
-const articleLinks = document.querySelectorAll('.article-grid a[href]');
+  // Theme toggle with overlay animation
+  function toggleTheme() {
+    const isDark = body.classList.contains('dark-mode');
 
-articleLinks.forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const href = link.href;
+    overlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
+    overlay.classList.add('slide-in');
 
-    // Add fade out class
-    document.body.classList.add('page-exit');
-
-    // Wait for the fade out to complete then navigate
     setTimeout(() => {
-      window.location.href = href;
-    }, 500); // match this to your CSS transition time
+      body.classList.toggle('dark-mode');
+      overlay.classList.remove('slide-in');
+      overlay.classList.add(isDark ? 'slide-out-left' : 'slide-out-right');
+
+      setTimeout(() => {
+        overlay.classList.remove('slide-out-left', 'slide-out-right');
+      }, 500);
+    }, 500);
+  }
+
+  // Apply saved theme on load
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if (savedTheme === 'dark') body.classList.add('dark-mode');
+
+  // Bind theme toggle button
+  if (themeToggle) {
+    themeToggle.textContent = savedTheme === 'dark' ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+    themeToggle.addEventListener('click', () => {
+      const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      toggleTheme();
+      themeToggle.textContent = newTheme === 'dark' ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+    });
+  }
+
+  // Exit animation for article links
+  const articleLinks = document.querySelectorAll('.article-grid a[href]');
+  articleLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.href;
+      body.classList.add('page-exit');
+      setTimeout(() => {
+        window.location.href = href;
+      }, 500);
+    });
   });
 });
