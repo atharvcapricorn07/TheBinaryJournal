@@ -1,25 +1,29 @@
-const toggleButton = document.getElementById('theme-toggle');
 const overlay = document.getElementById('dark-overlay');
 const body = document.body;
 
-toggleButton.addEventListener('click', () => {
-  // Slide in overlay
-  overlay.classList.add('slide-in');
-  overlay.classList.remove('slide-out-right', 'slide-out-left');
+function toggleTheme() {
+  const isDark = body.classList.contains('dark-mode');
 
-  // Wait for animation to finish before toggling theme
+  // Reset all animation classes
+  overlay.classList.remove('slide-out-left', 'slide-out-right', 'slide-in');
+
+  // Trigger entry animation
+  overlay.classList.add('slide-in');
+
+  // Wait for animation to complete
   setTimeout(() => {
+    // Toggle dark mode class
     body.classList.toggle('dark-mode');
 
-    // Slide out overlay in correct direction
-    if (body.classList.contains('dark-mode')) {
-      overlay.classList.remove('slide-in');
-      overlay.classList.add('slide-out-right');
-    } else {
-      overlay.classList.remove('slide-in');
-      overlay.classList.add('slide-out-left');
-    }
-  }, 600); // Must match CSS transition duration
-});
+    // Remove slide-in
+    overlay.classList.remove('slide-in');
 
+    // Apply exit animation based on direction
+    overlay.classList.add(isDark ? 'slide-out-left' : 'slide-out-right');
 
+    // Optional cleanup after animation finishes
+    setTimeout(() => {
+      overlay.classList.remove('slide-out-left', 'slide-out-right');
+    }, 500); // matches the CSS transition time
+  }, 500); // matches the CSS transition time
+}
