@@ -1,6 +1,6 @@
 // js/animations.js
 
-const btn = document.getElementById('theme-toggle');
+const btn     = document.getElementById('theme-toggle');
 const overlay = document.getElementById('dark-overlay');
 
 function wait(ms) {
@@ -8,46 +8,52 @@ function wait(ms) {
 }
 
 async function swipe(toDark) {
-  // 1) Prepare the overlay: show it & reset transition
-  overlay.style.display = 'block';
+  // 1) Ensure overlay is visible and reset transform
+  overlay.style.display   = 'block';
   overlay.style.transition = 'none';
+  overlay.style.pointerEvents = 'all';
 
-  // 2) Position off-screen start-side:
-  overlay.style.transform = toDark
-    ? 'translateX(100%)'  // start off-screen right
-    : 'translateX(-100%)';// start off-screen left
+  // 2) Position overlay off-screen on the side we'll come from
+  //    Light→Dark: slide in from left  (-100%) → 0
+  //    Dark→Light: slide in from right (100%)  → 0
+  overlay.style.transform = toDark ? 'translateX(-100%)' : 'translateX(100%)';
 
-  // Force the browser to apply that position:
+  // Force reflow
   void overlay.offsetWidth;
 
-  // 3) Phase 1: Slide overlay into center (0)
+  // 3) Slide overlay to center
   overlay.style.transition = 'transform 0.5s ease';
   overlay.style.transform  = 'translateX(0)';
   await wait(500);
 
-  // 4) Toggle the theme behind the cover
+  // 4) Toggle theme under the overlay
   document.body.classList.toggle('dark-mode', toDark);
   localStorage.setItem('theme', toDark ? 'dark' : 'light');
   btn.textContent = toDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
 
-  // 5) Phase 2: Slide overlay off the opposite side:
-  overlay.style.transform = toDark
-    ? 'translateX(-100%)' // back out to left
-    : 'translateX(100%)'; // back out to right
+  // 5) Slide overlay off to opposite side
+  //    Light→Dark: out left again (-100%)
+  //    Dark→Light: out right (100%)
+  overlay.style.transform = toDark ? 'translateX(-100%)' : 'translateX(100%)';
   await wait(500);
 
-  // 6) Cleanup: hide overlay entirely
+  // 6) Hide overlay until next toggle
   overlay.style.display = 'none';
+  overlay.style.pointerEvents = 'none';
 }
 
-// Wire it up
 btn.addEventListener('click', () => {
   swipe(!document.body.classList.contains('dark-mode'));
 });
 
-// On load: initialize theme (no animation)
+// Initialize on load (no animation)
 window.addEventListener('DOMContentLoaded', () => {
-  const dark = localStorage.getItem('theme') === 'dark';
-  document.body.classList.toggle('dark-mode', dark);
-  btn.textContent = dark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+  const isDark = localStorage.getItem('theme') === 'dark';
+  document.body.classList.toggle('dark-mode', isDark);
+  btn.textContent = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+
+  // Ensure overlay hidden
+  overlay.style.display = 'none';
+  overlay.style.pointerEvents = 'none';
+  overlay.style.transform = 'translateX(-100%)';
 });
