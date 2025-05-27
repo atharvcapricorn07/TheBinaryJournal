@@ -251,3 +251,35 @@ body.dark-mode #theme-toggle {
   background: #ccc;
   color: #222;
 }
+
+/* Theme Toggle Button */
+#theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #3A5F0B;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#theme-toggle:hover {
+  background-color: #2e4c08;
+  transform: scale(1.05);
+}
+
+#theme-toggle:active {
+  transform: scale(0.98);
+}
+
+body.dark-mode #theme-toggle {
+  background-color: #bbb;
+  color: #222;
+}
+
