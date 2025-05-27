@@ -184,54 +184,33 @@ footer {
 }
 
 /* 5) Dark Mode Overrides */
-body.dark-mode {
-  background: #121212;
-  color: #e0e0e0;
+#dark-overlay {
+  position: fixed;
+  top: 0;
+  left: -100vw;      /* start fully offscreen left */
+  width: 100vw;
+  height: 100vh;
+  background-color: #222;
+  pointer-events: none;
+  z-index: 2000;
+  transition: left 0.5s ease;
 }
 
-body.dark-mode header.hero {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
+/* Slide overlay fully onscreen */
+#dark-overlay.active {
+  left: 0;
+  pointer-events: all;
 }
 
-body.dark-mode nav a {
-  color: #bbbbbb;
+/* Slide overlay offscreen right */
+#dark-overlay.slide-out-right {
+  left: 100vw;
+  pointer-events: none;
 }
 
-body.dark-mode main.home-content,
-body.dark-mode .article-container {
-  background: transparent;
-  color: #e0e0e0;
+/* Slide overlay offscreen left */
+#dark-overlay.slide-out-left {
+  left: -100vw;
+  pointer-events: none;
 }
 
-body.dark-mode .featured,
-body.dark-mode .article-grid article,
-body.dark-mode .article-grid .featured,
-body.dark-mode article blockquote {
-  background: #1e1e1e;
-  color: #e0e0e0;
-}
-
-body.dark-mode .article-grid .featured-text a {
-  color: #66ccff;
-}
-
-body.dark-mode .article-grid .featured-text p {
-  color: #cccccc;
-}
-
-body.dark-mode .article-meta,
-body.dark-mode .article-title-block .article-meta,
-body.dark-mode .byline {
-  color: #999;
-}
-
-body.dark-mode footer {
-  background-color: #1e1e1e;
-  color: #cccccc;
-}
-
-body.dark-mode #theme-toggle {
-  background: #ccc;
-  color: #222;
-}
