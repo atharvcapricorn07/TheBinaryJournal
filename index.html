@@ -228,7 +228,8 @@
     <!-- Other page content -->
 
   <script>
-    const overlay = document.getElementById('dark-overlay');
+    const toggleBtn = document.getElementById('theme-toggle');
+const overlay = document.getElementById('dark-overlay');
 
 toggleBtn.addEventListener('click', () => {
   // Start animation by sliding overlay in
@@ -247,6 +248,7 @@ toggleBtn.addEventListener('click', () => {
     overlay.classList.remove('active');
   }, 500); // match duration of CSS transition
 });
+
 
   </script>
 </body>
