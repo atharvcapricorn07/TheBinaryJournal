@@ -233,13 +233,22 @@ body.dark-mode #theme-toggle {
   left: -100%;
   width: 100%;
   height: 100%;
-  background-color: #222;
+  background-color: #222; /* dark color */
   pointer-events: none;
   z-index: 2000;
   transition: left 0.5s ease;
 }
 
+/* When overlay is active, slide it across from left */
 #dark-overlay.active {
   left: 0;
   pointer-events: all;
 }
+
+/* Reverse animation - slide overlay out from right to left */
+#dark-overlay.reverse {
+  left: 100%;  /* start fully offscreen right */
+  pointer-events: all;
+  transition: left 0.5s ease;
+}
+
