@@ -277,14 +277,12 @@ body.dark-mode #theme-toggle {
 }
 
 body,
-body.dark-mode {
-  transition: background-color 0.5s ease, color 0.5s ease;
-}
-
+body.dark-mode,
 header.hero,
 main.home-content,
 .article-container,
 footer {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
+
 
