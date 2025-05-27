@@ -27,18 +27,18 @@ function toggleTheme() {
   }, 500); // matches the CSS transition time
 }
 
-// Page fade-in on load and scroll
+// Fade in on page load
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('page-enter');
 
-  // Animate articles on scroll
+  // Page fade-in on scroll logic
   const faders = document.querySelectorAll('.fade-in');
 
   const fadeInObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // Animate only once
+        observer.unobserve(entry.target); // Animate once
       }
     });
   }, {
@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
   faders.forEach(el => fadeInObserver.observe(el));
 });
 
-// Page transition on article click
+// Article exit animation
 const articleLinks = document.querySelectorAll('.article-grid a[href]');
 
 articleLinks.forEach(link => {
@@ -56,8 +56,10 @@ articleLinks.forEach(link => {
     e.preventDefault();
     const href = link.href;
 
+    // Add fade out class
     document.body.classList.add('page-exit');
 
+    // Wait for the fade out to complete then navigate
     setTimeout(() => {
       window.location.href = href;
     }, 500); // match this to your CSS transition time
