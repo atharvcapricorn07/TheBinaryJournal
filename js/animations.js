@@ -28,6 +28,11 @@ function toggleTheme() {
   }, 500); // matches the CSS transition time
 }
 
+// Fade in on page load
+window.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('page-enter');
+});
+
 // grab all the article <a> links
 const articleLinks = document.querySelectorAll('.article-grid a[href]');
 
@@ -45,4 +50,3 @@ articleLinks.forEach(link => {
     }, 500); // match this to your CSS transition time
   });
 });
-
