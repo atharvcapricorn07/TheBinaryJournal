@@ -80,6 +80,16 @@ main.home-content {
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 40px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.featured:hover,
+.article-grid .featured:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  z-index: 1;
 }
 
 .featured img,
@@ -125,6 +135,15 @@ main.home-content {
   background: #f6f6f6;
   padding: 15px;
   border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.article-grid article:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  z-index: 1;
 }
 
 /* Article Container */
@@ -211,7 +230,6 @@ footer {
   transform: translateX(100%);
 }
 
-
 #dark-overlay.slide-out-left {
   transform: translateX(-100%);
 }
@@ -295,6 +313,7 @@ body.dark-mode #theme-toggle {
   transform: scale(0.98);
 }
 
+/* Smooth color transitions */
 body,
 body.dark-mode,
 header.hero,
@@ -304,7 +323,7 @@ footer {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Add this for smooth, consistent color transitions on articles */
+/* Smooth background/text transition for article sections */
 .featured,
 .article-grid article,
 .article-grid .featured,
@@ -312,7 +331,7 @@ article blockquote {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-
+/* Fade-in animation on scroll */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -323,15 +342,3 @@ article blockquote {
   opacity: 1;
   transform: translateY(0);
 }
-
-.article-grid .featured {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform;
-}
-
-.article-grid .featured:hover {
-  transform: scale(1.03) translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  z-index: 1;
-}
-
