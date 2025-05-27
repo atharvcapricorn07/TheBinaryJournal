@@ -230,7 +230,7 @@ body.dark-mode #theme-toggle {
 #dark-overlay {
   position: fixed;
   top: 0;
-  left: -100%;       /* Use % instead of vw for consistent full offscreen */
+  left: -100%; /* start fully offscreen left */
   width: 100%;
   height: 100vh;
   background-color: #222;
@@ -251,11 +251,6 @@ body.dark-mode #theme-toggle {
   pointer-events: none;
 }
 
-/* Slide overlay offscreen left */
-#dark-overlay.slide-out-left {
-  left: -100%;
-  pointer-events: none;
-}
 
 
 
