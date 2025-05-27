@@ -324,3 +324,14 @@ article blockquote {
   transform: translateY(0);
 }
 
+.article-grid .featured {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.article-grid .featured:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
