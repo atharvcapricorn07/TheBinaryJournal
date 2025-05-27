@@ -36,6 +36,9 @@ articleLinks.forEach(link => {
     e.preventDefault();               // stop instant navigation
     const href = link.getAttribute('href');
 
+    // prevent multiple clicks
+    if (document.body.classList.contains('page-exit')) return;
+
     // trigger fade-out
     document.body.classList.add('page-exit');
 
@@ -45,9 +48,3 @@ articleLinks.forEach(link => {
     }, 500); // match the 0.5s in your CSS
   });
 });
-
-
-
-
-
-
