@@ -282,4 +282,12 @@ footer {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+/* Add this for smooth, consistent color transitions on articles */
+.featured,
+.article-grid article,
+.article-grid .featured,
+article blockquote {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
 
