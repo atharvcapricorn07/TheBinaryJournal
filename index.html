@@ -8,7 +8,7 @@
 </head>
 <body>
   <div id="dark-overlay"></div>
-
+  <button id="theme-toggle">Toggle Dark Mode</button>
   <header class="hero">
     <h1>The Binary Journal</h1>
     <p class="tagline">Exploring the edge where code meets culture</p>
@@ -18,7 +18,7 @@
   </header>
 
   
-  <button id="theme-toggle">Toggle Dark Mode</button>
+  
 
   <main class="home-content">
     <h3>Recent Articles</h3>
@@ -220,73 +220,6 @@
   <footer>
     <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
   </footer>
-
-  <script>
-const toggleBtn = document.getElementById('theme-toggle');
-const darkOverlay = document.getElementById('dark-overlay');
-
-function resetOverlayOffLeft() {
-  darkOverlay.classList.remove('slide-out-right', 'active');
-  darkOverlay.style.left = '-100vw';  // reset offscreen left
-  darkOverlay.style.pointerEvents = 'none';
-}
-
-toggleBtn.addEventListener('click', () => {
-  if (!document.body.classList.contains('dark-mode')) {
-    // Going DARK: slide overlay in from left
-    
-    // Reset overlay offscreen left instantly
-    resetOverlayOffLeft();
-
-    // Force reflow: this is the magic trick to ensure transition triggers
-    void darkOverlay.offsetWidth;
-
-    // Then add active class to trigger transition left: 0
-    darkOverlay.classList.add('active');
-    darkOverlay.style.pointerEvents = 'all';
-
-    // Add dark mode class
-    document.body.classList.add('dark-mode');
-    toggleBtn.textContent = 'Toggle Light Mode';
-    localStorage.setItem('theme', 'dark');
-
-  } else {
-    // Going LIGHT: slide overlay out right
-    
-    // Remove active to start transition left -> 100vw
-    darkOverlay.classList.remove('active');
-    darkOverlay.classList.add('slide-out-right');
-    darkOverlay.style.pointerEvents = 'none';
-
-    // Remove dark mode class immediately so page goes light
-    document.body.classList.remove('dark-mode');
-    toggleBtn.textContent = 'Toggle Dark Mode';
-    localStorage.setItem('theme', 'light');
-
-    // After transition ends, reset overlay position
-    darkOverlay.addEventListener('transitionend', function handler() {
-      resetOverlayOffLeft();
-      darkOverlay.classList.remove('slide-out-right');
-      darkOverlay.removeEventListener('transitionend', handler);
-    });
-  }
-});
-
-// On page load, set theme and overlay position accordingly
-window.addEventListener('DOMContentLoaded', () => {
-  if(localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    darkOverlay.classList.add('active');
-    darkOverlay.style.left = '0';
-    darkOverlay.style.pointerEvents = 'all';
-    toggleBtn.textContent = 'Toggle Light Mode';
-  } else {
-    resetOverlayOffLeft();
-    toggleBtn.textContent = 'Toggle Dark Mode';
-  }
-});
-
-
-  </script>
+  <script src="js/animations.js" defer></script>
 </body>
 </html>
