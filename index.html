@@ -222,23 +222,29 @@
   </footer>
 
   <script>
- const toggleBtn = document.getElementById('theme-toggle');
+const toggleBtn = document.getElementById('theme-toggle');
 const darkOverlay = document.getElementById('dark-overlay');
 
 function removeSlideOutRight() {
   darkOverlay.classList.remove('slide-out-right');
-  darkOverlay.style.left = '-100%';  // reset offscreen left for next in animation
+  darkOverlay.style.left = '-100%';  // reset offscreen left for next animation
 }
 
 toggleBtn.addEventListener('click', () => {
   if (!document.body.classList.contains('dark-mode')) {
     // Going DARK: Slide overlay IN from left
-    darkOverlay.style.left = '-100%'; // reset position
+
+    // Reset position instantly
+    darkOverlay.style.left = '-100%';
     darkOverlay.classList.remove('slide-out-right');
-    document.body.classList.add('dark-mode');
-    darkOverlay.classList.add('active');
-    toggleBtn.textContent = 'Toggle Light Mode';
-    localStorage.setItem('theme', 'dark');
+
+    // Wait for next frame to trigger animation
+    requestAnimationFrame(() => {
+      document.body.classList.add('dark-mode');
+      darkOverlay.classList.add('active');  // triggers left: 0 transition
+      toggleBtn.textContent = 'Toggle Light Mode';
+      localStorage.setItem('theme', 'dark');
+    });
   } else {
     // Going LIGHT: Slide overlay OUT to right
     darkOverlay.classList.remove('active');
