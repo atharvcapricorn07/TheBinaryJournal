@@ -6,19 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Page load fade-in
   body.classList.add('page-enter');
 
-  // Scroll-triggered fade-ins with stagger
+  // Immediately reveal all fade-in elements
   const fadeEls = document.querySelectorAll('.fade-in');
-  const fadeInObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        entry.target.style.transitionDelay = `${index * 100}ms`;
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // Animate once
-      }
-    });
-  }, { threshold: 0.1 });
-
-  fadeEls.forEach(el => fadeInObserver.observe(el));
+  fadeEls.forEach((el, index) => {
+    el.style.transitionDelay = `${index * 50}ms`; // Slight stagger if desired
+    el.classList.add('visible');
+  });
 
   // Theme toggle with overlay animation
   function toggleTheme() {
@@ -66,3 +59,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
