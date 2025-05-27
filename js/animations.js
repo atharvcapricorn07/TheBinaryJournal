@@ -1,37 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM fully loaded');
-
-  const body = document.body;
   const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
 
-  if (!themeToggle) {
-    console.error('Theme toggle button not found!');
-    return;
+  // Debug log to confirm script is running
+  console.log('JS loaded: animations.js');
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      body.classList.add('dark-mode');
+      themeToggle.textContent = 'Toggle Light Mode';
+    } else {
+      body.classList.remove('dark-mode');
+      themeToggle.textContent = 'Toggle Dark Mode';
+    }
+    console.log(`Applied theme: ${theme}`);
   }
-
-  console.log('Theme toggle button found');
 
   // Apply saved theme on load
   const savedTheme = localStorage.getItem('theme') || 'light';
-  console.log('Saved theme:', savedTheme);
+  applyTheme(savedTheme);
 
-  if (savedTheme === 'dark') {
-    body.classList.add('dark-mode');
-    console.log('Dark mode applied on load');
+  // Toggle theme on button click
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
+      console.log(`Theme toggled to: ${newTheme}`);
+    });
+  } else {
+    console.warn('Theme toggle button not found.');
   }
 
-  // Set initial button label
-  themeToggle.textContent = body.classList.contains('dark-mode')
-    ? 'Toggle Light Mode'
-    : 'Toggle Dark Mode';
+  // --- Page fade-in ---
+  body.classList.add('page-enter');
 
-  // Toggle theme on click
-  themeToggle.addEventListener('click', () => {
-    console.log('Toggle button clicked');
-    const isDark = body.classList.toggle('dark-mode');
-    console.log('Dark mode active:', isDark);
+  // --- Article fade-in (no IntersectionObserver) ---
+  const fadeEls = document.querySelectorAll('.fade-in');
+  fadeEls.forEach((el, i) => {
+    el.style.transitionDelay = `${i * 100}ms`;
+    el.classList.add('visible');
+  });
 
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    themeToggle.textContent = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+  // --- Link transition ---
+  const articleLinks = document.querySelectorAll('.article-grid a[href]');
+  articleLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.href;
+      body.classList.add('page-exit');
+      setTimeout(() => {
+        window.location.href = href;
+      }, 500);
+    });
   });
 });
+
