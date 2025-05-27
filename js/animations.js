@@ -1,59 +1,52 @@
-// js/animations.js
-
-const btn     = document.getElementById('theme-toggle');
-const overlay = document.getElementById('dark-overlay');
+const toggleBtn = document.getElementById('theme-toggle');
+const darkOverlay = document.getElementById('dark-overlay');
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function swipe(toDark) {
-  // 1) Ensure overlay is visible and reset transform
-  overlay.style.display   = 'block';
-  overlay.style.transition = 'none';
-  overlay.style.pointerEvents = 'all';
+async function toggleTheme() {
+  const isDark = document.body.classList.contains('dark-mode');
 
-  // 2) Position overlay off-screen on the side we'll come from
-  //    Light→Dark: slide in from left  (-100%) → 0
-  //    Dark→Light: slide in from right (100%)  → 0
-  overlay.style.transform = toDark ? 'translateX(-100%)' : 'translateX(100%)';
+  // Slide overlay in from left (always from left, easier)
+  darkOverlay.classList.remove('slide-out-right', 'slide-out-left');
+  darkOverlay.classList.add('active');
+  await wait(500);  // wait for slide-in animation to finish
 
-  // Force reflow
-  void overlay.offsetWidth;
+  // Toggle theme
+  if (isDark) {
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('theme', 'light');
+    toggleBtn.textContent = 'Toggle Dark Mode';
 
-  // 3) Slide overlay to center
-  overlay.style.transition = 'transform 0.5s ease';
-  overlay.style.transform  = 'translateX(0)';
-  await wait(500);
+    // Slide overlay out to right
+    darkOverlay.classList.remove('active');
+    darkOverlay.classList.add('slide-out-right');
+  } else {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('theme', 'dark');
+    toggleBtn.textContent = 'Toggle Light Mode';
 
-  // 4) Toggle theme under the overlay
-  document.body.classList.toggle('dark-mode', toDark);
-  localStorage.setItem('theme', toDark ? 'dark' : 'light');
-  btn.textContent = toDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+    // Slide overlay out to left
+    darkOverlay.classList.remove('active');
+    darkOverlay.classList.add('slide-out-left');
+  }
 
-  // 5) Slide overlay off to opposite side
-  //    Light→Dark: out left again (-100%)
-  //    Dark→Light: out right (100%)
-  overlay.style.transform = toDark ? 'translateX(-100%)' : 'translateX(100%)';
-  await wait(500);
+  await wait(500); // wait for slide-out animation to finish
 
-  // 6) Hide overlay until next toggle
-  overlay.style.display = 'none';
-  overlay.style.pointerEvents = 'none';
+  // Reset overlay state for next toggle
+  darkOverlay.classList.remove('slide-out-right', 'slide-out-left');
+  darkOverlay.style.pointerEvents = 'none';
 }
 
-btn.addEventListener('click', () => {
-  swipe(!document.body.classList.contains('dark-mode'));
-});
+toggleBtn.addEventListener('click', toggleTheme);
 
-// Initialize on load (no animation)
+// On page load, apply saved theme
 window.addEventListener('DOMContentLoaded', () => {
-  const isDark = localStorage.getItem('theme') === 'dark';
-  document.body.classList.toggle('dark-mode', isDark);
-  btn.textContent = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
-
-  // Ensure overlay hidden
-  overlay.style.display = 'none';
-  overlay.style.pointerEvents = 'none';
-  overlay.style.transform = 'translateX(-100%)';
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggleBtn.textContent = 'Toggle Light Mode';
+  } else {
+    toggleBtn.textContent = 'Toggle Dark Mode';
+  }
 });
