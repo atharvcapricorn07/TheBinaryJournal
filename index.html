@@ -224,51 +224,60 @@
   const toggleBtn = document.getElementById('theme-toggle');
 const darkOverlay = document.getElementById('dark-overlay');
 
-toggleBtn.addEventListener('click', () => {
-  const isDark = document.body.classList.toggle('dark-mode');
+function slideOverlayIn() {
+  darkOverlay.classList.remove('reverse');
+  darkOverlay.classList.add('active');
+}
 
-  if (isDark) {
-    // Dark mode ON: slide overlay in from left
-    darkOverlay.classList.remove('reverse');
-    darkOverlay.classList.add('active');
-
-    setTimeout(() => {
-      darkOverlay.classList.remove('active');
-    }, 500);
-
-    localStorage.setItem('theme', 'dark');
-    toggleBtn.textContent = 'Toggle Light Mode';
+function slideOverlayOut(reverse = false) {
+  if (reverse) {
+    darkOverlay.classList.add('reverse');
+    // Trigger reflow for CSS transition
+    void darkOverlay.offsetWidth;
+    darkOverlay.style.left = '100vw';
   } else {
-    // Dark mode OFF: slide overlay out to right (reverse swipe)
-    darkOverlay.classList.add('reverse', 'active');
-
-    // trigger reflow to apply styles immediately (forces CSS to start animation)
-    darkOverlay.offsetWidth; 
-
-    // move overlay off screen right
-    darkOverlay.style.left = '100%';
-
-    setTimeout(() => {
-      darkOverlay.classList.remove('active', 'reverse');
-      darkOverlay.style.left = ''; // reset inline style
-    }, 500);
-
-    localStorage.setItem('theme', 'light');
-    toggleBtn.textContent = 'Toggle Dark Mode';
+    darkOverlay.style.left = '-100vw';
   }
+  setTimeout(() => {
+    darkOverlay.classList.remove('active', 'reverse');
+    darkOverlay.style.left = '';
+  }, 500);
+}
+
+toggleBtn.addEventListener('click', () => {
+  const isDark = document.body.classList.contains('dark-mode');
+
+  // Start swipe in (overlay slides in)
+  slideOverlayIn();
+
+  // Wait for swipe in to finish (overlay fully covers screen)
+  setTimeout(() => {
+    if (isDark) {
+      // Currently dark → switch to light
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light');
+      toggleBtn.textContent = 'Toggle Dark Mode';
+
+      // Swipe overlay out to right (reverse)
+      slideOverlayOut(true);
+    } else {
+      // Currently light → switch to dark
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark');
+      toggleBtn.textContent = 'Toggle Light Mode';
+
+      // Swipe overlay out to left (normal)
+      slideOverlayOut(false);
+    }
+  }, 500); // same duration as CSS transition
 });
 
 window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-mode');
     toggleBtn.textContent = 'Toggle Light Mode';
-
-    // Animate overlay in briefly on load for dark mode
-    darkOverlay.classList.remove('reverse');
-    darkOverlay.classList.add('active');
-    setTimeout(() => {
-      darkOverlay.classList.remove('active');
-    }, 500);
+  } else {
+    toggleBtn.textContent = 'Toggle Dark Mode';
   }
 });
 
