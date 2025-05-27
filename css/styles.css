@@ -230,7 +230,7 @@ body.dark-mode #theme-toggle {
 #dark-overlay {
   position: fixed;
   top: 0;
-  left: -100vw;
+  left: -100vw;      /* start fully offscreen left */
   width: 100vw;
   height: 100vh;
   background-color: #222;
@@ -239,27 +239,24 @@ body.dark-mode #theme-toggle {
   transition: left 0.5s ease;
 }
 
-/* Slide in from left */
+/* Slide overlay fully onscreen */
 #dark-overlay.active {
   left: 0;
   pointer-events: all;
 }
 
-/* Slide in from right (reverse swipe) */
-#dark-overlay.reverse {
-  left: 0;
-  pointer-events: all;
-}
-
-/* Starting position for reverse swipe */
-#dark-overlay.reverse.out {
+/* Slide overlay offscreen right */
+#dark-overlay.slide-out-right {
   left: 100vw;
+  pointer-events: none;
 }
 
-/* Starting position for normal swipe out */
-#dark-overlay.out {
+/* Slide overlay offscreen left */
+#dark-overlay.slide-out-left {
   left: -100vw;
+  pointer-events: none;
 }
+
 
 
 
