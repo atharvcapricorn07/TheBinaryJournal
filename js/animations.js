@@ -22,6 +22,18 @@ themeToggle.addEventListener('click', () => {
   function onTransitionEnd(e) {
     console.log('Transition ended:', e.propertyName, 'on', e.target);
 
+    // Toggle dark mode class on body here, after animation
+    if (!isDark) {
+      document.body.classList.add('dark-mode');
+      console.log('Added dark mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+      console.log('Removed dark mode');
+    }
+
+    // Remove animation class so overlay goes off screen
+    darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
+
     darkOverlay.removeEventListener('transitionend', onTransitionEnd);
     isAnimating = false;
     console.log('Animation ended, isAnimating = false');
