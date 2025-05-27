@@ -202,6 +202,52 @@
         </div>
       </article>
 
-      <article class="featured">
+            <article class="featured">
         <a href="articles/AIvsHumans.html">
-          <img src="images/ai-vs-humans.png"
+          <img src="images/ai-vs-humans.png" alt="AI vs Humans Illustration" />
+        </a>
+        <div class="featured-text">
+          <h4><a href="articles/AIvsHumans.html">AI vs Humans: The Ultimate Showdown</a></h4>
+          <p>As AI advances, how will humans adapt? Explore the future of collaboration, competition, and coexistence.</p>
+          <br>
+          <p>By Atharv Kale • 5/2/2025</p>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
+  </footer>
+<script>
+  const toggleBtn = document.getElementById('theme-toggle');
+  const darkOverlay = document.getElementById('dark-overlay');
+
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    darkOverlay.classList.toggle('active');
+
+    // Optionally save preference in localStorage
+    if(document.body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+      toggleBtn.textContent = 'Toggle Light Mode';
+    } else {
+      localStorage.setItem('theme', 'light');
+      toggleBtn.textContent = 'Toggle Dark Mode';
+    }
+  });
+
+  // Load saved theme on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    if(localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      darkOverlay.classList.add('active');
+      toggleBtn.textContent = 'Toggle Light Mode';
+    }
+  });
+</script>
+
+  
+</body>
+</html>
