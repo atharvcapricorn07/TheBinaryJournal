@@ -228,21 +228,26 @@
     <!-- Other page content -->
 
   <script>
-    const toggleBtn = document.getElementById('theme-toggle');
+    const overlay = document.getElementById('dark-overlay');
 
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
+toggleBtn.addEventListener('click', () => {
+  // Start animation by sliding overlay in
+  overlay.classList.add('active');
+
+  // After animation duration, toggle dark mode and slide overlay out
+  setTimeout(() => {
+    document.body.classList.toggle('dark-mode');
+
+    if (document.body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
     }
 
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
+    overlay.classList.remove('active');
+  }, 500); // match duration of CSS transition
+});
 
-      if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-      } else {
-        localStorage.setItem('theme', 'light');
-      }
-    });
   </script>
 </body>
 </html>
