@@ -230,22 +230,36 @@ body.dark-mode #theme-toggle {
 #dark-overlay {
   position: fixed;
   top: 0;
-  left: -100%;
-  width: 100vw;    /* use viewport width */
-  height: 100vh;   /* use viewport height */
+  left: -100vw;
+  width: 100vw;
+  height: 100vh;
   background-color: #222;
   pointer-events: none;
   z-index: 2000;
   transition: left 0.5s ease;
 }
 
+/* Slide in from left */
 #dark-overlay.active {
   left: 0;
   pointer-events: all;
 }
 
+/* Slide in from right (reverse swipe) */
 #dark-overlay.reverse {
-  left: 100vw; /* start offscreen right for reverse swipe */
+  left: 0;
+  pointer-events: all;
 }
+
+/* Starting position for reverse swipe */
+#dark-overlay.reverse.out {
+  left: 100vw;
+}
+
+/* Starting position for normal swipe out */
+#dark-overlay.out {
+  left: -100vw;
+}
+
 
 
