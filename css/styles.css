@@ -283,3 +283,20 @@ body.dark-mode #theme-toggle {
   color: #222;
 }
 
+#dark-overlay {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #222; /* dark color */
+  pointer-events: none;
+  z-index: 2000;
+  transition: left 0.5s ease;
+}
+
+/* When overlay is active, slide it across */
+#dark-overlay.active {
+  left: 0;
+  pointer-events: all;
+}
