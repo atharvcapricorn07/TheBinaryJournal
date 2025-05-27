@@ -1,24 +1,25 @@
 const themeToggle = document.getElementById('theme-toggle');
 const darkOverlay = document.getElementById('dark-overlay');
 
-let isAnimating = false;  // Flag to block double clicks during animation
+let isAnimating = false;
 
 themeToggle.addEventListener('click', () => {
-  if (isAnimating) return;  // Prevent spamming clicks during animation
+  if (isAnimating) return;
   isAnimating = true;
 
   const isDark = document.body.classList.contains('dark-mode');
 
-  // Clear any animation classes to reset overlay position
+  // Reset overlay classes and force a reflow to reset animation state
   darkOverlay.classList.remove('slide-in', 'slide-out-right');
+  void darkOverlay.offsetWidth; // Force reflow to reset animation properly
 
   if (!isDark) {
-    // Going light -> dark: slide overlay IN from left
+    // Light -> Dark: slide overlay in from left
     darkOverlay.classList.add('slide-in');
 
-    // Listen for transition end once
     const onTransitionEnd = (event) => {
       if (event.propertyName === 'transform') {
+        // Add dark mode AFTER animation completes
         document.body.classList.add('dark-mode');
         darkOverlay.classList.remove('slide-in');
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
@@ -27,13 +28,13 @@ themeToggle.addEventListener('click', () => {
     };
 
     darkOverlay.addEventListener('transitionend', onTransitionEnd);
-
   } else {
-    // Going dark -> light: slide overlay OUT to right
+    // Dark -> Light: slide overlay out to right
     darkOverlay.classList.add('slide-out-right');
 
     const onTransitionEnd = (event) => {
       if (event.propertyName === 'transform') {
+        // Remove dark mode AFTER animation completes
         document.body.classList.remove('dark-mode');
         darkOverlay.classList.remove('slide-out-right');
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
