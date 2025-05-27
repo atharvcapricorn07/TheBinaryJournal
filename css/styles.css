@@ -230,8 +230,8 @@ body.dark-mode #theme-toggle {
 #dark-overlay {
   position: fixed;
   top: 0;
-  left: -100%; /* start fully offscreen left */
-  width: 100%;
+  left: -100vw;      /* start fully offscreen left */
+  width: 100vw;
   height: 100vh;
   background-color: #222;
   pointer-events: none;
@@ -247,9 +247,16 @@ body.dark-mode #theme-toggle {
 
 /* Slide overlay offscreen right */
 #dark-overlay.slide-out-right {
-  left: 100%;
+  left: 100vw;
   pointer-events: none;
 }
+
+/* Slide overlay offscreen left */
+#dark-overlay.slide-out-left {
+  left: -100vw;
+  pointer-events: none;
+}
+
 
 
 
