@@ -1,41 +1,43 @@
 const themeToggle = document.getElementById('theme-toggle');
 const darkOverlay = document.getElementById('dark-overlay');
 
+let isAnimating = false;  // Flag to block double clicks during animation
+
 themeToggle.addEventListener('click', () => {
+  if (isAnimating) return;  // Prevent spamming clicks during animation
+  isAnimating = true;
+
   const isDark = document.body.classList.contains('dark-mode');
 
-  // Clear any existing animation classes to avoid conflicts
-  darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
+  // Clear any animation classes to reset overlay position
+  darkOverlay.classList.remove('slide-in', 'slide-out-right');
 
   if (!isDark) {
-    // Going light -> dark: slide overlay in from left
+    // Going light -> dark: slide overlay IN from left
     darkOverlay.classList.add('slide-in');
 
+    // Listen for transition end once
     const onTransitionEnd = (event) => {
       if (event.propertyName === 'transform') {
         document.body.classList.add('dark-mode');
         darkOverlay.classList.remove('slide-in');
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
+        isAnimating = false;
       }
     };
 
     darkOverlay.addEventListener('transitionend', onTransitionEnd);
 
   } else {
-    // Going dark -> light: slide overlay out to right
+    // Going dark -> light: slide overlay OUT to right
     darkOverlay.classList.add('slide-out-right');
 
     const onTransitionEnd = (event) => {
       if (event.propertyName === 'transform') {
-        // Remove dark mode first
         document.body.classList.remove('dark-mode');
-
-        // Remove slide-out-right to reset overlay position instantly
         darkOverlay.classList.remove('slide-out-right');
-
-        // Don't add slide-out-left here — let CSS default handle offscreen left
-
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
+        isAnimating = false;
       }
     };
 
