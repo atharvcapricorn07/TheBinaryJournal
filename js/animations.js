@@ -1,55 +1,25 @@
-const themeToggle = document.getElementById('theme-toggle');
-const darkOverlay = document.getElementById('dark-overlay');
-let isAnimating = false;
+const toggleButton = document.getElementById('theme-toggle');
+const overlay = document.getElementById('dark-overlay');
+const body = document.body;
 
-// Utility: Update button label based on current theme
-function updateToggleText() {
-  themeToggle.textContent = document.body.classList.contains('dark-mode')
-    ? 'Toggle Light Mode'
-    : 'Toggle Dark Mode';
-}
+toggleButton.addEventListener('click', () => {
+  // Slide in overlay
+  overlay.classList.add('slide-in');
+  overlay.classList.remove('slide-out-right', 'slide-out-left');
 
-// Apply saved theme preference on load
-window.addEventListener('DOMContentLoaded', () => {
-  const darkModeEnabled = localStorage.getItem('darkMode') === 'true';
-  document.body.classList.toggle('dark-mode', darkModeEnabled);
-  updateToggleText();
+  // Wait for animation to finish before toggling theme
+  setTimeout(() => {
+    body.classList.toggle('dark-mode');
+
+    // Slide out overlay in correct direction
+    if (body.classList.contains('dark-mode')) {
+      overlay.classList.remove('slide-in');
+      overlay.classList.add('slide-out-right');
+    } else {
+      overlay.classList.remove('slide-in');
+      overlay.classList.add('slide-out-left');
+    }
+  }, 600); // Must match CSS transition duration
 });
 
-// Handle toggle with animation
-themeToggle.addEventListener('click', () => {
-  if (isAnimating) return;
-  isAnimating = true;
-
-  const isCurrentlyDark = document.body.classList.contains('dark-mode');
-
-  // Reset overlay animation classes
-  darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
-
-  // Listen for slide-in transition end
-  const onFirstTransitionEnd = (e) => {
-    if (e.target !== darkOverlay) return;
-
-    // Toggle theme
-    document.body.classList.toggle('dark-mode', !isCurrentlyDark);
-    localStorage.setItem('darkMode', String(!isCurrentlyDark));
-    updateToggleText();
-
-    // Prepare overlay to slide out
-    darkOverlay.classList.remove('slide-in');
-    darkOverlay.classList.add(isCurrentlyDark ? 'slide-out-left' : 'slide-out-right');
-
-    darkOverlay.removeEventListener('transitionend', onFirstTransitionEnd);
-
-    // Wait for slide-out to finish
-    darkOverlay.addEventListener('transitionend', () => {
-      darkOverlay.classList.remove('slide-out-left', 'slide-out-right');
-      isAnimating = false;
-    }, { once: true });
-  };
-
-  // Start animation: slide in overlay
-  darkOverlay.addEventListener('transitionend', onFirstTransitionEnd, { once: true });
-  darkOverlay.classList.add('slide-in');
-});
 
