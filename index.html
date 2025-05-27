@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<div id="dark-overlay"></div>
 <head>
   <meta charset="UTF-8" />
   <title>The Binary Journal</title>
@@ -8,6 +7,8 @@
   <link rel="icon" type="image/png" href="images/favicon.png" />
 </head>
 <body>
+  <div id="dark-overlay"></div>
+
   <header class="hero">
     <h1>The Binary Journal</h1>
     <p class="tagline">Exploring the edge where code meets culture</p>
@@ -21,7 +22,6 @@
   <main class="home-content">
     <h3>Recent Articles</h3>
     <section class="article-grid">
-
       <article class="featured">
         <a href="articles/google_veo.html">
           <img src="images/google_veo.png" alt="google_veo Illustration" />
@@ -213,41 +213,37 @@
           <p>By Atharv Kale • 5/2/2025</p>
         </div>
       </article>
-
     </section>
   </main>
 
   <footer>
     <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
   </footer>
-<script>
-  const toggleBtn = document.getElementById('theme-toggle');
-  const darkOverlay = document.getElementById('dark-overlay');
 
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    darkOverlay.classList.toggle('active');
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const darkOverlay = document.getElementById('dark-overlay');
 
-    // Optionally save preference in localStorage
-    if(document.body.classList.contains('dark-mode')) {
-      localStorage.setItem('theme', 'dark');
-      toggleBtn.textContent = 'Toggle Light Mode';
-    } else {
-      localStorage.setItem('theme', 'light');
-      toggleBtn.textContent = 'Toggle Dark Mode';
-    }
-  });
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      darkOverlay.classList.toggle('active');
 
-  // Load saved theme on page load
-  window.addEventListener('DOMContentLoaded', () => {
-    if(localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-      darkOverlay.classList.add('active');
-      toggleBtn.textContent = 'Toggle Light Mode';
-    }
-  });
-</script>
+      if(document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+        toggleBtn.textContent = 'Toggle Light Mode';
+      } else {
+        localStorage.setItem('theme', 'light');
+        toggleBtn.textContent = 'Toggle Dark Mode';
+      }
+    });
 
-  
+    window.addEventListener('DOMContentLoaded', () => {
+      if(localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        darkOverlay.classList.add('active');
+        toggleBtn.textContent = 'Toggle Light Mode';
+      }
+    });
+  </script>
 </body>
 </html>
