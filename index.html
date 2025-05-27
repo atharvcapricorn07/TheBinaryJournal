@@ -221,33 +221,6 @@
   <footer>
     <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
   </footer>
-
-  <script>
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-
-    function applyTheme(theme) {
-      if (theme === 'dark') {
-        body.classList.add('dark-mode');
-        themeToggle.textContent = 'Toggle Light Mode';
-      } else {
-        body.classList.remove('dark-mode');
-        themeToggle.textContent = 'Toggle Dark Mode';
-      }
-    }
-
-    // Initialize on page load
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    applyTheme(savedTheme);
-
-    // Toggle on button click
-    themeToggle.addEventListener('click', () => {
-      const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-      localStorage.setItem('theme', newTheme);
-      applyTheme(newTheme);
-    });
-  </script>
-
   <script src="js/animations.js" defer></script>
 </body>
 </html>
