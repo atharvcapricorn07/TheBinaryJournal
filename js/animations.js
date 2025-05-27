@@ -1,7 +1,4 @@
 const themeToggle = document.getElementById('theme-toggle');
-const darkOverlay = document.getElementById('dark-overlay');
-
-let isAnimating = false;
 
 function updateToggleText() {
   const isDark = document.body.classList.contains('dark-mode');
@@ -9,63 +6,25 @@ function updateToggleText() {
   console.log("Updated button text to:", themeToggle.textContent);
 }
 
-// Make sure DOM elements exist
+// Make sure button exists
 if (!themeToggle) {
   console.error("No element with ID 'theme-toggle' found!");
 }
-if (!darkOverlay) {
-  console.error("No element with ID 'dark-overlay' found!");
-}
 
-// Initialize text on page load
+// Initialize text on load
 updateToggleText();
 
 themeToggle.addEventListener('click', () => {
-  if (isAnimating) {
-    console.log("Animation in progress, ignoring click");
-    return;
-  }
-  isAnimating = true;
-
   const isDark = document.body.classList.contains('dark-mode');
   console.log("Current mode is dark?", isDark);
 
-  darkOverlay.classList.remove('slide-in', 'slide-out-right', 'slide-out-left');
-
-  if (!isDark) {
-    console.log("Switching Light → Dark");
-
-    darkOverlay.classList.add('slide-in');
-
-    const onTransitionEnd = (e) => {
-      if (e.propertyName === 'transform') {
-        document.body.classList.add('dark-mode');
-        darkOverlay.classList.remove('slide-in');
-        darkOverlay.removeEventListener('transitionend', onTransitionEnd);
-        isAnimating = false;
-        updateToggleText();
-        console.log("Switched to dark mode");
-      }
-    };
-
-    darkOverlay.addEventListener('transitionend', onTransitionEnd);
-
+  if (isDark) {
+    document.body.classList.remove('dark-mode');
+    console.log("Switched to light mode");
   } else {
-    console.log("Switching Dark → Light");
-
-    darkOverlay.classList.add('slide-out-left');
-
-    const onTransitionEnd = (e) => {
-      if (e.propertyName === 'transform') {
-        document.body.classList.remove('dark-mode');
-        darkOverlay.classList.remove('slide-out-left');
-        darkOverlay.removeEventListener('transitionend', onTransitionEnd);
-        isAnimating = false;
-        updateToggleText();
-        console.log("Switched to light mode");
-      }
-    };
-
-    darkOverlay.addEventListener('transitionend', onTransitionEnd);
+    document.body.classList.add('dark-mode');
+    console.log("Switched to dark mode");
   }
+
+  updateToggleText();
 });
