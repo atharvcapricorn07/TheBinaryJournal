@@ -6,22 +6,35 @@ let isAnimating = false;
 function updateToggleText() {
   const isDark = document.body.classList.contains('dark-mode');
   themeToggle.textContent = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+  console.log("Updated button text to:", themeToggle.textContent);
 }
 
-// Initialize button text on page load
+// Make sure DOM elements exist
+if (!themeToggle) {
+  console.error("No element with ID 'theme-toggle' found!");
+}
+if (!darkOverlay) {
+  console.error("No element with ID 'dark-overlay' found!");
+}
+
+// Initialize text on page load
 updateToggleText();
 
 themeToggle.addEventListener('click', () => {
-  if (isAnimating) return;
+  if (isAnimating) {
+    console.log("Animation in progress, ignoring click");
+    return;
+  }
   isAnimating = true;
 
   const isDark = document.body.classList.contains('dark-mode');
+  console.log("Current mode is dark?", isDark);
 
-  // Reset classes
   darkOverlay.classList.remove('slide-in', 'slide-out-right', 'slide-out-left');
 
   if (!isDark) {
-    // Light -> dark: slide overlay IN from left
+    console.log("Switching Light → Dark");
+
     darkOverlay.classList.add('slide-in');
 
     const onTransitionEnd = (e) => {
@@ -31,13 +44,15 @@ themeToggle.addEventListener('click', () => {
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
         isAnimating = false;
         updateToggleText();
+        console.log("Switched to dark mode");
       }
     };
 
     darkOverlay.addEventListener('transitionend', onTransitionEnd);
 
   } else {
-    // Dark -> light: slide overlay OUT to left (back offscreen)
+    console.log("Switching Dark → Light");
+
     darkOverlay.classList.add('slide-out-left');
 
     const onTransitionEnd = (e) => {
@@ -47,10 +62,10 @@ themeToggle.addEventListener('click', () => {
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
         isAnimating = false;
         updateToggleText();
+        console.log("Switched to light mode");
       }
     };
 
     darkOverlay.addEventListener('transitionend', onTransitionEnd);
   }
 });
-
