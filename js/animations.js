@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overlay = document.getElementById('dark-overlay');
   const themeToggle = document.getElementById('theme-toggle');
   const body = document.body;
 
@@ -9,25 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Immediately reveal all fade-in elements
   const fadeEls = document.querySelectorAll('.fade-in');
   fadeEls.forEach((el, index) => {
-    el.style.transitionDelay = `${index * 50}ms`; // Slight stagger if desired
+    el.style.transitionDelay = `${index * 50}ms`; // Optional light stagger
     el.classList.add('visible');
   });
 
-  // Theme toggle with overlay animation
+  // Theme toggle (fade only, no overlay)
   function toggleTheme() {
-    const isDark = body.classList.contains('dark-mode');
-
-    overlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
-    overlay.classList.add('slide-in');
-
+    body.classList.add('transition-theme'); // optional class if you want to add more control
+    body.classList.toggle('dark-mode');
     setTimeout(() => {
-      body.classList.toggle('dark-mode');
-      overlay.classList.remove('slide-in');
-      overlay.classList.add(isDark ? 'slide-out-left' : 'slide-out-right');
-
-      setTimeout(() => {
-        overlay.classList.remove('slide-out-left', 'slide-out-right');
-      }, 500);
+      body.classList.remove('transition-theme');
     }, 500);
   }
 
@@ -59,4 +49,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
 
