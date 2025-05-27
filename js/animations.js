@@ -3,36 +3,55 @@ const darkOverlay = document.getElementById('dark-overlay');
 
 let isAnimating = false;
 
+function applyDarkMode(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+}
+
+function saveMode(isDark) {
+  localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+}
+
+function getSavedMode() {
+  return localStorage.getItem('darkMode') === 'true';
+}
+
+// On page load, apply saved mode
+window.addEventListener('DOMContentLoaded', () => {
+  const savedMode = getSavedMode();
+  applyDarkMode(savedMode);
+});
+
 themeToggle.addEventListener('click', () => {
   if (isAnimating) return;
-  isAnimating = true;
 
+  isAnimating = true;
   const isDark = document.body.classList.contains('dark-mode');
 
-  // Reset any old animation classes
   darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
-  void darkOverlay.offsetWidth; // force reflow
 
-  // Start swipe in (left → right)
-  darkOverlay.classList.add('slide-in');
-
-  // Wait for swipe-in animation to finish (500ms)
-  setTimeout(() => {
-    // Toggle dark mode in the middle
-    if (isDark) {
-      document.body.classList.remove('dark-mode');
+  function onTransitionEnd(e) {
+    if (!isDark) {
+      applyDarkMode(true);
+      saveMode(true);
     } else {
-      document.body.classList.add('dark-mode');
+      applyDarkMode(false);
+      saveMode(false);
     }
 
-    // Now swipe back out to the left
-    darkOverlay.classList.remove('slide-in');
-    darkOverlay.classList.add('slide-out-left');
+    darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
+    darkOverlay.removeEventListener('transitionend', onTransitionEnd);
+    isAnimating = false;
+  }
 
-    // Wait for swipe-out to complete
-    setTimeout(() => {
-      darkOverlay.classList.remove('slide-out-left');
-      isAnimating = false;
-    }, 500); // Match your CSS transition time
-  }, 500); // Match your CSS transition time
+  darkOverlay.addEventListener('transitionend', onTransitionEnd);
+
+  if (!isDark) {
+    darkOverlay.classList.add('slide-in');
+  } else {
+    darkOverlay.classList.add('slide-out-left');
+  }
 });
