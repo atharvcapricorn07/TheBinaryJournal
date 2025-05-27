@@ -221,17 +221,17 @@
   </footer>
 
   <script>
-    const toggleBtn = document.getElementById('theme-toggle');
+  const toggleBtn = document.getElementById('theme-toggle');
 const darkOverlay = document.getElementById('dark-overlay');
 
 toggleBtn.addEventListener('click', () => {
   const isDark = document.body.classList.toggle('dark-mode');
 
   if (isDark) {
-    // Show overlay for animation
+    // Dark mode ON: slide overlay in from left
+    darkOverlay.classList.remove('reverse');
     darkOverlay.classList.add('active');
 
-    // Remove overlay after animation finishes (500ms)
     setTimeout(() => {
       darkOverlay.classList.remove('active');
     }, 500);
@@ -239,19 +239,32 @@ toggleBtn.addEventListener('click', () => {
     localStorage.setItem('theme', 'dark');
     toggleBtn.textContent = 'Toggle Light Mode';
   } else {
-    // No overlay when switching back to light mode
+    // Dark mode OFF: slide overlay out to right (reverse swipe)
+    darkOverlay.classList.add('reverse', 'active');
+
+    // trigger reflow to apply styles immediately (forces CSS to start animation)
+    darkOverlay.offsetWidth; 
+
+    // move overlay off screen right
+    darkOverlay.style.left = '100%';
+
+    setTimeout(() => {
+      darkOverlay.classList.remove('active', 'reverse');
+      darkOverlay.style.left = ''; // reset inline style
+    }, 500);
+
     localStorage.setItem('theme', 'light');
     toggleBtn.textContent = 'Toggle Dark Mode';
   }
 });
 
-// On page load, restore theme preference
 window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-mode');
     toggleBtn.textContent = 'Toggle Light Mode';
 
-    // Add overlay briefly to animate transition on load
+    // Animate overlay in briefly on load for dark mode
+    darkOverlay.classList.remove('reverse');
     darkOverlay.classList.add('active');
     setTimeout(() => {
       darkOverlay.classList.remove('active');
