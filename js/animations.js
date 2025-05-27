@@ -1,8 +1,7 @@
 const overlay = document.getElementById('dark-overlay');
-const body = document.body;
 
 function toggleTheme() {
-  const isDark = body.classList.contains('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
 
   // Reset all animation classes
   overlay.classList.remove('slide-out-left', 'slide-out-right', 'slide-in');
@@ -13,7 +12,7 @@ function toggleTheme() {
   // Wait for animation to complete
   setTimeout(() => {
     // Toggle dark mode class
-    body.classList.toggle('dark-mode');
+    document.body.classList.toggle('dark-mode');
 
     // Remove slide-in
     overlay.classList.remove('slide-in');
@@ -32,7 +31,7 @@ function toggleTheme() {
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('page-enter');
 
-  // Page fade-in on scroll logic
+  // Scroll-based fade-in animation
   const faders = document.querySelectorAll('.fade-in');
 
   const fadeInObserver = new IntersectionObserver((entries, observer) => {
@@ -49,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
   faders.forEach(el => fadeInObserver.observe(el));
 });
 
-// Article exit animation
+// Article link exit animation
 const articleLinks = document.querySelectorAll('.article-grid a[href]');
 
 articleLinks.forEach(link => {
