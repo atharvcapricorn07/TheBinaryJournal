@@ -221,55 +221,84 @@
   </footer>
 
   <script>
-  const toggleBtn = document.getElementById('theme-toggle');
+    const toggleBtn = document.getElementById('theme-toggle');
 const darkOverlay = document.getElementById('dark-overlay');
 
-function slideOverlayIn() {
-  darkOverlay.classList.remove('reverse');
+function slideOverlayIn(fromRight = false) {
+  darkOverlay.style.transition = 'none'; // reset transition
+  if (fromRight) {
+    darkOverlay.classList.add('reverse');
+    darkOverlay.classList.remove('active', 'out');
+    darkOverlay.style.left = '100vw'; // start offscreen right
+  } else {
+    darkOverlay.classList.remove('reverse', 'out');
+    darkOverlay.classList.remove('active');
+    darkOverlay.style.left = '-100vw'; // start offscreen left
+  }
+  // Force reflow so transition can apply
+  void darkOverlay.offsetWidth;
+
+  darkOverlay.style.transition = ''; // restore transition
   darkOverlay.classList.add('active');
+  darkOverlay.style.left = '0';
 }
 
-function slideOverlayOut(reverse = false) {
-  if (reverse) {
-    darkOverlay.classList.add('reverse');
-    // Trigger reflow for CSS transition
-    void darkOverlay.offsetWidth;
+function slideOverlayOut(toRight = false) {
+  if (toRight) {
+    darkOverlay.classList.add('reverse', 'out');
+    darkOverlay.classList.remove('active');
     darkOverlay.style.left = '100vw';
   } else {
+    darkOverlay.classList.remove('reverse');
+    darkOverlay.classList.add('out');
+    darkOverlay.classList.remove('active');
     darkOverlay.style.left = '-100vw';
   }
-  setTimeout(() => {
-    darkOverlay.classList.remove('active', 'reverse');
-    darkOverlay.style.left = '';
-  }, 500);
+}
+
+function resetOverlay() {
+  darkOverlay.classList.remove('active', 'reverse', 'out');
+  darkOverlay.style.left = '-100vw';
+  darkOverlay.style.transition = '';
+  darkOverlay.style.pointerEvents = 'none';
 }
 
 toggleBtn.addEventListener('click', () => {
   const isDark = document.body.classList.contains('dark-mode');
 
-  // Start swipe in (overlay slides in)
-  slideOverlayIn();
+  // Slide overlay in (direction based on going dark or light)
+  slideOverlayIn(isDark); // if dark, slide in from right; else from left
 
-  // Wait for swipe in to finish (overlay fully covers screen)
+  darkOverlay.style.pointerEvents = 'all';
+
+  // After slide in (animation time 500ms)
   setTimeout(() => {
     if (isDark) {
-      // Currently dark → switch to light
+      // dark → light
       document.body.classList.remove('dark-mode');
       localStorage.setItem('theme', 'light');
       toggleBtn.textContent = 'Toggle Dark Mode';
 
-      // Swipe overlay out to right (reverse)
+      // Slide overlay out to right
       slideOverlayOut(true);
     } else {
-      // Currently light → switch to dark
+      // light → dark
       document.body.classList.add('dark-mode');
       localStorage.setItem('theme', 'dark');
       toggleBtn.textContent = 'Toggle Light Mode';
 
-      // Swipe overlay out to left (normal)
+      // Slide overlay out to left
       slideOverlayOut(false);
     }
-  }, 500); // same duration as CSS transition
+  }, 500);
+});
+
+// After overlay transition ends, reset overlay so it's ready for next toggle
+darkOverlay.addEventListener('transitionend', () => {
+  // Only reset when overlay is offscreen (out class active)
+  if (darkOverlay.classList.contains('out')) {
+    resetOverlay();
+  }
 });
 
 window.addEventListener('DOMContentLoaded', () => {
