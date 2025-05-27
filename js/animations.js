@@ -9,17 +9,15 @@ themeToggle.addEventListener('click', () => {
 
   const isDark = document.body.classList.contains('dark-mode');
 
-  // Reset overlay classes and force a reflow to reset animation state
-  darkOverlay.classList.remove('slide-in', 'slide-out-right');
-  void darkOverlay.offsetWidth; // Force reflow to reset animation properly
+  // Reset classes
+  darkOverlay.classList.remove('slide-in', 'slide-out-right', 'slide-out-left');
 
   if (!isDark) {
-    // Light -> Dark: slide overlay in from left
+    // Light -> dark: slide overlay IN from left
     darkOverlay.classList.add('slide-in');
 
-    const onTransitionEnd = (event) => {
-      if (event.propertyName === 'transform') {
-        // Add dark mode AFTER animation completes
+    const onTransitionEnd = (e) => {
+      if (e.propertyName === 'transform') {
         document.body.classList.add('dark-mode');
         darkOverlay.classList.remove('slide-in');
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
@@ -28,15 +26,15 @@ themeToggle.addEventListener('click', () => {
     };
 
     darkOverlay.addEventListener('transitionend', onTransitionEnd);
-  } else {
-    // Dark -> Light: slide overlay out to right
-    darkOverlay.classList.add('slide-out-right');
 
-    const onTransitionEnd = (event) => {
-      if (event.propertyName === 'transform') {
-        // Remove dark mode AFTER animation completes
+  } else {
+    // Dark -> light: slide overlay OUT to left (back to offscreen left)
+    darkOverlay.classList.add('slide-out-left');
+
+    const onTransitionEnd = (e) => {
+      if (e.propertyName === 'transform') {
         document.body.classList.remove('dark-mode');
-        darkOverlay.classList.remove('slide-out-right');
+        darkOverlay.classList.remove('slide-out-left');
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
         isAnimating = false;
       }
