@@ -20,6 +20,9 @@ body.page-exit {
   pointer-events: none;
 }
 
+body.page-enter {
+  opacity: 1;
+}
 
 /* 2) Header Styles */
 header.hero {
