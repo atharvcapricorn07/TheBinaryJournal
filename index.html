@@ -222,28 +222,43 @@
 
   <script>
     const toggleBtn = document.getElementById('theme-toggle');
-    const darkOverlay = document.getElementById('dark-overlay');
+const darkOverlay = document.getElementById('dark-overlay');
 
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      darkOverlay.classList.toggle('active');
+toggleBtn.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark-mode');
 
-      if(document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        toggleBtn.textContent = 'Toggle Light Mode';
-      } else {
-        localStorage.setItem('theme', 'light');
-        toggleBtn.textContent = 'Toggle Dark Mode';
-      }
-    });
+  if (isDark) {
+    // Show overlay for animation
+    darkOverlay.classList.add('active');
 
-    window.addEventListener('DOMContentLoaded', () => {
-      if(localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        darkOverlay.classList.add('active');
-        toggleBtn.textContent = 'Toggle Light Mode';
-      }
-    });
+    // Remove overlay after animation finishes (500ms)
+    setTimeout(() => {
+      darkOverlay.classList.remove('active');
+    }, 500);
+
+    localStorage.setItem('theme', 'dark');
+    toggleBtn.textContent = 'Toggle Light Mode';
+  } else {
+    // No overlay when switching back to light mode
+    localStorage.setItem('theme', 'light');
+    toggleBtn.textContent = 'Toggle Dark Mode';
+  }
+});
+
+// On page load, restore theme preference
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggleBtn.textContent = 'Toggle Light Mode';
+
+    // Add overlay briefly to animate transition on load
+    darkOverlay.classList.add('active');
+    setTimeout(() => {
+      darkOverlay.classList.remove('active');
+    }, 500);
+  }
+});
+
   </script>
 </body>
 </html>
