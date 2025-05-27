@@ -4,48 +4,35 @@ const darkOverlay = document.getElementById('dark-overlay');
 let isAnimating = false;
 
 themeToggle.addEventListener('click', () => {
-  console.log('Clicked button');
-
-  if (isAnimating) {
-    console.log('Animation in progress, ignoring click');
-    return;
-  }
-
+  if (isAnimating) return;
   isAnimating = true;
 
   const isDark = document.body.classList.contains('dark-mode');
-  console.log('Is dark mode?', isDark);
 
-  // Clean animation classes
+  // Clean up any existing classes
   darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
 
-  function onTransitionEnd(e) {
-    console.log('Transition ended:', e.propertyName, 'on', e.target);
-
-    // Toggle dark mode class on body here, after animation
-    if (!isDark) {
-      document.body.classList.add('dark-mode');
-      console.log('Added dark mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-      console.log('Removed dark mode');
-    }
-
-    // Remove animation class so overlay goes off screen
-    darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
-
-    darkOverlay.removeEventListener('transitionend', onTransitionEnd);
-    isAnimating = false;
-    console.log('Animation ended, isAnimating = false');
-  }
-
-  darkOverlay.addEventListener('transitionend', onTransitionEnd);
+  // Force reflow to make sure class change triggers animation
+  void darkOverlay.offsetWidth;
 
   if (!isDark) {
-    console.log('Adding slide-in class (Light → Dark)');
+    // Light → Dark
     darkOverlay.classList.add('slide-in');
+
+    // Wait for animation to finish
+    setTimeout(() => {
+      document.body.classList.add('dark-mode');
+      darkOverlay.classList.remove('slide-in');
+      isAnimating = false;
+    }, 500); // match CSS transition duration
   } else {
-    console.log('Adding slide-out-left class (Dark → Light)');
+    // Dark → Light
     darkOverlay.classList.add('slide-out-left');
+
+    setTimeout(() => {
+      document.body.classList.remove('dark-mode');
+      darkOverlay.classList.remove('slide-out-left');
+      isAnimating = false;
+    }, 500);
   }
 });
