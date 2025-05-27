@@ -9,30 +9,30 @@ themeToggle.addEventListener('click', () => {
 
   const isDark = document.body.classList.contains('dark-mode');
 
-  // Clean up any existing classes
+  // Reset any old animation classes
   darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
+  void darkOverlay.offsetWidth; // force reflow
 
-  // Force reflow to make sure class change triggers animation
-  void darkOverlay.offsetWidth;
+  // Start swipe in (left → right)
+  darkOverlay.classList.add('slide-in');
 
-  if (!isDark) {
-    // Light → Dark
-    darkOverlay.classList.add('slide-in');
-
-    // Wait for animation to finish
-    setTimeout(() => {
+  // Wait for swipe-in animation to finish (500ms)
+  setTimeout(() => {
+    // Toggle dark mode in the middle
+    if (isDark) {
+      document.body.classList.remove('dark-mode');
+    } else {
       document.body.classList.add('dark-mode');
-      darkOverlay.classList.remove('slide-in');
-      isAnimating = false;
-    }, 500); // match CSS transition duration
-  } else {
-    // Dark → Light
+    }
+
+    // Now swipe back out to the left
+    darkOverlay.classList.remove('slide-in');
     darkOverlay.classList.add('slide-out-left');
 
+    // Wait for swipe-out to complete
     setTimeout(() => {
-      document.body.classList.remove('dark-mode');
       darkOverlay.classList.remove('slide-out-left');
       isAnimating = false;
-    }, 500);
-  }
+    }, 500); // Match your CSS transition time
+  }, 500); // Match your CSS transition time
 });
