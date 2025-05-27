@@ -1,5 +1,4 @@
 /* 1) Reset & Base */
-
 html, body {
   margin: 0;
   padding: 0;
@@ -313,7 +312,7 @@ body.dark-mode #theme-toggle {
   transform: scale(0.98);
 }
 
-/* Smooth color transitions */
+/* Smooth Transitions */
 body,
 body.dark-mode,
 header.hero,
@@ -323,7 +322,7 @@ footer {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Smooth background/text transition for article sections */
+/* Smooth transition on article elements */
 .featured,
 .article-grid article,
 .article-grid .featured,
@@ -331,7 +330,7 @@ article blockquote {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Fade-in animation on scroll */
+/* Fade-in Scroll Effect */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
