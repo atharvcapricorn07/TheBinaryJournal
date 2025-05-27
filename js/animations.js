@@ -31,9 +31,25 @@ function toggleTheme() {
 // Fade in on page load
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('page-enter');
+
+  // Page fade-in on scroll logic
+  const faders = document.querySelectorAll('.fade-in');
+
+  const fadeInObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // Animate once
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  faders.forEach(el => fadeInObserver.observe(el));
 });
 
-// grab all the article <a> links
+// Article exit animation
 const articleLinks = document.querySelectorAll('.article-grid a[href]');
 
 articleLinks.forEach(link => {
