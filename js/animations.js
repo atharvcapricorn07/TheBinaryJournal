@@ -27,3 +27,27 @@ function toggleTheme() {
     }, 500); // matches the CSS transition time
   }, 500); // matches the CSS transition time
 }
+
+// grab all the article <a> links
+const articleLinks = document.querySelectorAll('.article-grid a[href]');
+
+articleLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();               // stop instant navigation
+    const href = link.getAttribute('href');
+
+    // trigger fade-out
+    document.body.classList.add('page-exit');
+
+    // after the CSS transition finishes, go to the new page
+    setTimeout(() => {
+      window.location.href = href;
+    }, 500); // match the 0.5s in your CSS
+  });
+});
+
+
+
+
+
+
