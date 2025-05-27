@@ -225,49 +225,64 @@
 const toggleBtn = document.getElementById('theme-toggle');
 const darkOverlay = document.getElementById('dark-overlay');
 
-function removeSlideOutRight() {
-  darkOverlay.classList.remove('slide-out-right');
-  darkOverlay.style.left = '-100%';  // reset offscreen left for next animation
+function resetOverlayOffLeft() {
+  darkOverlay.classList.remove('slide-out-right', 'active');
+  darkOverlay.style.left = '-100vw';  // reset offscreen left
+  darkOverlay.style.pointerEvents = 'none';
 }
 
 toggleBtn.addEventListener('click', () => {
   if (!document.body.classList.contains('dark-mode')) {
-    // Going DARK: Slide overlay IN from left
+    // Going DARK: slide overlay in from left
+    
+    // Reset overlay offscreen left instantly
+    resetOverlayOffLeft();
 
-    // Reset position instantly
-    darkOverlay.style.left = '-100%';
-    darkOverlay.classList.remove('slide-out-right');
+    // Force reflow: this is the magic trick to ensure transition triggers
+    void darkOverlay.offsetWidth;
 
-    // Wait for next frame to trigger animation
-    requestAnimationFrame(() => {
-      document.body.classList.add('dark-mode');
-      darkOverlay.classList.add('active');  // triggers left: 0 transition
-      toggleBtn.textContent = 'Toggle Light Mode';
-      localStorage.setItem('theme', 'dark');
-    });
+    // Then add active class to trigger transition left: 0
+    darkOverlay.classList.add('active');
+    darkOverlay.style.pointerEvents = 'all';
+
+    // Add dark mode class
+    document.body.classList.add('dark-mode');
+    toggleBtn.textContent = 'Toggle Light Mode';
+    localStorage.setItem('theme', 'dark');
+
   } else {
-    // Going LIGHT: Slide overlay OUT to right
+    // Going LIGHT: slide overlay out right
+    
+    // Remove active to start transition left -> 100vw
     darkOverlay.classList.remove('active');
     darkOverlay.classList.add('slide-out-right');
+    darkOverlay.style.pointerEvents = 'none';
+
+    // Remove dark mode class immediately so page goes light
     document.body.classList.remove('dark-mode');
     toggleBtn.textContent = 'Toggle Dark Mode';
     localStorage.setItem('theme', 'light');
 
-    // After animation ends, reset overlay position offscreen left
+    // After transition ends, reset overlay position
     darkOverlay.addEventListener('transitionend', function handler() {
-      removeSlideOutRight();
+      resetOverlayOffLeft();
+      darkOverlay.classList.remove('slide-out-right');
       darkOverlay.removeEventListener('transitionend', handler);
     });
   }
 });
 
-// On page load, restore theme
+// On page load, set theme and overlay position accordingly
 window.addEventListener('DOMContentLoaded', () => {
   if(localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-mode');
-    darkOverlay.style.left = '0';
     darkOverlay.classList.add('active');
+    darkOverlay.style.left = '0';
+    darkOverlay.style.pointerEvents = 'all';
     toggleBtn.textContent = 'Toggle Light Mode';
+  } else {
+    resetOverlayOffLeft();
+    toggleBtn.textContent = 'Toggle Dark Mode';
   }
 });
 
