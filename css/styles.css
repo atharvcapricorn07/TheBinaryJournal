@@ -263,3 +263,23 @@ body.dark-mode footer {
   color: #cccccc;
 }
 
+#theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  background: #3A5F0B; /* matches your header olive green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+  z-index: 1000;
+}
+
+body.dark-mode #theme-toggle {
+  background: #ccc;
+  color: #222;
+}
+
