@@ -33,18 +33,16 @@ const articleLinks = document.querySelectorAll('.article-grid a[href]');
 
 articleLinks.forEach(link => {
   link.addEventListener('click', e => {
-    e.preventDefault();               // stop instant navigation
-    const href = link.getAttribute('href');
+    e.preventDefault();
+    const href = link.href;
 
-    // prevent multiple clicks
-    if (document.body.classList.contains('page-exit')) return;
-
-    // trigger fade-out
+    // Add fade out class
     document.body.classList.add('page-exit');
 
-    // after the CSS transition finishes, go to the new page
+    // Wait for the fade out to complete then navigate
     setTimeout(() => {
       window.location.href = href;
-    }, 500); // match the 0.5s in your CSS
+    }, 500); // match this to your CSS transition time
   });
 });
+
