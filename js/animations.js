@@ -1,71 +1,55 @@
 const themeToggle = document.getElementById('theme-toggle');
 const darkOverlay = document.getElementById('dark-overlay');
-
 let isAnimating = false;
 
-// Helper: update button text based on current mode
+// Utility: Update button label based on current theme
 function updateToggleText() {
-  if (document.body.classList.contains('dark-mode')) {
-    themeToggle.textContent = 'Toggle Light Mode';
-  } else {
-    themeToggle.textContent = 'Toggle Dark Mode';
-  }
+  themeToggle.textContent = document.body.classList.contains('dark-mode')
+    ? 'Toggle Light Mode'
+    : 'Toggle Dark Mode';
 }
 
-// On page load, apply saved mode and update button text
+// Apply saved theme preference on load
 window.addEventListener('DOMContentLoaded', () => {
-  const darkMode = localStorage.getItem('darkMode') === 'true';
-  if (darkMode) {
-    document.body.classList.add('dark-mode');
-  } else {
-    document.body.classList.remove('dark-mode');
-  }
+  const darkModeEnabled = localStorage.getItem('darkMode') === 'true';
+  document.body.classList.toggle('dark-mode', darkModeEnabled);
   updateToggleText();
 });
 
+// Handle toggle with animation
 themeToggle.addEventListener('click', () => {
   if (isAnimating) return;
   isAnimating = true;
 
-  const isDark = document.body.classList.contains('dark-mode');
+  const isCurrentlyDark = document.body.classList.contains('dark-mode');
 
-  // Clean animation classes
+  // Reset overlay animation classes
   darkOverlay.classList.remove('slide-in', 'slide-out-left', 'slide-out-right');
 
-  function onTransitionEnd(e) {
-    if (e.target !== darkOverlay) return; // only run once for overlay
+  // Listen for slide-in transition end
+  const onFirstTransitionEnd = (e) => {
+    if (e.target !== darkOverlay) return;
 
-    // Toggle dark mode after animation completes
-    if (!isDark) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'false');
-    }
-
+    // Toggle theme
+    document.body.classList.toggle('dark-mode', !isCurrentlyDark);
+    localStorage.setItem('darkMode', String(!isCurrentlyDark));
     updateToggleText();
 
-    // Animate overlay off screen after mode toggle
+    // Prepare overlay to slide out
     darkOverlay.classList.remove('slide-in');
-    if (!isDark) {
-      darkOverlay.classList.add('slide-out-right');  // dark mode activated, overlay slides out right
-    } else {
-      darkOverlay.classList.add('slide-out-left');   // light mode activated, overlay slides out left
-    }
+    darkOverlay.classList.add(isCurrentlyDark ? 'slide-out-left' : 'slide-out-right');
 
-    // Wait for second transition to finish before clearing animation lock
-    darkOverlay.removeEventListener('transitionend', onTransitionEnd);
+    darkOverlay.removeEventListener('transitionend', onFirstTransitionEnd);
 
-    // Listen for second transition end
+    // Wait for slide-out to finish
     darkOverlay.addEventListener('transitionend', () => {
       darkOverlay.classList.remove('slide-out-left', 'slide-out-right');
       isAnimating = false;
     }, { once: true });
-  }
+  };
 
-  darkOverlay.addEventListener('transitionend', onTransitionEnd, { once: true });
-
-  // Start the animation: overlay slides in
+  // Start animation: slide in overlay
+  darkOverlay.addEventListener('transitionend', onFirstTransitionEnd, { once: true });
   darkOverlay.classList.add('slide-in');
 });
+
