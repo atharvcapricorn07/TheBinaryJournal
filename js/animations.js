@@ -3,6 +3,14 @@ const darkOverlay = document.getElementById('dark-overlay');
 
 let isAnimating = false;
 
+function updateToggleText() {
+  const isDark = document.body.classList.contains('dark-mode');
+  themeToggle.textContent = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+}
+
+// Initialize button text on page load
+updateToggleText();
+
 themeToggle.addEventListener('click', () => {
   if (isAnimating) return;
   isAnimating = true;
@@ -22,13 +30,14 @@ themeToggle.addEventListener('click', () => {
         darkOverlay.classList.remove('slide-in');
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
         isAnimating = false;
+        updateToggleText();
       }
     };
 
     darkOverlay.addEventListener('transitionend', onTransitionEnd);
 
   } else {
-    // Dark -> light: slide overlay OUT to left (back to offscreen left)
+    // Dark -> light: slide overlay OUT to left (back offscreen)
     darkOverlay.classList.add('slide-out-left');
 
     const onTransitionEnd = (e) => {
@@ -37,9 +46,11 @@ themeToggle.addEventListener('click', () => {
         darkOverlay.classList.remove('slide-out-left');
         darkOverlay.removeEventListener('transitionend', onTransitionEnd);
         isAnimating = false;
+        updateToggleText();
       }
     };
 
     darkOverlay.addEventListener('transitionend', onTransitionEnd);
   }
 });
+
