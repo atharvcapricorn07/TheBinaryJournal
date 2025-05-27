@@ -180,22 +180,21 @@ footer {
   z-index: 2000;
   transform: translateX(-100%);
   transition: transform 0.5s ease;
+  will-change: transform; /* improves animation smoothness */
 }
 
-/* Slide overlay fully onscreen */
 #dark-overlay.slide-in {
   transform: translateX(0%);
 }
 
-/* Slide overlay offscreen right */
 #dark-overlay.slide-out-right {
   transform: translateX(100%);
 }
 
-/* Slide overlay offscreen left (default reset state) */
 #dark-overlay.slide-out-left {
   transform: translateX(-100%);
 }
+
 
 
 /* 5) Dark Mode Overrides */
