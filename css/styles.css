@@ -1,3 +1,4 @@
+/* 1) Reset & Base */
 html, body {
   margin: 0;
   padding: 0;
@@ -7,12 +8,11 @@ html, body {
 
 body {
   font-family: Georgia, serif;
-  margin: 0;
   background: #fdfdfb;
   color: #222;
 }
 
-/* Header Styles */
+/* 2) Header Styles */
 header.hero {
   background-color: #3A5F0B;
   color: white;
@@ -41,7 +41,7 @@ nav a {
   font-weight: bold;
 }
 
-/* Main Content */
+/* 3) Main Content */
 main.home-content {
   max-width: 1000px;
   margin: auto;
@@ -168,8 +168,22 @@ footer {
   margin-top: 40px;
 }
 
-/* === DARK MODE STYLES === */
+/* 4) Dark Mode Transition Overlay */
+#dark-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #222;
+  pointer-events: none;
+  z-index: 1000;
 
+  /* start hidden off-screen to the left */
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+/* 5) Dark Mode Overrides */
 body.dark-mode {
   background: #121212;
   color: #e0e0e0;
@@ -221,6 +235,3 @@ body.dark-mode #theme-toggle {
   background: #ccc;
   color: #222;
 }
-
-
-
