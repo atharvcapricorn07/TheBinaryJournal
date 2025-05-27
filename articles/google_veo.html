@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <script>
-  if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-  }
-</script>
+  
 
 <head>
   <meta charset="UTF-8" />
@@ -59,5 +55,14 @@
   <footer>
     <p>&copy; 2025 The Binary Journal</p>
   </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  });
+</script>
+
 </body>
 </html>
