@@ -187,13 +187,11 @@ footer {
 
 #dark-overlay.slide-out-right {
   transform: translateX(100%);
-  pointer-events: none;
 }
 
 
 #dark-overlay.slide-out-left {
   transform: translateX(-100%);
-  pointer-events: none;
 }
 
 /* 5) Dark Mode Overrides */
