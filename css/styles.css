@@ -351,3 +351,8 @@ article blockquote {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Hide on homepage */
+body.home nav a.hide-on-home {
+  display: none;
+}
