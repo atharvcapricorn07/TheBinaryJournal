@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Theme Toggle
+  // --- Theme Toggle ---
   const toggleButton = document.querySelector(".theme-toggle");
   const currentTheme = localStorage.getItem("theme");
 
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 
-  // Fade-in animation for articles
+  // --- Fade-in animation for articles ---
   const cards = document.querySelectorAll(".article-grid .featured.initial");
   cards.forEach((card, index) => {
     setTimeout(() => {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 100 * index);
   });
 
-  // Read More button logic
+  // --- Read More button logic ---
   const allCards = document.querySelectorAll(".article-grid .featured");
   const readMoreBtn = document.getElementById("read-more-btn");
 
@@ -294,5 +294,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loop();
   }
 });
+
 
 
