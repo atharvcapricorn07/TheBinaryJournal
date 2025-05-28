@@ -22,13 +22,7 @@
   <main class="home-content">
     <h3>Recent Articles</h3>
     <section class="article-grid" id="article-grid">
-
-      <!-- First 5 articles with class "initial" -->
-      <!-- Remaining articles will be hidden by default on mobile -->
-      
-      <!-- Article 1 -->
-
-    <article class="featured fade-in initial">
+      <article class="featured fade-in initial">
         <a href="articles/tesla_fsd.html">
           <img src="images/tesla_fsd.png" alt="tesla_fsd Illustration" />
         </a>
@@ -235,8 +229,6 @@
     <p>By Atharv Kale • 5/2/2025</p>
   </div>
 </article>
-
-
     </section>
 
     <button id="read-more-btn" class="read-more">Read More</button>
@@ -244,28 +236,25 @@
 
   <footer>
     <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
-
-    <!-- Easter Egg trigger button (desktop only) -->
     <button id="easterEggBtn" class="easter-egg-btn" aria-label="Easter Egg">💻</button>
   </footer>
 
-  <!-- Easter Egg green overlay and prompt -->
+  <!-- Easter Egg green overlay and prompt + game embedded -->
   <div id="easterEggOverlay">
     <div id="codePrompt" class="code-prompt">
       <p>Enter the secret code:</p>
       <input type="text" id="secretCodeInput" placeholder="0000" />
       <span id="errorMsg" class="error-message">Wrong code</span>
     </div>
+
+    <!-- Flappy Bird Game Container inside overlay -->
+    <div id="flappyContainer">
+      <canvas id="flappyCanvas"></canvas>
+      <div id="scoreDisplay"></div>
+      <button id="exitGameBtn" class="exit-button">Exit</button>
+    </div>
   </div>
 
-  <!-- Flappy Bird Game Container -->
-  <div id="flappyContainer">
-    <canvas id="flappyCanvas"></canvas>
-    <div id="scoreDisplay"></div>
-    <button id="exitGameBtn" class="exit-button">Exit</button>
-  </div>
-
-  <!-- Scripts -->
   <script src="js/animations.js" defer></script>
   <script src="js/easteregg.js" defer></script>
 </body>
