@@ -12,6 +12,26 @@
   <button id="egg-easter-egg" aria-label="Secret Easter Egg" title="Click me!">
     🥚
   </button>
+
+  <!-- Gooey green liquid overlay -->
+<div id="gooey-overlay"></div>
+
+<!-- Secret code input prompt -->
+<div id="secret-code-prompt">
+  <h2>Enter the secret code</h2>
+  <input
+    type="password"
+    id="secret-code-input"
+    placeholder="Secret code..."
+    autocomplete="off"
+  />
+  <br />
+  <button id="secret-code-submit">Submit</button>
+  <p id="secret-code-error" style="color: #ff4d4d; margin-top: 0.5rem; display: none;">
+    Wrong code, try again!
+  </p>
+</div>
+
   <div id="dark-overlay"></div>
 
   <header class="hero">
