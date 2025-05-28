@@ -222,7 +222,7 @@ footer {
   margin-top: 40px;
 }
 
-/* 4) Dark Mode Transition Overlay (transform-based) */
+/* 4) Dark Mode Transition Overlay */
 #dark-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -295,9 +295,17 @@ body.dark-mode footer {
   color: #cccccc;
 }
 
-body.dark-mode #theme-toggle {
-  background: #ccc;
-  color: #222;
+/* 6) Theme Colors and Buttons */
+:root {
+  --button-bg: #556b2f;       /* Olive green */
+  --button-text: #ffffff;
+  --button-hover: #6b8e23;
+}
+
+body.dark-mode {
+  --button-bg: #ffffff;       /* White for dark mode */
+  --button-text: #000000;
+  --button-hover: #dddddd;
 }
 
 /* Theme Toggle Button */
@@ -305,8 +313,8 @@ body.dark-mode #theme-toggle {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: #3A5F0B;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border: none;
   padding: 10px 15px;
   border-radius: 8px;
@@ -314,11 +322,11 @@ body.dark-mode #theme-toggle {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
 #theme-toggle:hover {
-  background-color: #2e4c08;
+  background-color: var(--button-hover);
   transform: scale(1.05);
 }
 
@@ -326,7 +334,39 @@ body.dark-mode #theme-toggle {
   transform: scale(0.98);
 }
 
-/* Smooth Transitions */
+/* 7) Read More Button Matching Theme */
+#read-more-btn {
+  background-color: var(--button-bg, #555);
+  color: var(--button-text, #fff);
+  border: none;
+  padding: 10px 15px;
+  font-size: 1em;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  display: block;
+  margin: 2em auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#read-more-btn:hover {
+  background-color: var(--button-hover, #777);
+  transform: scale(1.05);
+}
+
+#read-more-btn:active {
+  transform: scale(0.98);
+}
+
+/* Hide Read More on Desktop */
+@media (min-width: 481px) {
+  #read-more-btn {
+    display: none !important;
+  }
+}
+
+/* 8) Smooth Transitions */
 body,
 body.dark-mode,
 header.hero,
@@ -336,7 +376,6 @@ footer {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Smooth transition on article elements */
 .featured,
 .article-grid article,
 .article-grid .featured,
@@ -344,7 +383,7 @@ article blockquote {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Fade-in Scroll Effect */
+/* 9) Scroll Animation */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -355,42 +394,3 @@ article blockquote {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* Make the Read More button match the theme toggle */
-#read-more-btn {
-  background-color: var(--button-bg, #555);
-  color: var(--button-text, #fff);
-  border: none;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  display: block;
-  margin: 2em auto;
-}
-
-#read-more-btn:hover {
-  background-color: var(--button-hover, #777);
-}
-
-@media (min-width: 481px) {
-  #read-more-btn {
-    display: none !important;
-  }
-}
-
-/* Light mode (default) */
-:root {
-  --button-bg: #556b2f;
-  --button-text: #fff;
-  --button-hover: #6b8e23;
-}
-
-/* Dark mode */
-body.dark-mode {
-  --button-bg: #888;
-  --button-text: #000;
-  --button-hover: #aaa;
-}
-
