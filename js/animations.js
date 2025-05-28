@@ -33,28 +33,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Easter Egg: green wipe + secret prompt ---
-  const eggBtn        = document.getElementById("egg-easter-egg");
-  const gooeyOverlay  = document.getElementById("gooey-overlay");
-  const secretPrompt  = document.getElementById("secret-code-prompt");
-  const secretInput   = document.getElementById("secret-code-input");
-  const secretSubmit  = document.getElementById("secret-code-submit");
-  const secretError   = document.getElementById("secret-code-error");
+  const eggBtn       = document.getElementById("egg-easter-egg");
+  const gooeyOverlay = document.getElementById("gooey-overlay");
+  const secretPrompt = document.getElementById("secret-code-prompt");
+  const secretInput  = document.getElementById("secret-code-input");
+  const secretSubmit = document.getElementById("secret-code-submit");
+  const secretError  = document.getElementById("secret-code-error");
 
-  // Ensure overlay & prompt hidden initially
+  // Initialize overlay & prompt
   gooeyOverlay.style.width = "0";
   secretPrompt.style.display = "none";
 
   eggBtn.addEventListener("click", () => {
-    // grey out egg and disable further clicks
     eggBtn.disabled = true;
     eggBtn.style.filter = "grayscale(100%)";
     eggBtn.style.cursor = "default";
 
-    // trigger the green wipe by expanding width
+    // Animate wipe
     gooeyOverlay.style.transition = "width 0.6s ease-in-out";
     gooeyOverlay.style.width = "100vw";
 
-    // after wipe finishes, show prompt
+    // After wipe, show prompt
     setTimeout(() => {
       secretPrompt.style.display = "flex";
       secretInput.focus();
@@ -85,14 +84,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return document.getElementById("flappy-bird-container").style.display = "flex";
     }
 
-    // Container
+    // Game container
     const container = document.createElement("div");
     container.id = "flappy-bird-container";
     Object.assign(container.style, {
-      position: "fixed", top: 0, left: 0,
+      position: "fixed",
+      top: 0, left: 0,
       width: "100vw", height: "100vh",
       background: "#70c5ce", zIndex: 10000,
-      display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column"
     });
     document.body.appendChild(container);
 
@@ -100,14 +103,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.createElement("button");
     closeBtn.textContent = "Exit Game";
     Object.assign(closeBtn.style, {
-      position: "absolute", top: "20px", right: "20px",
-      padding: "8px 16px", fontSize: "16px", cursor: "pointer", zIndex: 10001
+      position: "absolute",
+      top: "20px", right: "20px",
+      padding: "8px 16px",
+      fontSize: "16px",
+      cursor: "pointer",
+      zIndex: 10001
     });
     container.appendChild(closeBtn);
 
-    // Canvas setup
+    // Canvas
     const canvas = document.createElement("canvas");
-    canvas.width = 320; canvas.height = 480;
+    canvas.width = 320;
+    canvas.height = 480;
     container.appendChild(canvas);
     const ctx = canvas.getContext("2d");
 
@@ -131,7 +139,8 @@ document.addEventListener("DOMContentLoaded", () => {
         this.speed += this.gravity;
         this.y += this.speed;
         if (this.y + this.height/2 >= canvas.height - 80) {
-          this.y = canvas.height - 80 - this.height/2; this.speed = 0;
+          this.y = canvas.height - 80 - this.height/2;
+          this.speed = 0;
         }
         this.rotation = this.speed >= this.jump ? 90*DEGREE : -25*DEGREE;
       }
@@ -144,50 +153,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function loop() {
-      // sky
+      // Sky
       ctx.fillStyle = "#70c5ce";
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-      // ground
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Ground
       ctx.fillStyle = "#ded895";
-      ctx.fillRect(0,canvas.height-80,canvas.width,80);
+      ctx.fillRect(0, canvas.height-80, canvas.width, 80);
 
-      // pipes
-      pipes.forEach((p, i) => {
+      // Pipes
+      pipes.forEach((p) => {
         ctx.fillStyle = "green";
         ctx.fillRect(p.x, p.y, p.width, p.height);
         p.x -= 2;
 
-        // collision
-        if (bird.x+bird.width/2 > p.x && bird.x-bird.width/2 < p.x+p.width &&
-            bird.y+bird.height/2 > p.y && bird.y-bird.height/2 < p.y+p.height) {
+        // Collision
+        if (
+          bird.x + bird.width/2 > p.x &&
+          bird.x - bird.width/2 < p.x + p.width &&
+          bird.y + bird.height/2 > p.y &&
+          bird.y - bird.height/2 < p.y + p.height
+        ) {
           resetGame();
           return;
         }
-        // score
-        if (!p.passed && p.x+p.width < bird.x && p.y===0) {
-          score++; p.passed = true;
+
+        // Score
+        if (!p.passed && p.x + p.width < bird.x && p.y === 0) {
+          score++;
+          p.passed = true;
         }
       });
 
-      // remove offscreen
-      if (pipes.length && pipes[0].x+pipeWidth<0) pipes.splice(0,2);
+      // Remove offscreen
+      if (pipes.length && pipes[0].x + pipeWidth < 0) pipes.splice(0, 2);
 
       bird.update();
       bird.draw();
 
-      if (frames%90===0) createPipe();
+      if (frames % 90 === 0) createPipe();
 
-      // draw score
+      // Draw score
       ctx.fillStyle = "white";
       ctx.font = "24px Arial";
-      ctx.fillText(`Score: ${score}`,10,30);
+      ctx.fillText(`Score: ${score}`, 10, 30);
 
       frames++;
       requestAnimationFrame(loop);
     }
 
     function onSpace(e) {
-      if (e.code==="Space"||e.type==="click") bird.flap();
+      if (e.code === "Space" || e.type === "click") bird.flap();
     }
     window.addEventListener("keydown", onSpace);
     canvas.addEventListener("click", onSpace);
@@ -200,10 +215,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function resetGame() {
       alert(`Game over! Your score was ${score}.`);
-      frames=0; pipes.length=0; bird.y=150; bird.speed=0; score=0;
+      frames = 0;
+      pipes.length = 0;
+      bird.y = 150;
+      bird.speed = 0;
+      score = 0;
     }
 
     loop();
   }
 });
+
 
