@@ -10,8 +10,12 @@ if (window.innerWidth > 768) {
   const exitBtn = document.getElementById('exitGameBtn');
   const ctx = canvas.getContext('2d');
 
-  canvas.width = flappyContainer.offsetWidth;
-  canvas.height = 400;
+  // Handle sizing once DOM is ready
+  function resizeCanvas() {
+    canvas.width = flappyContainer.offsetWidth;
+    canvas.height = 400;
+  }
+  resizeCanvas();
 
   eggBtn.addEventListener('click', () => {
     overlay.classList.add('show');
@@ -41,9 +45,11 @@ if (window.innerWidth > 768) {
     if (e.key === 'Enter') {
       if (input.value === '0701') {
         overlay.classList.remove('show');
-        overlay.style.display = 'none';
-        prompt.style.display = 'none';
-        startFlappyGame();
+        prompt.classList.remove('show');
+        setTimeout(() => {
+          overlay.style.display = 'none';
+          startFlappyGame();
+        }, 500); // allow overlay to finish sliding out
       } else {
         errorMsg.textContent = 'Wrong code';
         errorMsg.style.display = 'block';
@@ -51,7 +57,7 @@ if (window.innerWidth > 768) {
     }
   });
 
-  let bird = { x: 50, y: canvas.height/2, width: 20, height: 20, velocity: 0 };
+  let bird = { x: 50, y: canvas.height / 2, width: 20, height: 20, velocity: 0 };
   const gravity = 0.6, lift = -12;
   let pipes = [];
   let frame = 0;
@@ -67,6 +73,8 @@ if (window.innerWidth > 768) {
     bird.y = canvas.height / 2;
     bird.velocity = 0;
     frame = 0;
+    exitBtn.style.display = 'none';
+    resizeCanvas();
     requestAnimationFrame(updateGame);
   }
 
@@ -82,6 +90,7 @@ if (window.innerWidth > 768) {
 
   function updateGame() {
     if (gameOver) return;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     bird.velocity += gravity;
@@ -137,3 +146,4 @@ if (window.innerWidth > 768) {
     window.location.href = 'https://atharvcapricorn07.github.io/TheBinaryJournal/index.html';
   });
 }
+
