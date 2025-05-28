@@ -352,7 +352,7 @@ article blockquote {
   transform: translateY(0);
 }
 
-/* 10) Mobile-only Theme Toggle: Icon-Only Style */
+/* 10) Mobile-only Theme Toggle: Emoji Style */
 @media (max-width: 480px) {
   #theme-toggle {
     width: 48px;
@@ -360,7 +360,7 @@ article blockquote {
     padding: 0;
     font-size: 1.5em;
     line-height: 1;
-    text-indent: -9999px; /* hide text */
+    text-indent: -9999px; /* Hide text */
     overflow: hidden;
     border-radius: 50%;
     position: absolute;
@@ -369,13 +369,13 @@ article blockquote {
   }
 
   #theme-toggle::before {
-    content: "🌙"; /* default to moon (dark mode toggle) */
+    content: "🌙";
     text-indent: 0;
     display: block;
     text-align: center;
   }
 
   body.dark-mode #theme-toggle::before {
-    content: "☀️"; /* sun icon for light mode toggle */
+    content: "☀️";
   }
 }
