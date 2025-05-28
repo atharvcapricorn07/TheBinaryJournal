@@ -9,12 +9,13 @@
   <style>
     /* Score container styles */
     #score-container {
+      display: none; /* hidden by default */
       position: fixed;
       top: 20px;
       right: 20px;
       background-color: #3A5F0B;
       color: white;
-      padding: 10px 15px;
+      padding: 15px 20px; /* more spacious padding */
       border-radius: 8px;
       font-weight: bold;
       font-size: 1.2em;
@@ -253,6 +254,13 @@
   <script src="js/animations.js" defer></script>
 
   <script>
+    // Show score container only if on Flappy Bird page (body has class 'flappy-bird')
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.body.classList.contains('flappy-bird')) {
+        document.getElementById('score-container').style.display = 'block';
+      }
+    });
+
     // Example score update function
     function updateScore(newScore) {
       document.getElementById('score-value').textContent = newScore;
