@@ -237,7 +237,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.overflow = ""; // restore scroll
 
       // Reload the page to go back to home screen / initial state
-      window.location.reload();
+      window.location.assign("https://atharvcapricorn07.github.io/TheBinaryJournal/index.html");
+
     });
 
     function resetGame() {
