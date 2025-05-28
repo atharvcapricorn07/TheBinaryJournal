@@ -5,11 +5,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (currentTheme === "dark") {
     document.body.classList.add("dark-mode");
+    toggleButton.textContent = "Toggle Light Mode";
+  } else {
+    toggleButton.textContent = "Toggle Dark Mode";
   }
 
   toggleButton.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const theme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+    const isDark = document.body.classList.toggle("dark-mode");
+    const theme = isDark ? "dark" : "light";
+    toggleButton.textContent = isDark ? "Toggle Light Mode" : "Toggle Dark Mode";
     localStorage.setItem("theme", theme);
   });
 
