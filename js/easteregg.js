@@ -10,6 +10,9 @@ if (window.innerWidth > 768) {
   const exitBtn = document.getElementById('exitGameBtn');
   const ctx = canvas.getContext('2d');
 
+  let isGameReady = false;
+  let isGameRunning = false;
+
   function resizeCanvas() {
     canvas.width = 600;
     canvas.height = 400;
@@ -28,6 +31,8 @@ if (window.innerWidth > 768) {
     overlay.classList.remove('show');
     prompt.classList.remove('show');
     flappyContainer.classList.remove('show');
+    isGameReady = false;
+    isGameRunning = false;
     setTimeout(() => {
       window.location.href = 'https://atharvcapricorn07.github.io/TheBinaryJournal/index.html';
     }, 300);
@@ -46,7 +51,9 @@ if (window.innerWidth > 768) {
       if (input.value === '0701') {
         prompt.classList.remove('show');
         setTimeout(() => {
-          startFlappyGame();
+          flappyContainer.classList.remove('fade-out');
+          flappyContainer.classList.add('show');
+          isGameReady = true;
         }, 300);
       } else {
         errorMsg.textContent = 'Wrong code';
@@ -64,8 +71,6 @@ if (window.innerWidth > 768) {
   let gameOver = false;
 
   function startFlappyGame() {
-    flappyContainer.classList.remove('fade-out');
-    flappyContainer.classList.add('show');
     score = 0;
     gameOver = false;
     pipes = [];
@@ -74,6 +79,7 @@ if (window.innerWidth > 768) {
     frame = 0;
     scoreDisplay.textContent = '';
     exitBtn.style.display = 'none';
+    isGameRunning = true;
     resizeCanvas();
     requestAnimationFrame(updateGame);
   }
@@ -81,11 +87,13 @@ if (window.innerWidth > 768) {
   function endGame() {
     scoreDisplay.textContent = 'Game Over! Score: ' + score;
     exitBtn.style.display = 'inline-block';
+    isGameRunning = false;
   }
 
   exitBtn.addEventListener('click', () => {
     flappyContainer.classList.remove('show');
     flappyContainer.classList.add('fade-out');
+    isGameReady = false;
     setTimeout(() => {
       overlay.classList.remove('show');
     }, 400);
@@ -93,12 +101,19 @@ if (window.innerWidth > 768) {
 
   document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
-      bird.velocity = lift;
+      if (isGameReady && !isGameRunning) {
+        startFlappyGame();
+      }
+      if (isGameRunning) {
+        bird.velocity = lift;
+      }
     }
   });
 
   canvas.addEventListener('click', () => {
-    bird.velocity = lift;
+    if (isGameRunning) {
+      bird.velocity = lift;
+    }
   });
 
   function updateGame() {
@@ -151,5 +166,3 @@ if (window.innerWidth > 768) {
     }
   }
 }
-
-
