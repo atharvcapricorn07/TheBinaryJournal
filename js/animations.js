@@ -1,52 +1,29 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const articles = document.querySelectorAll(".article-grid .featured");
-  const readMoreBtn = document.getElementById("read-more");
+// Theme toggle logic
+document.addEventListener('DOMContentLoaded', () => {
+  const body = document.body;
+  const toggleBtn = document.getElementById('theme-toggle');
 
-  // Always show all articles for debugging
-  articles.forEach(article => {
-    article.style.display = "block";
-  });
-
-  // Hide the "Read More" button since all articles are shown
-  if (readMoreBtn) {
-    readMoreBtn.style.display = "none";
+  // Check saved theme on load
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
   }
 
-  // Fade-in animation
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("fade-in-visible");
-          entry.target.classList.remove("initial");
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
+  // Theme toggle click
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const isDark = body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  }
 
-  articles.forEach(article => {
-    observer.observe(article);
-  });
-
-  // Theme toggle logic
-  const themeToggle = document.getElementById("theme-toggle");
-  const body = document.body;
-  const overlay = document.getElementById("dark-overlay");
-
-  themeToggle.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
-    overlay.classList.toggle("visible");
-
-    // Optionally store theme preference
-    const isDark = body.classList.contains("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  });
-
-  // Load saved theme
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark") {
-    body.classList.add("dark-mode");
-    overlay.classList.add("visible");
+  // Read More logic
+  const readMoreBtn = document.getElementById('read-more-btn');
+  const articleGrid = document.querySelector('.article-grid');
+  if (readMoreBtn && articleGrid) {
+    readMoreBtn.addEventListener('click', () => {
+      articleGrid.classList.add('show-all');
+      readMoreBtn.style.display = 'none';
+    });
   }
 });
