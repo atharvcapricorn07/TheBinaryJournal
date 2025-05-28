@@ -369,18 +369,25 @@ article blockquote {
 }
 
 /* Gooey green liquid overlay */
+/* Gooey green liquid overlay */
 #gooey-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 0;
   height: 100vh;
   pointer-events: none;
   z-index: 9998;
   background: linear-gradient(135deg, #32CD32 0%, #006400 100%);
-  clip-path: circle(0% at 0 0);
-  transition: clip-path 3s ease-in-out;
+  transition: width 0.5s ease;
 }
+
+/* When active, expand width to full screen */
+#gooey-overlay.active {
+  width: 100vw;
+  pointer-events: auto; /* Optional: enable pointer events if needed */
+}
+
 
 /* Secret code prompt container */
 #secret-code-prompt {
