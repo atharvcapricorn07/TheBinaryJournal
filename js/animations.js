@@ -3,18 +3,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleButton = document.querySelector(".theme-toggle");
   const currentTheme = localStorage.getItem("theme");
 
+  // Apply theme class first
   if (currentTheme === "dark") {
     document.body.classList.add("dark-mode");
-    toggleButton.textContent = "Toggle Light Mode";
-  } else {
-    toggleButton.textContent = "Toggle Dark Mode";
   }
+
+  // Then set label based on actual class
+  toggleButton.textContent = document.body.classList.contains("dark-mode")
+    ? "Toggle Light Mode"
+    : "Toggle Dark Mode";
 
   toggleButton.addEventListener("click", () => {
     const isDark = document.body.classList.toggle("dark-mode");
-    const theme = isDark ? "dark" : "light";
     toggleButton.textContent = isDark ? "Toggle Light Mode" : "Toggle Dark Mode";
-    localStorage.setItem("theme", theme);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 
   // Fade-in animation
