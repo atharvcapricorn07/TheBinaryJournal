@@ -317,132 +317,14 @@ body.dark-mode {
   color: var(--button-text, #fff);
   border: none;
   padding: 10px 15px;
-  font-size: 1em;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-  display: block;
-  margin: 2em auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  display: inline-block;
   white-space: nowrap;
 }
 #read-more-btn:hover {
-  background-color: var(--button-hover, #777);
-  transform: scale(1.05);
-}
-#read-more-btn:active {
-  transform: scale(0.98);
-}
-@media (min-width: 768px) {
-  #read-more-btn {
-    max-width: 200px;
-  }
-}
-
-:root {
-  --button-bg: #556b2f;
-  --button-text: #fafaf5;
-  --button-hover: #6b8e23;
-}
-body.dark-mode {
-  --button-bg: #fafaf5;
-  --button-text: #111;
-  --button-hover: #e3e6d7;
-}
-
-/* === 10) Secret Code Prompt Revamped Styling === */
-#secret-code-prompt {
-  margin-top: 40px;
-  padding: 36px 32px 40px 32px;
-  border: none;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #f0f3e9, #d9e2c8);
-  box-shadow:
-    6px 6px 15px rgba(110, 130, 50, 0.3),
-    -6px -6px 15px rgba(255, 255, 255, 0.8);
-  max-width: 420px;
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #334411;
-  user-select: none;
-  transition: box-shadow 0.3s ease;
-}
-
-#secret-code-prompt:hover {
-  box-shadow:
-    8px 8px 20px rgba(110, 130, 50, 0.5),
-    -8px -8px 20px rgba(255, 255, 255, 0.9);
-}
-
-#secret-code-prompt label {
-  display: block;
-  margin-bottom: 12px;
-  font-weight: 600;
-  font-size: 1.15em;
-  letter-spacing: 0.03em;
-  color: #2a3a12;
-}
-
-#secret-code-prompt input {
-  width: 100%;
-  padding: 14px 18px;
-  font-size: 1.1em;
-  border-radius: 12px;
-  border: 2px solid #a5ba82;
-  outline-offset: 2px;
-  outline-color: transparent;
-  transition: outline-color 0.25s ease, border-color 0.3s ease;
-  box-shadow: inset 2px 2px 6px #dbe7ca, inset -2px -2px 6px #f9fff4;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2b3a12;
-  user-select: text;
-  box-sizing: border-box;
-}
-
-#secret-code-prompt input:focus {
-  outline-color: #647a31;
-  border-color: #6b8e23;
-  box-shadow:
-    0 0 8px 3px #94b94d,
-    inset 2px 2px 6px #c9d7a6,
-    inset -2px -2px 6px #f7ffeb;
-}
-
-#secret-code-prompt button {
-  margin-top: 24px;
-  padding: 14px 0;
-  width: 100%;
-  font-size: 1.25em;
-  font-weight: 700;
-  color: white;
-  background: linear-gradient(135deg, #6b8e23, #47591a);
-  border: none;
-  border-radius: 14px;
-  cursor: pointer;
-  box-shadow: 0 5px 10px rgba(54, 78, 15, 0.6);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-#secret-code-prompt button:hover {
-  background: linear-gradient(135deg, #7ca42b, #5c6f21);
-  box-shadow: 0 7px 14px rgba(92, 111, 33, 0.8);
-}
-#secret-code-prompt button:active {
-  background: linear-gradient(135deg, #5c6f21, #47591a);
-  box-shadow: inset 0 3px 7px rgba(39, 55, 9, 0.9);
-}
-
-/* Optional: Responsive tweaks */
-@media (max-width: 440px) {
-  #secret-code-prompt {
-    padding: 28px 20px 32px 20px;
-  }
-  #secret-code-prompt button {
-    font-size: 1.1em;
-    padding: 12px 0;
-  }
+  background-color: var(--button-hover, #666);
 }
