@@ -351,3 +351,31 @@ article blockquote {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* 10) Mobile-only Theme Toggle: Icon-Only Style */
+@media (max-width: 480px) {
+  #theme-toggle {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    font-size: 1.5em;
+    line-height: 1;
+    text-indent: -9999px; /* hide text */
+    overflow: hidden;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+
+  #theme-toggle::before {
+    content: "🌙"; /* default to moon (dark mode toggle) */
+    text-indent: 0;
+    display: block;
+    text-align: center;
+  }
+
+  body.dark-mode #theme-toggle::before {
+    content: "☀️"; /* sun icon for light mode toggle */
+  }
+}
