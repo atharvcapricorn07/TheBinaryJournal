@@ -1,4 +1,4 @@
-/* === 1) Reset & Base === */
+/* 1) Reset & Base */
 html, body {
   margin: 0;
   padding: 0;
@@ -28,7 +28,7 @@ body.page-enter {
   opacity: 1;
 }
 
-/* === 2) Header === */
+/* 2) Header Styles */
 header.hero {
   background-color: #3A5F0B;
   color: white;
@@ -39,38 +39,29 @@ header.hero {
 .hero h1 {
   font-size: 3em;
   margin-bottom: 10px;
-  max-width: 100%;
-  word-wrap: break-word;
 }
 .tagline {
   font-size: 1.2em;
   font-style: italic;
-  max-width: 100%;
-  word-wrap: break-word;
 }
 nav {
   margin-top: 15px;
-  overflow-x: auto;
-  white-space: nowrap;
 }
 nav a {
   color: white;
   text-decoration: none;
   margin: 0 15px;
   font-weight: bold;
-  display: inline-block;
 }
 
-/* === 3) Main Content === */
+/* 3) Main Content */
 main.home-content {
   max-width: 1000px;
-  width: 90%;
   margin: auto;
   padding: 30px 20px;
-  box-sizing: border-box;
 }
 
-/* Featured Article */
+/* Featured Article Section */
 .featured,
 .article-grid .featured {
   display: flex;
@@ -97,31 +88,25 @@ main.home-content {
   border-radius: 8px;
   margin-right: 20px;
   flex: 1 1 40%;
-  height: auto;
-  object-fit: cover;
-  min-width: 200px;
 }
 .featured-text,
 .article-grid .featured-text {
   flex: 1 1 60%;
-  min-width: 0;
 }
 .article-grid .featured-text h4 {
   font-size: 1.5em;
-  margin: 0 0 10px;
+  margin-top: 0;
+  margin-bottom: 10px;
   font-weight: bold;
-  word-break: break-word;
 }
 .article-grid .featured-text a {
   text-decoration: none;
   color: #0077cc;
-  word-break: break-word;
 }
 .article-grid .featured-text p {
   font-size: 1em;
   color: #333;
   margin: 0;
-  word-break: break-word;
 }
 
 /* Article Grid */
@@ -130,6 +115,8 @@ main.home-content {
   gap: 1.5rem;
   grid-template-columns: 1fr;
 }
+
+/* Responsive Grid Columns */
 @media (min-width: 769px) and (max-width: 1023px) {
   .article-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -140,6 +127,7 @@ main.home-content {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
 .article-grid article {
   background: #f6f6f6;
   padding: 15px;
@@ -147,7 +135,6 @@ main.home-content {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
   cursor: pointer;
-  word-wrap: break-word;
 }
 .article-grid article:hover {
   transform: scale(1.03) translateY(-4px);
@@ -155,22 +142,22 @@ main.home-content {
   z-index: 1;
 }
 
-/* Article Page */
+/* Article Container */
 .article-container {
-  max-width: 90%;
+  max-width: 750px;
   margin: auto;
   padding: 40px 20px;
   line-height: 1.7;
   font-size: 1.1em;
-  box-sizing: border-box;
 }
+
+/* Article Content */
 .article-meta,
 .article-title-block .article-meta,
 .byline {
   font-size: 0.9em;
   color: #555;
   margin-top: 0.5em;
-  word-wrap: break-word;
 }
 article blockquote {
   border-left: 4px solid #3A5F0B;
@@ -179,11 +166,9 @@ article blockquote {
   font-style: italic;
   color: #444;
   background: #f9f9f9;
-  word-wrap: break-word;
 }
 article p {
   margin-bottom: 20px;
-  word-wrap: break-word;
 }
 .article-header {
   display: flex;
@@ -193,34 +178,28 @@ article p {
   flex-wrap: wrap;
 }
 .article-header img {
-  max-width: 100%;
+  max-width: 200px;
   border-radius: 8px;
   flex-shrink: 0;
-  height: auto;
-  object-fit: cover;
 }
 .article-title-block {
   flex: 1;
-  min-width: 0;
 }
 .article-title-block h2 {
   font-size: 2em;
   margin: 0 0 10px 0;
-  word-break: break-word;
 }
 
-/* === 4) Footer === */
+/* Footer */
 footer {
   background-color: #3A5F0B;
   color: white;
   text-align: center;
-  padding: 15px 20px;
+  padding: 15px;
   margin-top: 40px;
-  box-sizing: border-box;
-  word-wrap: break-word;
 }
 
-/* === 5) Dark Mode Transition Overlay === */
+/* 4) Dark Mode Transition Overlay */
 #dark-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -242,14 +221,14 @@ footer {
   transform: translateX(-100%);
 }
 
-/* === 6) Dark Mode Overrides === */
+/* 5) Dark Mode Overrides */
 body.dark-mode {
   background: #121212;
   color: #e0e0e0;
 }
-body.dark-mode header.hero,
-body.dark-mode footer {
+body.dark-mode header.hero {
   background-color: #1e1e1e;
+  color: #e0e0e0;
 }
 body.dark-mode nav a {
   color: #bbbbbb;
@@ -257,6 +236,7 @@ body.dark-mode nav a {
 body.dark-mode main.home-content,
 body.dark-mode .article-container {
   background: transparent;
+  color: #e0e0e0;
 }
 body.dark-mode .featured,
 body.dark-mode .article-grid article,
@@ -268,13 +248,20 @@ body.dark-mode article blockquote {
 body.dark-mode .article-grid .featured-text a {
   color: #66ccff;
 }
-body.dark-mode .article-grid .featured-text p,
+body.dark-mode .article-grid .featured-text p {
+  color: #cccccc;
+}
 body.dark-mode .article-meta,
+body.dark-mode .article-title-block .article-meta,
 body.dark-mode .byline {
+  color: #999;
+}
+body.dark-mode footer {
+  background-color: #1e1e1e;
   color: #cccccc;
 }
 
-/* === 7) Theme Colors and Buttons === */
+/* 6) Theme Colors and Buttons */
 :root {
   --button-bg: #556b2f;
   --button-text: #ffffff;
@@ -286,7 +273,7 @@ body.dark-mode {
   --button-hover: #dddddd;
 }
 
-/* === 8) Theme Toggle Button === */
+/* Theme Toggle Button */
 #theme-toggle {
   position: absolute;
   top: 20px;
@@ -301,7 +288,6 @@ body.dark-mode {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-  white-space: nowrap;
 }
 #theme-toggle:hover {
   background-color: var(--button-hover);
@@ -311,20 +297,62 @@ body.dark-mode {
   transform: scale(0.98);
 }
 
-/* === 9) Read More Button === */
+/* 7) Read More Button Matching Theme */
 #read-more-btn {
   background-color: var(--button-bg, #555);
   color: var(--button-text, #fff);
   border: none;
   padding: 10px 15px;
+  font-size: 1em;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 20px;
-  display: inline-block;
-  white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  display: block;
+  margin: 2em auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 #read-more-btn:hover {
-  background-color: var(--button-hover, #666);
+  background-color: var(--button-hover, #777);
+  transform: scale(1.05);
+}
+#read-more-btn:active {
+  transform: scale(0.98);
+}
+@media (min-width: 481px) {
+  #read-more-btn {
+    display: none !important;
+  }
+}
+
+/* 8) Smooth Transitions */
+body,
+body.dark-mode,
+header.hero,
+main.home-content,
+.article-container,
+footer {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+.featured,
+.article-grid article,
+.article-grid .featured,
+article blockquote {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* 9) Scroll Animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide on homepage */
+body.home nav a.hide-on-home {
+  display: none;
 }
