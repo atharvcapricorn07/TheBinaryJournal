@@ -1,58 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const articles = document.querySelectorAll(".article-grid .featured");
   const readMoreBtn = document.getElementById("read-more");
-  const articles = Array.from(document.querySelectorAll(".article-grid .featured"));
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  // Limit initial articles to 5 on mobile
-  if (isMobile && articles.length > 5) {
-    articles.forEach((article, index) => {
-      if (index >= 5) {
-        article.style.display = "none";
-      }
-    });
+  // Always show all articles for debugging
+  articles.forEach(article => {
+    article.style.display = "block";
+  });
 
-    readMoreBtn.style.display = "block";
-
-    readMoreBtn.addEventListener("click", () => {
-      articles.forEach(article => {
-        article.style.display = "block";
-      });
-      readMoreBtn.style.display = "none";
-    });
-  } else {
-    // If not mobile, show all and hide button
+  // Hide the "Read More" button since all articles are shown
+  if (readMoreBtn) {
     readMoreBtn.style.display = "none";
   }
 
-  // Intersection Observer for fade-in animation
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("in-view");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1
-  });
+  // Fade-in animation
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("fade-in-visible");
+          entry.target.classList.remove("initial");
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
 
-  document.querySelectorAll(".fade-in").forEach(el => {
-    observer.observe(el);
+  articles.forEach(article => {
+    observer.observe(article);
   });
 
   // Theme toggle logic
-  const toggleBtn = document.getElementById("theme-toggle");
+  const themeToggle = document.getElementById("theme-toggle");
   const body = document.body;
+  const overlay = document.getElementById("dark-overlay");
 
-  toggleBtn.addEventListener("click", () => {
+  themeToggle.addEventListener("click", () => {
     body.classList.toggle("dark-mode");
+    overlay.classList.toggle("visible");
 
-    // Optional: toggle overlay fade
-    const overlay = document.getElementById("dark-overlay");
-    if (body.classList.contains("dark-mode")) {
-      overlay.classList.add("visible");
-    } else {
-      overlay.classList.remove("visible");
-    }
+    // Optionally store theme preference
+    const isDark = body.classList.contains("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   });
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    body.classList.add("dark-mode");
+    overlay.classList.add("visible");
+  }
 });
