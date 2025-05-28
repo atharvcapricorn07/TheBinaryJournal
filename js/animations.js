@@ -40,11 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const secretSubmit = document.getElementById("secret-code-submit");
   const secretError  = document.getElementById("secret-code-error");
 
-  // Add some vertical spacing between label and input for secret prompt
-  // Assuming your label has a class or you can style the prompt container here:
-  if (secretPrompt) {
-    secretPrompt.style.flexDirection = "column";
-    secretPrompt.style.gap = "12px";  // adds vertical spacing between children
+  // Add margin between label and input — specifically target them if possible
+  const label = secretPrompt ? secretPrompt.querySelector("label") : null;
+  if (label) {
+    label.style.display = "block";
+    label.style.marginBottom = "10px";  // adds vertical spacing below label
   }
 
   // Initialize overlay & prompt
@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.overflow = ""; // restore scroll
 
       // Reload the page to go back to home screen / initial state
-      location.reload();
+      window.location.reload();
     });
 
     function resetGame() {
@@ -252,7 +252,3 @@ document.addEventListener("DOMContentLoaded", () => {
     loop();
   }
 });
-
-
-
-
