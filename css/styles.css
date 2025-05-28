@@ -39,26 +39,35 @@ header.hero {
 .hero h1 {
   font-size: 3em;
   margin-bottom: 10px;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 .tagline {
   font-size: 1.2em;
   font-style: italic;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 nav {
   margin-top: 15px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 nav a {
   color: white;
   text-decoration: none;
   margin: 0 15px;
   font-weight: bold;
+  display: inline-block;
 }
 
 /* === 3) Main Content === */
 main.home-content {
   max-width: 1000px;
+  width: 90%;
   margin: auto;
   padding: 30px 20px;
+  box-sizing: border-box;
 }
 
 /* Featured Article */
@@ -88,24 +97,31 @@ main.home-content {
   border-radius: 8px;
   margin-right: 20px;
   flex: 1 1 40%;
+  height: auto;
+  object-fit: cover;
+  min-width: 200px;
 }
 .featured-text,
 .article-grid .featured-text {
   flex: 1 1 60%;
+  min-width: 0;
 }
 .article-grid .featured-text h4 {
   font-size: 1.5em;
   margin: 0 0 10px;
   font-weight: bold;
+  word-break: break-word;
 }
 .article-grid .featured-text a {
   text-decoration: none;
   color: #0077cc;
+  word-break: break-word;
 }
 .article-grid .featured-text p {
   font-size: 1em;
   color: #333;
   margin: 0;
+  word-break: break-word;
 }
 
 /* Article Grid */
@@ -131,6 +147,7 @@ main.home-content {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
   cursor: pointer;
+  word-wrap: break-word;
 }
 .article-grid article:hover {
   transform: scale(1.03) translateY(-4px);
@@ -140,11 +157,12 @@ main.home-content {
 
 /* Article Page */
 .article-container {
-  max-width: 750px;
+  max-width: 90%;
   margin: auto;
   padding: 40px 20px;
   line-height: 1.7;
   font-size: 1.1em;
+  box-sizing: border-box;
 }
 .article-meta,
 .article-title-block .article-meta,
@@ -152,6 +170,7 @@ main.home-content {
   font-size: 0.9em;
   color: #555;
   margin-top: 0.5em;
+  word-wrap: break-word;
 }
 article blockquote {
   border-left: 4px solid #3A5F0B;
@@ -160,9 +179,11 @@ article blockquote {
   font-style: italic;
   color: #444;
   background: #f9f9f9;
+  word-wrap: break-word;
 }
 article p {
   margin-bottom: 20px;
+  word-wrap: break-word;
 }
 .article-header {
   display: flex;
@@ -172,16 +193,20 @@ article p {
   flex-wrap: wrap;
 }
 .article-header img {
-  max-width: 200px;
+  max-width: 100%;
   border-radius: 8px;
   flex-shrink: 0;
+  height: auto;
+  object-fit: cover;
 }
 .article-title-block {
   flex: 1;
+  min-width: 0;
 }
 .article-title-block h2 {
   font-size: 2em;
   margin: 0 0 10px 0;
+  word-break: break-word;
 }
 
 /* === 4) Footer === */
@@ -189,8 +214,10 @@ footer {
   background-color: #3A5F0B;
   color: white;
   text-align: center;
-  padding: 15px;
+  padding: 15px 20px;
   margin-top: 40px;
+  box-sizing: border-box;
+  word-wrap: break-word;
 }
 
 /* === 5) Dark Mode Transition Overlay === */
@@ -274,6 +301,7 @@ body.dark-mode {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
 }
 #theme-toggle:hover {
   background-color: var(--button-hover);
@@ -297,6 +325,7 @@ body.dark-mode {
   display: block;
   margin: 2em auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
 }
 #read-more-btn:hover {
   background-color: var(--button-hover, #777);
@@ -339,90 +368,11 @@ article blockquote {
 /* === 12) Easter Egg === */
 #egg-easter-egg {
   position: fixed;
-  top: 10px;
-  left: 10px;
-  font-size: 2rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 9999;
-  transition: transform 0.3s ease;
-}
-#egg-easter-egg:hover {
-  transform: scale(1.2);
-}
-
-/* === 13) Gooey Overlay === */
-#gooey-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100vh;
-  background-color: #006400;
-  transition: width 0.6s ease-in-out;
-  z-index: 1000;
-  pointer-events: none;
-}
-#gooey-overlay.active {
-  width: 100vw;
-}
-
-/* === 14) Secret Code Prompt === */
-#secret-code-prompt {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #0b3d0bcc;
-  padding: 2rem 3rem;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #32CD32;
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  display: none;
+  bottom: 20px;
+  left: 20px;
   z-index: 10000;
-  text-align: center;
-}
-#secret-code-prompt input[type="password"] {
-  padding: 0.7rem 1rem;
-  font-size: 1.2rem;
-  border: 2px solid #32CD32;
-  border-radius: 8px;
-  background: #023002;
-  color: #adebad;
-  outline: none;
-  margin-top: 1rem;
-  width: 200px;
-  text-align: center;
-  transition: border-color 0.3s;
-}
-#secret-code-prompt input[type="password"]:focus {
-  border-color: #90ee90;
-  box-shadow: 0 0 10px #90ee90;
-}
-#secret-code-prompt button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-  margin-top: 1rem;
-}
-#secret-code-prompt button:hover {
-  background-color: var(--button-hover);
-  transform: scale(1.05);
-}
-#secret-code-prompt button:active {
-  transform: scale(0.98);
-}
-
-/* === 15) Home Navigation Adjustments === */
-body.home nav a.hide-on-home {
-  display: none;
+  font-size: 1.4em;
+  color: #3A5F0B;
+  user-select: none;
 }
