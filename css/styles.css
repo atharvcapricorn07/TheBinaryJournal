@@ -419,23 +419,27 @@ article blockquote {
   box-shadow: 0 0 10px #90ee90;
 }
 
-/* Submit button */
+/* Submit button - styled like #theme-toggle */
 #secret-code-prompt button {
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  color: #0b3d0b;
-  background: #90ee90;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border: none;
+  padding: 10px 15px;
   border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
 }
-
 #secret-code-prompt button:hover {
-  background: #adebad;
+  background-color: var(--button-hover);
+  transform: scale(1.05);
 }
-
+#secret-code-prompt button:active {
+  transform: scale(0.98);
+}
 
 /* Hide on homepage */
 body.home nav a.hide-on-home {
