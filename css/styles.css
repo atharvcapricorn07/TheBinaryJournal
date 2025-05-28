@@ -1,4 +1,4 @@
-/* 1) Reset & Base */
+/* === 1) Reset & Base === */
 html, body {
   margin: 0;
   padding: 0;
@@ -28,7 +28,7 @@ body.page-enter {
   opacity: 1;
 }
 
-/* 2) Header Styles */
+/* === 2) Header === */
 header.hero {
   background-color: #3A5F0B;
   color: white;
@@ -54,14 +54,14 @@ nav a {
   font-weight: bold;
 }
 
-/* 3) Main Content */
+/* === 3) Main Content === */
 main.home-content {
   max-width: 1000px;
   margin: auto;
   padding: 30px 20px;
 }
 
-/* Featured Article Section */
+/* Featured Article */
 .featured,
 .article-grid .featured {
   display: flex;
@@ -95,8 +95,7 @@ main.home-content {
 }
 .article-grid .featured-text h4 {
   font-size: 1.5em;
-  margin-top: 0;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
   font-weight: bold;
 }
 .article-grid .featured-text a {
@@ -115,8 +114,6 @@ main.home-content {
   gap: 1.5rem;
   grid-template-columns: 1fr;
 }
-
-/* Responsive Grid Columns */
 @media (min-width: 769px) and (max-width: 1023px) {
   .article-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -127,7 +124,6 @@ main.home-content {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 .article-grid article {
   background: #f6f6f6;
   padding: 15px;
@@ -142,7 +138,7 @@ main.home-content {
   z-index: 1;
 }
 
-/* Article Container */
+/* Article Page */
 .article-container {
   max-width: 750px;
   margin: auto;
@@ -150,8 +146,6 @@ main.home-content {
   line-height: 1.7;
   font-size: 1.1em;
 }
-
-/* Article Content */
 .article-meta,
 .article-title-block .article-meta,
 .byline {
@@ -190,7 +184,7 @@ article p {
   margin: 0 0 10px 0;
 }
 
-/* Footer */
+/* === 4) Footer === */
 footer {
   background-color: #3A5F0B;
   color: white;
@@ -199,7 +193,7 @@ footer {
   margin-top: 40px;
 }
 
-/* 4) Dark Mode Transition Overlay */
+/* === 5) Dark Mode Transition Overlay === */
 #dark-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -221,14 +215,14 @@ footer {
   transform: translateX(-100%);
 }
 
-/* 5) Dark Mode Overrides */
+/* === 6) Dark Mode Overrides === */
 body.dark-mode {
   background: #121212;
   color: #e0e0e0;
 }
-body.dark-mode header.hero {
+body.dark-mode header.hero,
+body.dark-mode footer {
   background-color: #1e1e1e;
-  color: #e0e0e0;
 }
 body.dark-mode nav a {
   color: #bbbbbb;
@@ -236,7 +230,6 @@ body.dark-mode nav a {
 body.dark-mode main.home-content,
 body.dark-mode .article-container {
   background: transparent;
-  color: #e0e0e0;
 }
 body.dark-mode .featured,
 body.dark-mode .article-grid article,
@@ -248,20 +241,13 @@ body.dark-mode article blockquote {
 body.dark-mode .article-grid .featured-text a {
   color: #66ccff;
 }
-body.dark-mode .article-grid .featured-text p {
-  color: #cccccc;
-}
+body.dark-mode .article-grid .featured-text p,
 body.dark-mode .article-meta,
-body.dark-mode .article-title-block .article-meta,
 body.dark-mode .byline {
-  color: #999;
-}
-body.dark-mode footer {
-  background-color: #1e1e1e;
   color: #cccccc;
 }
 
-/* 6) Theme Colors and Buttons */
+/* === 7) Theme Colors and Buttons === */
 :root {
   --button-bg: #556b2f;
   --button-text: #ffffff;
@@ -273,7 +259,7 @@ body.dark-mode {
   --button-hover: #dddddd;
 }
 
-/* Theme Toggle Button */
+/* === 8) Theme Toggle Button === */
 #theme-toggle {
   position: absolute;
   top: 20px;
@@ -297,7 +283,7 @@ body.dark-mode {
   transform: scale(0.98);
 }
 
-/* 7) Read More Button Matching Theme */
+/* === 9) Read More Button === */
 #read-more-btn {
   background-color: var(--button-bg, #555);
   color: var(--button-text, #fff);
@@ -325,15 +311,13 @@ body.dark-mode {
   }
 }
 
-/* 8) Smooth Transitions */
+/* === 10) Transitions and Effects === */
 body,
 body.dark-mode,
 header.hero,
 main.home-content,
 .article-container,
-footer {
-  transition: background-color 0.5s ease, color 0.5s ease;
-}
+footer,
 .featured,
 .article-grid article,
 .article-grid .featured,
@@ -341,7 +325,7 @@ article blockquote {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* 9) Scroll Animation */
+/* === 11) Scroll Fade-in === */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -352,6 +336,7 @@ article blockquote {
   transform: translateY(0);
 }
 
+/* === 12) Easter Egg === */
 #egg-easter-egg {
   position: fixed;
   top: 10px;
@@ -363,33 +348,27 @@ article blockquote {
   z-index: 9999;
   transition: transform 0.3s ease;
 }
-
 #egg-easter-egg:hover {
   transform: scale(1.2);
 }
 
-/* Gooey green liquid overlay */
-/* Gooey green liquid overlay */
-/* Gooey green wipe overlay */
+/* === 13) Gooey Overlay === */
 #gooey-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 0;                /* start closed */
+  width: 0;
   height: 100vh;
-  background-color: #006400; /* dark green */
+  background-color: #006400;
   transition: width 0.6s ease-in-out;
   z-index: 1000;
-  pointer-events: none;    /* so it doesn’t block clicks */
+  pointer-events: none;
 }
-
-/* Full‑screen when active */
 #gooey-overlay.active {
   width: 100vw;
 }
 
-
-/* Secret code prompt container */
+/* === 14) Secret Code Prompt === */
 #secret-code-prompt {
   position: fixed;
   top: 50%;
@@ -405,8 +384,6 @@ article blockquote {
   z-index: 10000;
   text-align: center;
 }
-
-/* Styled input for secret code */
 #secret-code-prompt input[type="password"] {
   padding: 0.7rem 1rem;
   font-size: 1.2rem;
@@ -420,13 +397,10 @@ article blockquote {
   text-align: center;
   transition: border-color 0.3s;
 }
-
 #secret-code-prompt input[type="password"]:focus {
   border-color: #90ee90;
   box-shadow: 0 0 10px #90ee90;
 }
-
-/* Submit button - styled like #theme-toggle */
 #secret-code-prompt button {
   background-color: var(--button-bg);
   color: var(--button-text);
@@ -448,7 +422,7 @@ article blockquote {
   transform: scale(0.98);
 }
 
-/* Hide on homepage */
+/* === 15) Home Navigation Adjustments === */
 body.home nav a.hide-on-home {
   display: none;
 }
