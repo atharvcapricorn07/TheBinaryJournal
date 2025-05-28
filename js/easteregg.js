@@ -127,7 +127,7 @@ if (window.innerWidth > 768) {
     ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
 
     if (frame % 100 === 0) {
-      const gap = 140;
+      const gap = 160;
       const width = 50;
       const top = Math.random() * (canvas.height - gap);
       pipes.push({ x: canvas.width, y: 0, width, height: top });
