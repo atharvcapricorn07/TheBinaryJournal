@@ -196,199 +196,29 @@ footer {
   text-align: center;
   padding: 15px;
   margin-top: 40px;
+  position: relative;
 }
 
-/* 4) Dark Mode Transition Overlay */
-#dark-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.85);
-  transform: translateX(-100%);
-  transition: transform 0.5s ease;
-  pointer-events: none;
-  z-index: 9999;
-}
-#dark-overlay.slide-in {
-  transform: translateX(0);
-  pointer-events: auto;
-}
-#dark-overlay.slide-out-right {
-  transform: translateX(100%);
-}
-#dark-overlay.slide-out-left {
-  transform: translateX(-100%);
-}
-
-/* 5) Dark Mode Overrides */
-body.dark-mode {
-  background: #121212;
-  color: #e0e0e0;
-}
-body.dark-mode header.hero {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
-}
-body.dark-mode nav a {
-  color: #bbbbbb;
-}
-body.dark-mode main.home-content,
-body.dark-mode .article-container {
-  background: transparent;
-  color: #e0e0e0;
-}
-body.dark-mode .featured,
-body.dark-mode .article-grid article,
-body.dark-mode .article-grid .featured,
-body.dark-mode article blockquote {
-  background: #1e1e1e;
-  color: #e0e0e0;
-}
-body.dark-mode .article-grid .featured-text a {
-  color: #66ccff;
-}
-body.dark-mode .article-grid .featured-text p {
-  color: #cccccc;
-}
-body.dark-mode .article-meta,
-body.dark-mode .article-title-block .article-meta,
-body.dark-mode .byline {
-  color: #999;
-}
-body.dark-mode footer {
-  background-color: #1e1e1e;
-  color: #cccccc;
-}
-
-/* 6) Theme Colors and Buttons */
-:root {
-  --button-bg: #556b2f;
-  --button-text: #ffffff;
-  --button-hover: #6b8e23;
-}
-body.dark-mode {
-  --button-bg: #ffffff;
-  --button-text: #000000;
-  --button-hover: #dddddd;
-}
-
-#theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-}
-#theme-toggle:hover {
-  background-color: var(--button-hover);
-  transform: scale(1.05);
-}
-#theme-toggle:active {
-  transform: scale(0.98);
-}
-
-#read-more-btn {
-  background-color: var(--button-bg, #555);
-  color: var(--button-text, #fff);
-  border: none;
-  padding: 10px 15px;
-  font-size: 1em;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-  display: block;
-  margin: 2em auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-#read-more-btn:hover {
-  background-color: var(--button-hover, #777);
-  transform: scale(1.05);
-}
-#read-more-btn:active {
-  transform: scale(0.98);
-}
-@media (min-width: 481px) {
-  #read-more-btn {
-    display: none !important;
-  }
-}
-
-body,
-body.dark-mode,
-header.hero,
-main.home-content,
-.article-container,
-footer {
-  transition: background-color 0.5s ease, color 0.5s ease;
-}
-.featured,
-.article-grid article,
-.article-grid .featured,
-article blockquote {
-  transition: background-color 0.5s ease, color 0.5s ease;
-}
-
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-body.home nav a.hide-on-home {
-  display: none;
-}
-
-/* --- Easter Egg Trigger Button (desktop-only) --- */
-@media (min-width: 768px) {
-  footer {
-    position: relative;
-  }
-
-  .easter-egg-btn {
-    position: absolute;
-    bottom: 10px;
-    right: 20px;
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 10;
-    color: inherit;
-  }
-}
-
-/* --- Green Overlay Slide-in --- */
+/* 4) Easter Egg Overlay Fixes */
 #easterEggOverlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   background-color: #3A5F0B;
   transform: translateX(100%);
-  z-index: 500;
+  z-index: 1000;
   transition: transform 0.5s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 #easterEggOverlay.show {
   transform: translateX(0);
 }
 
-/* --- Matrix-Style Code Prompt --- */
+/* Matrix-Style Code Prompt */
 .code-prompt {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
   background: #000;
   padding: 20px;
   border-radius: 10px;
@@ -422,25 +252,21 @@ body.home nav a.hide-on-home {
   margin-top: 5px;
 }
 
-/* --- Flappy Bird Game Styles --- */
+/* Flappy Bird Container in Center */
 #flappyContainer {
   display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 100%;
   max-width: 700px;
   text-align: center;
-  z-index: 9999;
+  animation: fadeIn 0.5s ease-in;
 }
 #flappyContainer.show {
   display: block;
-  animation: fadeIn 0.5s ease-in;
 }
 #flappyContainer.fade-out {
   animation: fadeOut 0.4s ease-out forwards;
 }
+
 #flappyCanvas {
   width: 100%;
   height: 400px;
@@ -448,7 +274,7 @@ body.home nav a.hide-on-home {
   display: block;
 }
 #scoreDisplay {
-  color: #333;
+  color: #fff;
   font-size: 20px;
   margin-top: 10px;
 }
