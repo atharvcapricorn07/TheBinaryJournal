@@ -1,0 +1,139 @@
+if (window.innerWidth > 768) {
+  const eggBtn = document.getElementById('easterEggBtn');
+  const overlay = document.getElementById('easterEggOverlay');
+  const prompt = document.getElementById('codePrompt');
+  const input = document.getElementById('secretCodeInput');
+  const errorMsg = document.getElementById('errorMsg');
+  const flappyContainer = document.getElementById('flappyContainer');
+  const canvas = document.getElementById('flappyCanvas');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const exitBtn = document.getElementById('exitGameBtn');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = flappyContainer.offsetWidth;
+  canvas.height = 400;
+
+  eggBtn.addEventListener('click', () => {
+    overlay.classList.add('show');
+    setTimeout(() => {
+      prompt.classList.add('show');
+    }, 500);
+  });
+
+  function cancelAndRedirect() {
+    overlay.style.display = 'none';
+    window.location.href = 'https://atharvcapricorn07.github.io/TheBinaryJournal/index.html';
+  }
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      cancelAndRedirect();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      cancelAndRedirect();
+    }
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      if (input.value === '0701') {
+        overlay.classList.remove('show');
+        overlay.style.display = 'none';
+        prompt.style.display = 'none';
+        startFlappyGame();
+      } else {
+        errorMsg.textContent = 'Wrong code';
+        errorMsg.style.display = 'block';
+      }
+    }
+  });
+
+  let bird = { x: 50, y: canvas.height/2, width: 20, height: 20, velocity: 0 };
+  const gravity = 0.6, lift = -12;
+  let pipes = [];
+  let frame = 0;
+  let score = 0;
+  let gameOver = false;
+
+  function startFlappyGame() {
+    flappyContainer.style.display = 'block';
+    scoreDisplay.textContent = '';
+    score = 0;
+    gameOver = false;
+    pipes = [];
+    bird.y = canvas.height / 2;
+    bird.velocity = 0;
+    frame = 0;
+    requestAnimationFrame(updateGame);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      bird.velocity = lift;
+    }
+  });
+
+  canvas.addEventListener('click', () => {
+    bird.velocity = lift;
+  });
+
+  function updateGame() {
+    if (gameOver) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    bird.velocity += gravity;
+    bird.y += bird.velocity;
+    ctx.fillStyle = '#ff0';
+    ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+
+    if (frame % 90 === 0) {
+      const gap = 120;
+      const width = 50;
+      const top = Math.random() * (canvas.height - gap);
+      pipes.push({ x: canvas.width, y: 0, width, height: top });
+      pipes.push({ x: canvas.width, y: top + gap, width, height: canvas.height - top - gap });
+    }
+    frame++;
+
+    for (let p of pipes) {
+      p.x -= 2;
+      ctx.fillStyle = '#0a0';
+      ctx.fillRect(p.x, p.y, p.width, p.height);
+
+      if (
+        bird.x < p.x + p.width &&
+        bird.x + bird.width > p.x &&
+        bird.y < p.y + p.height &&
+        bird.y + bird.height > p.y
+      ) {
+        gameOver = true;
+      }
+
+      if (p.x + p.width === bird.x) {
+        score++;
+      }
+    }
+
+    if (bird.y + bird.height > canvas.height || bird.y < 0) {
+      gameOver = true;
+    }
+
+    if (!gameOver) {
+      requestAnimationFrame(updateGame);
+    } else {
+      endGame();
+    }
+  }
+
+  function endGame() {
+    scoreDisplay.textContent = 'Game Over! Score: ' + score;
+    exitBtn.style.display = 'inline-block';
+  }
+
+  exitBtn.addEventListener('click', () => {
+    window.location.href = 'https://atharvcapricorn07.github.io/TheBinaryJournal/index.html';
+  });
+}
