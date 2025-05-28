@@ -56,59 +56,35 @@ nav a {
   font-weight: bold;
 }
 
+/* Theme Toggle Button (Original Style) */
+#theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+#theme-toggle:hover {
+  background-color: white;
+  color: #3A5F0B;
+  transform: scale(1.05);
+}
+#theme-toggle:active {
+  transform: scale(0.98);
+}
+
 /* 3) Main Content */
 main.home-content {
   max-width: 1000px;
   margin: auto;
   padding: 30px 20px;
-}
-
-/* Featured Article Section */
-.featured,
-.article-grid .featured {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  background: #f2f2f2;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 40px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform;
-  cursor: pointer;
-}
-.featured:hover,
-.article-grid .featured:hover {
-  transform: scale(1.03) translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  z-index: 1;
-}
-.featured img,
-.article-grid .featured img {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 8px;
-  margin-right: 20px;
-  flex: 1 1 40%;
-}
-.featured-text,
-.article-grid .featured-text {
-  flex: 1 1 60%;
-}
-.article-grid .featured-text h4 {
-  font-size: 1.5em;
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-.article-grid .featured-text a {
-  text-decoration: none;
-  color: #0077cc;
-}
-.article-grid .featured-text p {
-  font-size: 1em;
-  color: #333;
-  margin: 0;
 }
 
 /* Article Grid */
@@ -117,7 +93,6 @@ main.home-content {
   gap: 1.5rem;
   grid-template-columns: 1fr;
 }
-
 @media (min-width: 769px) and (max-width: 1023px) {
   .article-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -128,7 +103,6 @@ main.home-content {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 .article-grid article {
   background: #f6f6f6;
   padding: 15px;
@@ -142,51 +116,30 @@ main.home-content {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   z-index: 1;
 }
-
-.article-container {
-  max-width: 750px;
-  margin: auto;
-  padding: 40px 20px;
-  line-height: 1.7;
-  font-size: 1.1em;
-}
-
-.article-meta,
-.article-title-block .article-meta,
-.byline {
-  font-size: 0.9em;
-  color: #555;
-  margin-top: 0.5em;
-}
-article blockquote {
-  border-left: 4px solid #3A5F0B;
-  padding-left: 16px;
-  margin: 20px 0;
-  font-style: italic;
-  color: #444;
-  background: #f9f9f9;
-}
-article p {
-  margin-bottom: 20px;
-}
-.article-header {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-.article-header img {
-  max-width: 200px;
+.featured img {
+  width: 100%;
+  max-width: 400px;
   border-radius: 8px;
-  flex-shrink: 0;
+  margin-right: 20px;
+  flex: 1 1 40%;
 }
-.article-title-block {
-  flex: 1;
+.featured-text {
+  flex: 1 1 60%;
 }
-.article-title-block h2 {
-  font-size: 2em;
-  margin: 0 0 10px 0;
+.featured-text h4 {
+  font-size: 1.5em;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.featured-text a {
+  text-decoration: none;
+  color: #0077cc;
+}
+.featured-text p {
+  font-size: 1em;
+  color: #333;
+  margin: 0;
 }
 
 /* Footer */
@@ -198,27 +151,35 @@ footer {
   margin-top: 40px;
   position: relative;
 }
+.easter-egg-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  z-index: 10;
+}
 
-/* 4) Easter Egg Overlay Fixes */
+/* Easter Egg Code Prompt */
 #easterEggOverlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   background-color: #3A5F0B;
   transform: translateX(100%);
-  z-index: 1000;
+  z-index: 500;
   transition: transform 0.5s ease-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
 }
 #easterEggOverlay.show {
   transform: translateX(0);
 }
-
-/* Matrix-Style Code Prompt */
 .code-prompt {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
   background: #000;
   padding: 20px;
   border-radius: 10px;
@@ -252,12 +213,17 @@ footer {
   margin-top: 5px;
 }
 
-/* Flappy Bird Container in Center */
+/* Flappy Bird Game Overlay */
 #flappyContainer {
   display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   max-width: 700px;
   text-align: center;
+  z-index: 9999;
   animation: fadeIn 0.5s ease-in;
 }
 #flappyContainer.show {
@@ -266,10 +232,9 @@ footer {
 #flappyContainer.fade-out {
   animation: fadeOut 0.4s ease-out forwards;
 }
-
 #flappyCanvas {
   width: 100%;
-  height: 400px;
+  height: 750px;
   background: #87CEEB;
   display: block;
 }
@@ -297,4 +262,32 @@ footer {
 }
 .exit-button:active {
   transform: scale(0.98);
+}
+
+/* Dark Mode (Retain your theme) */
+body.dark-mode {
+  background: #121212;
+  color: #e0e0e0;
+}
+body.dark-mode header.hero {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+body.dark-mode nav a {
+  color: #bbbbbb;
+}
+body.dark-mode .article-grid article,
+body.dark-mode .featured {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+body.dark-mode .featured-text a {
+  color: #66ccff;
+}
+body.dark-mode .featured-text p {
+  color: #cccccc;
+}
+body.dark-mode footer {
+  background-color: #1e1e1e;
+  color: #cccccc;
 }
