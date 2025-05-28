@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   const body = document.body;
 
-  // Debug log to confirm script is running
   console.log('JS loaded: animations.js');
 
   function applyTheme(theme) {
@@ -16,11 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(`Applied theme: ${theme}`);
   }
 
-  // Apply saved theme on load
   const savedTheme = localStorage.getItem('theme') || 'light';
   applyTheme(savedTheme);
 
-  // Toggle theme on button click
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
@@ -32,17 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('Theme toggle button not found.');
   }
 
-  // --- Page fade-in ---
+  // Page enter animation
   body.classList.add('page-enter');
 
-  // --- Article fade-in (no IntersectionObserver) ---
+  // Fade-in effect for all articles
   const fadeEls = document.querySelectorAll('.fade-in');
   fadeEls.forEach((el, i) => {
     el.style.transitionDelay = `${i * 100}ms`;
     el.classList.add('visible');
   });
 
-  // --- Link transition ---
+  // Link transition
   const articleLinks = document.querySelectorAll('.article-grid a[href]');
   articleLinks.forEach(link => {
     link.addEventListener('click', e => {
@@ -55,4 +52,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-
