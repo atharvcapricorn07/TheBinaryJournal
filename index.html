@@ -19,21 +19,15 @@
     <button class="theme-toggle" id="theme-toggle">Toggle Dark Mode</button>
   </header>
 
+
   <main class="home-content">
     <h3>Recent Articles</h3>
     <section class="article-grid" id="article-grid">
-      <article class="featured fade-in initial">
-        <a href="articles/tesla_fsd.html">
-          <img src="images/tesla_fsd.png" alt="tesla_fsd Illustration" />
-        </a>
-        <div class="featured-text">
-          <h4><a href="articles/google_veo">Autopilot or Overhype? The Myth and Math Behind Tesla's Full Self-Driving</a></h4>
-          <p>Tesla's Full Self Driving is the next wave of automation in the automotive industry. Is it a big facade or is it the next big thing?</p>
-          <br>
-          <p>By Atharv Kale • 5/28/2025</p>
-        </div>
-      </article>
+
+      <!-- First 5 articles with class "initial" -->
+      <!-- Remaining articles will be hidden by default on mobile -->
       
+      <!-- Article 1 -->
       <article class="featured fade-in initial">
         <a href="articles/google_veo.html">
           <img src="images/google_veo.png" alt="google_veo Illustration" />
@@ -229,6 +223,8 @@
     <p>By Atharv Kale • 5/2/2025</p>
   </div>
 </article>
+
+
     </section>
 
     <button id="read-more-btn" class="read-more">Read More</button>
@@ -236,34 +232,9 @@
 
   <footer>
     <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
-    <button id="easterEggBtn" class="easter-egg-btn" aria-label="Easter Egg">💻</button>
   </footer>
 
-  <!-- Easter Egg green overlay and prompt + game embedded -->
-  <div id="easterEggOverlay">
-  <div id="codePrompt" class="code-prompt">
-    <p>Enter the secret code:</p>
-    <input type="text" id="secretCodeInput" placeholder="0000" />
-    <span id="errorMsg" class="error-message">Wrong code</span>
-  </div>
-</div>
-
-
-    <!-- Flappy Bird Game Container inside overlay -->
-    <div id="flappyContainer">
-      <canvas id="flappyCanvas" style="height: 750px;"></canvas>
-      <div id="scoreDisplay"></div>
-      <button id="exitGameBtn" class="exit-button">Exit</button>
-    </div>
-  </div>
-
+  <!-- Your animation/theme/read-more JS -->
   <script src="js/animations.js" defer></script>
-  <script src="js/easteregg.js" defer></script>
-  <script>
-    // Re-enable theme toggle functionality if it was broken
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-    });
-  </script>
 </body>
 </html>
