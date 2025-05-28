@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // --- Fade‑in for articles ---
-  document.querySelectorAll(".article-grid .featured.initial")
-    .forEach((card, i) => setTimeout(() => {
+  document.querySelectorAll(".article-grid .featured.initial").forEach((card, i) => {
+    setTimeout(() => {
       card.classList.add("visible");
       card.classList.remove("initial");
-    }, 100 * i)
-  );
+    }, 100 * i);
+  });
 
   // --- Read More on mobile ---
   const allCards = document.querySelectorAll(".article-grid .featured");
@@ -205,5 +205,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loop();
   }
-
 });
+
