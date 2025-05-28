@@ -15,7 +15,7 @@ if (window.innerWidth > 768) {
 
   function resizeCanvas() {
     canvas.width = 600;
-    canvas.height = 400;
+    canvas.height = 750;
   }
 
   resizeCanvas();
@@ -63,8 +63,8 @@ if (window.innerWidth > 768) {
   });
 
   let bird = { x: 50, y: 200, width: 20, height: 20, velocity: 0 };
-  const gravity = 0.6;
-  const lift = -12;
+  const gravity = 0.4;
+  const lift = -8;
   let pipes = [];
   let frame = 0;
   let score = 0;
@@ -126,8 +126,8 @@ if (window.innerWidth > 768) {
     ctx.fillStyle = '#ff0';
     ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
 
-    if (frame % 90 === 0) {
-      const gap = 120;
+    if (frame % 100 === 0) {
+      const gap = 140;
       const width = 50;
       const top = Math.random() * (canvas.height - gap);
       pipes.push({ x: canvas.width, y: 0, width, height: top });
@@ -135,7 +135,7 @@ if (window.innerWidth > 768) {
     }
 
     for (let p of pipes) {
-      p.x -= 2;
+      p.x -= 1.5;
       ctx.fillStyle = '#0a0';
       ctx.fillRect(p.x, p.y, p.width, p.height);
 
