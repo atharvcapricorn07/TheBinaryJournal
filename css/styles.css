@@ -374,3 +374,22 @@ article blockquote {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Ensure images and text are visible in dark mode */
+body.dark-mode .featured img,
+body.dark-mode .article-grid img {
+  filter: none;
+  opacity: 1;
+  display: block;
+}
+
+body.dark-mode .article-grid article,
+body.dark-mode .featured {
+  color: #e0e0e0;
+}
+
+body.dark-mode .article-grid article p,
+body.dark-mode .article-grid article h4 {
+  color: #e0e0e0;
+}
+
