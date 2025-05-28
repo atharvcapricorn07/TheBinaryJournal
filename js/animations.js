@@ -1,71 +1,58 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const themeToggle = document.getElementById('theme-toggle');
-  const body = document.body;
+document.addEventListener("DOMContentLoaded", () => {
+  const readMoreBtn = document.getElementById("read-more");
+  const articles = Array.from(document.querySelectorAll(".article-grid .featured"));
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  console.log('JS loaded: animations.js');
-
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      body.classList.add('dark-mode');
-      themeToggle.textContent = 'Toggle Light Mode';
-    } else {
-      body.classList.remove('dark-mode');
-      themeToggle.textContent = 'Toggle Dark Mode';
-    }
-  }
-
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  applyTheme(savedTheme);
-
-  themeToggle.addEventListener('click', () => {
-    const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme);
-    applyTheme(newTheme);
-  });
-
-  // Page fade-in
-  body.classList.add('page-enter');
-
-  // Article fade-in
-  const fadeEls = document.querySelectorAll('.fade-in');
-  fadeEls.forEach((el, i) => {
-    el.style.transitionDelay = `${i * 100}ms`;
-    el.classList.add('visible');
-  });
-
-  // Link transitions
-  const articleLinks = document.querySelectorAll('.article-grid a[href]');
-  articleLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const href = link.href;
-      body.classList.add('page-exit');
-      setTimeout(() => {
-        window.location.href = href;
-      }, 500);
-    });
-  });
-
-  // Read More functionality on mobile
-  const articles = document.querySelectorAll('#article-grid article');
-  const readMoreBtn = document.getElementById('read-more');
-  const isMobile = window.innerWidth <= 600;
-
+  // Limit initial articles to 5 on mobile
   if (isMobile && articles.length > 5) {
     articles.forEach((article, index) => {
       if (index >= 5) {
-        article.style.display = 'none';
-        article.classList.add('extra');
+        article.style.display = "none";
       }
     });
 
-    readMoreBtn.style.display = 'block';
+    readMoreBtn.style.display = "block";
 
-    readMoreBtn.addEventListener('click', () => {
-      document.querySelectorAll('#article-grid .extra').forEach(el => {
-        el.style.display = '';
+    readMoreBtn.addEventListener("click", () => {
+      articles.forEach(article => {
+        article.style.display = "block";
       });
-      readMoreBtn.style.display = 'none';
+      readMoreBtn.style.display = "none";
     });
+  } else {
+    // If not mobile, show all and hide button
+    readMoreBtn.style.display = "none";
   }
+
+  // Intersection Observer for fade-in animation
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  document.querySelectorAll(".fade-in").forEach(el => {
+    observer.observe(el);
+  });
+
+  // Theme toggle logic
+  const toggleBtn = document.getElementById("theme-toggle");
+  const body = document.body;
+
+  toggleBtn.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
+
+    // Optional: toggle overlay fade
+    const overlay = document.getElementById("dark-overlay");
+    if (body.classList.contains("dark-mode")) {
+      overlay.classList.add("visible");
+    } else {
+      overlay.classList.remove("visible");
+    }
+  });
 });
