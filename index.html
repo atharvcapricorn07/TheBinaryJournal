@@ -19,7 +19,6 @@
     <button class="theme-toggle" id="theme-toggle">Toggle Dark Mode</button>
   </header>
 
-
   <main class="home-content">
     <h3>Recent Articles</h3>
     <section class="article-grid" id="article-grid">
@@ -245,11 +244,29 @@
 
   <footer>
     <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
+
+    <!-- Easter Egg trigger button (desktop only) -->
+    <button id="easterEggBtn" class="easter-egg-btn" aria-label="Easter Egg">💻</button>
   </footer>
 
-  <!-- Your animation/theme/read-more JS -->
+  <!-- Easter Egg green overlay and prompt -->
+  <div id="easterEggOverlay">
+    <div id="codePrompt" class="code-prompt">
+      <p>Enter the secret code:</p>
+      <input type="text" id="secretCodeInput" placeholder="0000" />
+      <span id="errorMsg" class="error-message">Wrong code</span>
+    </div>
+  </div>
+
+  <!-- Flappy Bird Game Container -->
+  <div id="flappyContainer">
+    <canvas id="flappyCanvas"></canvas>
+    <div id="scoreDisplay"></div>
+    <button id="exitGameBtn" class="exit-button">Exit</button>
+  </div>
+
+  <!-- Scripts -->
   <script src="js/animations.js" defer></script>
   <script src="js/easteregg.js" defer></script>
-
 </body>
 </html>
