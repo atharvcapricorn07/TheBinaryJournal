@@ -57,16 +57,24 @@ document.addEventListener("DOMContentLoaded", () => {
   gooeyOverlay.style.display = "none";
   secretPrompt.style.display = "none";
 
-  eggBtn.addEventListener("click", () => {
-    eggBtn.disabled = true;
-    gooeyOverlay.style.display = "block";
-    gooeyOverlay.classList.add("gooey-flow");
+  // Setup initial clip-path for green liquid effect
+  gooeyOverlay.style.clipPath = "circle(0% at 50% 50%)";
+  gooeyOverlay.style.transition = "clip-path 1s ease";
 
+  eggBtn.addEventListener("click", () => {
+    // Disable button after one click
+    eggBtn.disabled = true;
+    eggBtn.style.cursor = "default";
+
+    // Show overlay and expand clip-path to reveal green liquid fill
+    gooeyOverlay.style.display = "block";
+    gooeyOverlay.style.clipPath = "circle(150% at 50% 50%)";
+
+    // After 1 second, show the secret prompt
     setTimeout(() => {
-      gooeyOverlay.classList.remove("gooey-flow");
       secretPrompt.style.display = "flex";
       secretInput.focus();
-    }, 4000);
+    }, 1000);
   });
 
   secretSubmit.addEventListener("click", checkSecretCode);
@@ -286,4 +294,5 @@ document.addEventListener("DOMContentLoaded", () => {
     loop();
   }
 });
+
 
