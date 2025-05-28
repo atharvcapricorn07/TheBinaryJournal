@@ -356,3 +356,115 @@ article blockquote {
 body.home nav a.hide-on-home {
   display: none;
 }
+
+/* --- Easter Egg Trigger Button (desktop-only) --- */
+@media (min-width: 768px) {
+  .easter-egg-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    color: inherit; /* matches current theme */
+  }
+}
+
+/* --- Green Overlay Slide-in --- */
+#easterEggOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: #3A5F0B; /* match your header green */
+  transform: translateX(100%);
+  z-index: 500;
+  transition: transform 0.5s ease-out;
+}
+#easterEggOverlay.show {
+  transform: translateX(0);
+}
+
+/* --- Matrix-Style Code Prompt --- */
+.code-prompt {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #000;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  opacity: 0;
+}
+.code-prompt.show {
+  animation: fadeIn 0.5s forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.code-prompt p {
+  color: #0f0;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 10px;
+}
+.code-prompt input {
+  width: 180px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #0f0;
+  color: #0f0;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+  outline: none;
+  caret-color: #0f0;
+}
+.error-message {
+  display: none;
+  color: #f00;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* --- Flappy Bird Game Styles --- */
+#flappyContainer {
+  display: none;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 20px auto;
+  text-align: center;
+}
+#flappyCanvas {
+  width: 100%;
+  height: 400px;
+  background: #87CEEB;
+  display: block;
+}
+#scoreDisplay {
+  color: #333;
+  font-size: 20px;
+  margin-top: 10px;
+}
+.exit-button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.exit-button:hover {
+  background-color: var(--button-hover);
+  transform: scale(1.05);
+}
+.exit-button:active {
+  transform: scale(0.98);
+}
