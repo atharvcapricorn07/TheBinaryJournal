@@ -249,7 +249,7 @@
 
     <!-- Flappy Bird Game Container inside overlay -->
     <div id="flappyContainer">
-      <canvas id="flappyCanvas"></canvas>
+      <canvas id="flappyCanvas" style="height: 750px;"></canvas>
       <div id="scoreDisplay"></div>
       <button id="exitGameBtn" class="exit-button">Exit</button>
     </div>
@@ -257,5 +257,11 @@
 
   <script src="js/animations.js" defer></script>
   <script src="js/easteregg.js" defer></script>
+  <script>
+    // Re-enable theme toggle functionality if it was broken
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
+  </script>
 </body>
 </html>
