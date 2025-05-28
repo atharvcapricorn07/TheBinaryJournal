@@ -12,34 +12,28 @@ document.addEventListener('DOMContentLoaded', () => {
       body.classList.remove('dark-mode');
       themeToggle.textContent = 'Toggle Dark Mode';
     }
-    console.log(`Applied theme: ${theme}`);
   }
 
   const savedTheme = localStorage.getItem('theme') || 'light';
   applyTheme(savedTheme);
 
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-      localStorage.setItem('theme', newTheme);
-      applyTheme(newTheme);
-      console.log(`Theme toggled to: ${newTheme}`);
-    });
-  } else {
-    console.warn('Theme toggle button not found.');
-  }
+  themeToggle.addEventListener('click', () => {
+    const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    applyTheme(newTheme);
+  });
 
-  // Page enter animation
+  // Page fade-in
   body.classList.add('page-enter');
 
-  // Fade-in effect for all articles
+  // Article fade-in
   const fadeEls = document.querySelectorAll('.fade-in');
   fadeEls.forEach((el, i) => {
     el.style.transitionDelay = `${i * 100}ms`;
     el.classList.add('visible');
   });
 
-  // Link transition
+  // Link transitions
   const articleLinks = document.querySelectorAll('.article-grid a[href]');
   articleLinks.forEach(link => {
     link.addEventListener('click', e => {
@@ -51,4 +45,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 500);
     });
   });
+
+  // Read More functionality on mobile
+  const articles = document.querySelectorAll('#article-grid article');
+  const readMoreBtn = document.getElementById('read-more');
+  const isMobile = window.innerWidth <= 600;
+
+  if (isMobile && articles.length > 5) {
+    articles.forEach((article, index) => {
+      if (index >= 5) {
+        article.style.display = 'none';
+        article.classList.add('extra');
+      }
+    });
+
+    readMoreBtn.style.display = 'block';
+
+    readMoreBtn.addEventListener('click', () => {
+      document.querySelectorAll('#article-grid .extra').forEach(el => {
+        el.style.display = '';
+      });
+      readMoreBtn.style.display = 'none';
+    });
+  }
 });
