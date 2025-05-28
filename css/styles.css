@@ -1,3 +1,5 @@
+/* === The Binary Journal - Full Updated CSS === */
+
 /* 1) Reset & Base */
 html, body {
   margin: 0;
@@ -116,7 +118,6 @@ main.home-content {
   grid-template-columns: 1fr;
 }
 
-/* Responsive Grid Columns */
 @media (min-width: 769px) and (max-width: 1023px) {
   .article-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -142,7 +143,6 @@ main.home-content {
   z-index: 1;
 }
 
-/* Article Container */
 .article-container {
   max-width: 750px;
   margin: auto;
@@ -151,7 +151,6 @@ main.home-content {
   font-size: 1.1em;
 }
 
-/* Article Content */
 .article-meta,
 .article-title-block .article-meta,
 .byline {
@@ -273,7 +272,6 @@ body.dark-mode {
   --button-hover: #dddddd;
 }
 
-/* Theme Toggle Button */
 #theme-toggle {
   position: absolute;
   top: 20px;
@@ -297,7 +295,6 @@ body.dark-mode {
   transform: scale(0.98);
 }
 
-/* 7) Read More Button Matching Theme */
 #read-more-btn {
   background-color: var(--button-bg, #555);
   color: var(--button-text, #fff);
@@ -325,7 +322,6 @@ body.dark-mode {
   }
 }
 
-/* 8) Smooth Transitions */
 body,
 body.dark-mode,
 header.hero,
@@ -341,7 +337,6 @@ article blockquote {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* 9) Scroll Animation */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -352,7 +347,6 @@ article blockquote {
   transform: translateY(0);
 }
 
-/* Hide on homepage */
 body.home nav a.hide-on-home {
   display: none;
 }
@@ -376,13 +370,12 @@ body.home nav a.hide-on-home {
   }
 }
 
-
 /* --- Green Overlay Slide-in --- */
 #easterEggOverlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background-color: #3A5F0B; /* match your header green */
+  background-color: #3A5F0B;
   transform: translateX(100%);
   z-index: 500;
   transition: transform 0.5s ease-out;
@@ -404,10 +397,6 @@ body.home nav a.hide-on-home {
 }
 .code-prompt.show {
   animation: fadeIn 0.5s forwards;
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
 }
 .code-prompt p {
   color: #0f0;
@@ -445,22 +434,13 @@ body.home nav a.hide-on-home {
   text-align: center;
   z-index: 9999;
 }
-
 #flappyContainer.show {
   display: block;
   animation: fadeIn 0.5s ease-in;
 }
-
 #flappyContainer.fade-out {
   animation: fadeOut 0.4s ease-out forwards;
 }
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-
 #flappyCanvas {
   width: 100%;
   height: 400px;
