@@ -59,18 +59,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Setup initial clip-path for green liquid effect
   gooeyOverlay.style.clipPath = "circle(0% at 50% 50%)";
-  gooeyOverlay.style.transition = "clip-path 1s ease";
+  gooeyOverlay.style.transition = "clip-path 1s ease, opacity 1.5s ease";
 
   eggBtn.addEventListener("click", () => {
-    // Disable button after one click
     eggBtn.disabled = true;
     eggBtn.style.cursor = "default";
 
-    // Show overlay and expand clip-path to reveal green liquid fill
     gooeyOverlay.style.display = "block";
-    gooeyOverlay.style.clipPath = "circle(150% at 50% 50%)";
+    // Animate circle to reveal gooey overlay
+    setTimeout(() => {
+      gooeyOverlay.style.clipPath = "circle(150% at 50% 50%)";
+    }, 10);
 
-    // After 1 second, show the secret prompt
     setTimeout(() => {
       secretPrompt.style.display = "flex";
       secretInput.focus();
@@ -79,9 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   secretSubmit.addEventListener("click", checkSecretCode);
   secretInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      checkSecretCode();
-    }
+    if (e.key === "Enter") checkSecretCode();
   });
 
   function checkSecretCode() {
@@ -90,15 +88,18 @@ document.addEventListener("DOMContentLoaded", () => {
       secretError.style.display = "none";
       secretPrompt.style.pointerEvents = "none";
 
-      gooeyOverlay.style.transition = "opacity 1.5s ease";
-      secretPrompt.style.transition = "opacity 1.5s ease";
-
-      gooeyOverlay.style.opacity = 0;
-      secretPrompt.style.opacity = 0;
+      // Fade out overlay and prompt
+      gooeyOverlay.style.opacity = "0";
+      secretPrompt.style.opacity = "0";
 
       setTimeout(() => {
         gooeyOverlay.style.display = "none";
         secretPrompt.style.display = "none";
+        // Reset overlay styles for next use if needed
+        gooeyOverlay.style.opacity = "1";
+        gooeyOverlay.style.clipPath = "circle(0% at 50% 50%)";
+        secretPrompt.style.opacity = "1";
+        secretPrompt.style.pointerEvents = "auto";
         startFlappyBirdGame();
       }, 1600);
     } else {
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function startFlappyBirdGame() {
     const existingContainer = document.getElementById("flappy-bird-container");
     if (existingContainer) {
-      existingContainer.style.display = "block";
+      existingContainer.style.display = "flex";
       return;
     }
 
@@ -145,10 +146,13 @@ document.addEventListener("DOMContentLoaded", () => {
       cursor: "pointer",
       zIndex: 10001,
     });
+    container.appendChild(closeBtn);
+
     closeBtn.addEventListener("click", () => {
       container.style.display = "none";
+      window.removeEventListener("keydown", onSpace);
+      canvas.removeEventListener("click", onSpace);
     });
-    container.appendChild(closeBtn);
 
     // Create canvas
     const canvas = document.createElement("canvas");
@@ -294,6 +298,3 @@ document.addEventListener("DOMContentLoaded", () => {
     loop();
   }
 });
-
-
-
