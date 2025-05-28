@@ -10,46 +10,44 @@ if (window.innerWidth > 768) {
   const exitBtn = document.getElementById('exitGameBtn');
   const ctx = canvas.getContext('2d');
 
-  // Handle sizing once DOM is ready
   function resizeCanvas() {
-    canvas.width = flappyContainer.offsetWidth;
+    canvas.width = 600;
     canvas.height = 400;
   }
+
   resizeCanvas();
 
   eggBtn.addEventListener('click', () => {
     overlay.classList.add('show');
     setTimeout(() => {
       prompt.classList.add('show');
-    }, 500);
+    }, 400);
   });
 
   function cancelAndRedirect() {
-    overlay.style.display = 'none';
-    window.location.href = 'https://atharvcapricorn07.github.io/TheBinaryJournal/index.html';
+    overlay.classList.remove('show');
+    prompt.classList.remove('show');
+    flappyContainer.classList.remove('show');
+    setTimeout(() => {
+      window.location.href = 'https://atharvcapricorn07.github.io/TheBinaryJournal/index.html';
+    }, 300);
   }
 
   overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      cancelAndRedirect();
-    }
+    if (e.target === overlay) cancelAndRedirect();
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      cancelAndRedirect();
-    }
+    if (e.key === 'Escape') cancelAndRedirect();
   });
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       if (input.value === '0701') {
-        overlay.classList.remove('show');
         prompt.classList.remove('show');
         setTimeout(() => {
-          overlay.style.display = 'none';
           startFlappyGame();
-        }, 500); // allow overlay to finish sliding out
+        }, 300);
       } else {
         errorMsg.textContent = 'Wrong code';
         errorMsg.style.display = 'block';
@@ -57,26 +55,41 @@ if (window.innerWidth > 768) {
     }
   });
 
-  let bird = { x: 50, y: canvas.height / 2, width: 20, height: 20, velocity: 0 };
-  const gravity = 0.6, lift = -12;
+  let bird = { x: 50, y: 200, width: 20, height: 20, velocity: 0 };
+  const gravity = 0.6;
+  const lift = -12;
   let pipes = [];
   let frame = 0;
   let score = 0;
   let gameOver = false;
 
   function startFlappyGame() {
-    flappyContainer.style.display = 'block';
-    scoreDisplay.textContent = '';
+    flappyContainer.classList.remove('fade-out');
+    flappyContainer.classList.add('show');
     score = 0;
     gameOver = false;
     pipes = [];
     bird.y = canvas.height / 2;
     bird.velocity = 0;
     frame = 0;
+    scoreDisplay.textContent = '';
     exitBtn.style.display = 'none';
     resizeCanvas();
     requestAnimationFrame(updateGame);
   }
+
+  function endGame() {
+    scoreDisplay.textContent = 'Game Over! Score: ' + score;
+    exitBtn.style.display = 'inline-block';
+  }
+
+  exitBtn.addEventListener('click', () => {
+    flappyContainer.classList.remove('show');
+    flappyContainer.classList.add('fade-out');
+    setTimeout(() => {
+      overlay.classList.remove('show');
+    }, 400);
+  });
 
   document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
@@ -105,7 +118,6 @@ if (window.innerWidth > 768) {
       pipes.push({ x: canvas.width, y: 0, width, height: top });
       pipes.push({ x: canvas.width, y: top + gap, width, height: canvas.height - top - gap });
     }
-    frame++;
 
     for (let p of pipes) {
       p.x -= 2;
@@ -130,20 +142,14 @@ if (window.innerWidth > 768) {
       gameOver = true;
     }
 
+    frame++;
+
     if (!gameOver) {
       requestAnimationFrame(updateGame);
     } else {
       endGame();
     }
   }
-
-  function endGame() {
-    scoreDisplay.textContent = 'Game Over! Score: ' + score;
-    exitBtn.style.display = 'inline-block';
-  }
-
-  exitBtn.addEventListener('click', () => {
-    window.location.href = 'https://atharvcapricorn07.github.io/TheBinaryJournal/index.html';
-  });
 }
+
 
