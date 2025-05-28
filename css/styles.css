@@ -374,13 +374,14 @@ article blockquote {
   position: fixed;
   top: 0;
   left: 0;
-  width: 0;
   height: 100vh;
-  pointer-events: none;
-  z-index: 9998;
-  background: linear-gradient(135deg, #32CD32 0%, #006400 100%);
-  transition: width 0.5s ease;
+  width: 0;
+  background-color: #00ff00; /* bright green */
+  transition: width 0.6s ease-in-out;
+  z-index: 1000;
 }
+
+
 
 /* When active, expand width to full screen */
 #gooey-overlay.active {
