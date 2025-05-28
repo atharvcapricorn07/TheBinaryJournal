@@ -352,6 +352,91 @@ article blockquote {
   transform: translateY(0);
 }
 
+#egg-easter-egg {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  transition: transform 0.3s ease;
+}
+
+#egg-easter-egg:hover {
+  transform: scale(1.2);
+}
+
+/* Gooey green liquid overlay */
+#gooey-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9998;
+  background: linear-gradient(135deg, #32CD32 0%, #006400 100%);
+  clip-path: circle(0% at 0 0);
+  transition: clip-path 3s ease-in-out;
+}
+
+/* Secret code prompt container */
+#secret-code-prompt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #0b3d0bcc;
+  padding: 2rem 3rem;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #32CD32;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: none;
+  z-index: 10000;
+  text-align: center;
+}
+
+/* Styled input for secret code */
+#secret-code-prompt input[type="password"] {
+  padding: 0.7rem 1rem;
+  font-size: 1.2rem;
+  border: 2px solid #32CD32;
+  border-radius: 8px;
+  background: #023002;
+  color: #adebad;
+  outline: none;
+  margin-top: 1rem;
+  width: 200px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+#secret-code-prompt input[type="password"]:focus {
+  border-color: #90ee90;
+  box-shadow: 0 0 10px #90ee90;
+}
+
+/* Submit button */
+#secret-code-prompt button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  color: #0b3d0b;
+  background: #90ee90;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#secret-code-prompt button:hover {
+  background: #adebad;
+}
+
+
 /* Hide on homepage */
 body.home nav a.hide-on-home {
   display: none;
