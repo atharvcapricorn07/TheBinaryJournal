@@ -138,9 +138,15 @@ main.home-content {
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .article-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .article-grid {
+    grid-template-columns: 1fr; /* Only one article per row */
   }
 }
 
