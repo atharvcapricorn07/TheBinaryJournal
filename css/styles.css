@@ -373,3 +373,24 @@ article blockquote {
 #read-more-btn:hover {
   background-color: var(--button-hover, #777);
 }
+
+@media (min-width: 481px) {
+  #read-more-btn {
+    display: none !important;
+  }
+}
+
+/* Light mode (default) */
+:root {
+  --button-bg: #556b2f;
+  --button-text: #fff;
+  --button-hover: #6b8e23;
+}
+
+/* Dark mode */
+body.dark-mode {
+  --button-bg: #888;
+  --button-text: #000;
+  --button-hover: #aaa;
+}
+
