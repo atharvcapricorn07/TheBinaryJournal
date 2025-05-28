@@ -340,6 +340,18 @@ body.dark-mode {
   }
 }
 
+:root {
+  --button-bg: #556b2f;
+  --button-text: #fafaf5;
+  --button-hover: #6b8e23;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 /* === 10) Secret Code Prompt Styling === */
 #secret-code-prompt {
   margin-top: 40px;
@@ -351,10 +363,10 @@ body.dark-mode {
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  box-sizing: border-box;
   text-align: center;
   box-shadow: 0 8px 16px rgba(85, 107, 47, 0.25);
 }
+
 #secret-code-prompt label {
   display: block;
   margin-bottom: 20px;
@@ -363,6 +375,7 @@ body.dark-mode {
   color: #3A5F0B;
   letter-spacing: 0.03em;
 }
+
 #secret-code-prompt input[type="text"] {
   width: 100%;
   padding: 16px 20px;
@@ -371,13 +384,16 @@ body.dark-mode {
   border-radius: 12px;
   margin-bottom: 28px;
   outline-offset: 3px;
-  outline-color: #6b8e23;
-  box-sizing: border-box;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  outline-style: solid;
+  outline-width: 3px;
+  outline-color: transparent;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, outline-color 0.4s ease;
 }
+
 #secret-code-prompt input[type="text"]:focus {
   border-color: #6b8e23;
   box-shadow: 0 0 10px #6b8e23cc;
+  outline-color: #6b8e23;
 }
 
 #secret-code-prompt button {
@@ -397,6 +413,7 @@ body.dark-mode {
   transition: background-color 0.35s ease, transform 0.25s ease;
   user-select: none;
 }
+
 #secret-code-prompt button:hover {
   background-color: var(--button-hover);
   transform: scale(1.08);
@@ -405,6 +422,7 @@ body.dark-mode {
 #secret-code-prompt button:active {
   transform: scale(0.95);
 }
+
 
 /* === Responsive for secret code on smaller screens === */
 @media (max-width: 420px) {
