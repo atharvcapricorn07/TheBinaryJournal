@@ -1,29 +1,44 @@
-// Theme toggle logic
-document.addEventListener('DOMContentLoaded', () => {
-  const body = document.body;
-  const toggleBtn = document.getElementById('theme-toggle');
+document.addEventListener("DOMContentLoaded", () => {
+  // Theme Toggle
+  const toggleButton = document.querySelector(".theme-toggle");
+  const currentTheme = localStorage.getItem("theme");
 
-  // Check saved theme on load
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    body.classList.add('dark-mode');
+  if (currentTheme === "dark") {
+    document.body.classList.add("dark-mode");
   }
 
-  // Theme toggle click
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-      const isDark = body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  toggleButton.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    const theme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+    localStorage.setItem("theme", theme);
+  });
+
+  // Fade-in animation
+  const cards = document.querySelectorAll(".article-grid .featured.initial");
+  cards.forEach((card, index) => {
+    setTimeout(() => {
+      card.classList.add("visible");
+      card.classList.remove("initial");
+    }, 100 * index);
+  });
+
+  // Read More button logic
+  const allCards = document.querySelectorAll(".article-grid .featured");
+  const readMoreBtn = document.getElementById("read-more-btn");
+
+  if (window.innerWidth <= 480 && allCards.length > 5) {
+    allCards.forEach((card, index) => {
+      if (index >= 5) {
+        card.style.display = "none";
+      }
     });
-  }
+    readMoreBtn.style.display = "block";
 
-  // Read More logic
-  const readMoreBtn = document.getElementById('read-more-btn');
-  const articleGrid = document.querySelector('.article-grid');
-  if (readMoreBtn && articleGrid) {
-    readMoreBtn.addEventListener('click', () => {
-      articleGrid.classList.add('show-all');
-      readMoreBtn.style.display = 'none';
+    readMoreBtn.addEventListener("click", () => {
+      allCards.forEach((card) => {
+        card.style.display = "flex";
+      });
+      readMoreBtn.style.display = "none";
     });
   }
 });
