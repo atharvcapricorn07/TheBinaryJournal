@@ -20,10 +20,15 @@ window.addEventListener("DOMContentLoaded", () => {
   let particles = [];
   let animationFrameId;
 
+  function isLightMode() {
+    return !document.body.classList.contains("dark-mode");
+  }
+
   function resizeCanvas() {
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = canvas.offsetWidth * dpr;
-    canvas.height = canvas.offsetHeight * dpr;
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
     console.log(`📐 Canvas resized: ${canvas.width} x ${canvas.height} (DPR: ${dpr})`);
@@ -47,8 +52,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function getParticleColor() {
     return isLightMode()
-      ? "rgba(0,128,0,0.6)"  // olive green in light mode
-      : "rgba(255,255,255,0.3)"; // light gray/white in dark mode
+      ? "rgba(0,128,0,0.6)" // olive green in light mode
+      : "rgba(255,255,255,0.3)"; // soft white in dark mode
   }
 
   function draw() {
@@ -76,33 +81,26 @@ window.addEventListener("DOMContentLoaded", () => {
     ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
   }
 
-  function isLightMode() {
-    return !document.body.classList.contains("dark-mode");
-  }
-
-  // Initial load
+  // Initialize
   resizeCanvas();
   createParticles();
-  if (isLightMode()) {
-    canvas.style.display = "block";
-  } else {
-    canvas.style.display = "block"; // visible but uses different color
-  }
+  canvas.style.display = "block";
   draw();
 
-  // Theme toggle hook
+  // Theme toggle support
   const toggleBtn = document.getElementById("theme-toggle");
   if (toggleBtn) {
     toggleBtn.addEventListener("click", () => {
       setTimeout(() => {
+        // Don't recreate particles, just update colors
         stopParticles();
-        canvas.style.display = "block"; // always show
-        draw(); // resume with updated color
+        canvas.style.display = "block";
+        draw();
       }, 300);
     });
   }
 
-  // Resize handler
+  // Resize support
   window.addEventListener("resize", () => {
     console.log("📏 Window resized, updating canvas.");
     resizeCanvas();
