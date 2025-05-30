@@ -380,3 +380,12 @@ body.home nav a.hide-on-home {
   position: relative;
   z-index: 1;
 }
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* Ensure it stays on top */
+  }
+}
