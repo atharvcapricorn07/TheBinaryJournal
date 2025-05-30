@@ -35,6 +35,7 @@ header.hero {
   padding: 40px 20px;
   text-align: center;
   position: relative;
+  min-height: 200px;
 }
 .hero h1 {
   font-size: 3em;
@@ -115,8 +116,6 @@ main.home-content {
   gap: 1.5rem;
   grid-template-columns: 1fr;
 }
-
-/* Responsive Grid Columns */
 @media (min-width: 769px) and (max-width: 1023px) {
   .article-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -127,7 +126,6 @@ main.home-content {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 .article-grid article {
   background: #f6f6f6;
   padding: 15px;
@@ -297,7 +295,7 @@ body.dark-mode {
   transform: scale(0.98);
 }
 
-/* 7) Read More Button Matching Theme */
+/* 7) Read More Button */
 #read-more-btn {
   background-color: var(--button-bg, #555);
   color: var(--button-text, #fff);
@@ -325,7 +323,7 @@ body.dark-mode {
   }
 }
 
-/* 8) Smooth Transitions */
+/* 8) Transitions */
 body,
 body.dark-mode,
 header.hero,
@@ -341,7 +339,7 @@ article blockquote {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* 9) Scroll Animation */
+/* 9) Scroll Animations */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -352,7 +350,30 @@ article blockquote {
   transform: translateY(0);
 }
 
-/* Hide on homepage */
+/* Hide elements on homepage */
 body.home nav a.hide-on-home {
   display: none;
+}
+
+/* 10) Canvas Header Background */
+.header-with-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+#headerCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
 }
