@@ -399,7 +399,11 @@ body.home nav a.hide-on-home {
 
 @media screen and (max-width: 768px) and (orientation: portrait) {
   header.hero {
-    min-height: 300px; /* or more if needed */
-    padding-top: 50px;  /* optional: adds space at the top */
+    min-height: 340px !important; /* or more if needed */
+    padding-top: 50px !important;  /* optional: adds space at the top */
   }
+}
+
+header.hero {
+  outline: 2px dashed red;
 }
