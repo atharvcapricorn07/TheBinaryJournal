@@ -286,6 +286,7 @@ body.dark-mode {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  z-index: 1000;
 }
 #theme-toggle:hover {
   background-color: var(--button-hover);
@@ -359,10 +360,8 @@ body.home nav a.hide-on-home {
 .header-with-bg {
   position: relative;
   overflow: hidden;
-  height: 200px; /* ✅ Add this line */
+  height: 200px;
 }
-
-
 #headerCanvas {
   position: absolute;
   top: 0;
@@ -371,21 +370,29 @@ body.home nav a.hide-on-home {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  touch-action: none; /* ⬅️ Prevents blocking mobile touch */
+  touch-action: none;
   display: block;
 }
-
-
 .header-content {
   position: relative;
   z-index: 1;
 }
-
-@media (max-width: 768px) {
-  .theme-toggle {
-    position: absolute;
-    top: 20px;
+@media (max-width: 960px) and (max-height: 420px) {
+  #theme-toggle {
+    top: 70px; /* Move it lower to avoid overlapping the title */
     right: 20px;
-    z-index: 1000; /* Ensure it stays on top */
+    position: fixed;
+    z-index: 1000;
+  }
+}
+
+@media (max-width: 960px) {
+  #theme-toggle {
+    position: fixed;
+    top: 16px;  /* Prevent overlap with title */
+    right: 16px;
+  }
+  header.hero .header-content {
+    padding-top: 60px; /* Make space for toggle */
   }
 }
