@@ -396,3 +396,10 @@ body.home nav a.hide-on-home {
     padding-top: 60px; /* Make space for toggle */
   }
 }
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  header.hero {
+    min-height: 240px; /* or more if needed */
+    padding-top: 50px;  /* optional: adds space at the top */
+  }
+}
