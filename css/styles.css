@@ -404,18 +404,5 @@ body.home nav a.hide-on-home {
   }
 }
 
-header.hero {
-  outline: 2px dashed red;
-}
 
-@media screen and (max-width: 768px) and (orientation: portrait) {
-  body::before {
-    content: "PORTRAIT MODE ACTIVE";
-    display: block;
-    background: red;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-    padding: 10px;
-  }
-}
+
