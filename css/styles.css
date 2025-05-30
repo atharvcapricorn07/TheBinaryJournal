@@ -359,7 +359,9 @@ body.home nav a.hide-on-home {
 .header-with-bg {
   position: relative;
   overflow: hidden;
+  height: 200px; /* ✅ Add this line */
 }
+
 
 #headerCanvas {
   position: absolute;
