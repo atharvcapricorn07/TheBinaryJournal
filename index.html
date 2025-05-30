@@ -10,14 +10,22 @@
 <body class="home">
   <div id="dark-overlay"></div>
 
-  <header class="hero">
+  <header class="hero header-with-bg">
+  <!-- Live animated canvas background -->
+  <canvas id="headerCanvas"></canvas>
+
+  <!-- All visible header content goes here -->
+  <div class="header-content">
     <h1>The Binary Journal</h1>
     <p class="tagline">Exploring the edge where code meets culture</p>
     <nav>
       <a href="index.html" class="hide-on-home">Home</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle">Toggle Dark Mode</button>
-  </header>
+  </div>
+</header>
+
+
 
 
   <main class="home-content">
@@ -249,5 +257,6 @@
 
   <!-- Your animation/theme/read-more JS -->
   <script src="js/animations.js" defer></script>
+  <script src="js/header.js" defer></script>
 </body>
 </html>
