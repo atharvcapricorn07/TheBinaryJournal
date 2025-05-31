@@ -11,7 +11,12 @@ body {
   color: #222;
   opacity: 1;
   transition: opacity 0.5s ease;
+  margin: 0 auto;
+  max-width: 100vw;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -60,6 +65,8 @@ main.home-content {
   max-width: 1000px;
   margin: auto;
   padding: 30px 20px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Featured Article Section */
@@ -75,11 +82,12 @@ main.home-content {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 .featured:hover,
 .article-grid .featured:hover {
   transform: scale(1.03) translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08);
   z-index: 1;
 }
 .featured img,
@@ -115,6 +123,8 @@ main.home-content {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: 1fr;
+  position: relative;
+  z-index: 1;
 }
 @media (min-width: 769px) and (max-width: 1023px) {
   .article-grid {
@@ -133,12 +143,14 @@ main.home-content {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 .article-grid article:hover {
   transform: scale(1.03) translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08);
   z-index: 1;
 }
+
 
 /* Article Container */
 .article-container {
@@ -379,30 +391,167 @@ body.home nav a.hide-on-home {
 }
 @media (max-width: 960px) and (max-height: 420px) {
   #theme-toggle {
-    top: 70px; /* Move it lower to avoid overlapping the title */
+    top: 70px;
     right: 20px;
     position: fixed;
     z-index: 1000;
   }
 }
-
 @media (max-width: 960px) {
   #theme-toggle {
     position: fixed;
-    top: 16px;  /* Prevent overlap with title */
+    top: 16px;
     right: 16px;
   }
   header.hero .header-content {
-    padding-top: 60px; /* Make space for toggle */
+    padding-top: 60px;
   }
 }
-
 @media screen and (max-width: 768px) and (orientation: portrait) {
   header.hero {
-    min-height: 340px !important; /* or more if needed */
-    padding-top: 50px !important;  /* optional: adds space at the top */
+    min-height: 340px !important;
+    padding-top: 50px !important;
   }
 }
 
+/* === PARALLAX SVG BACKGROUND LAYERS === */
+#parallax-layers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout;
+}
+
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;     /* keep full-viewport coverage */
+  will-change: transform;
+  transition: none;           /* no CSS transition on transform—JS drives it */
+  pointer-events: none;
+  user-select: none;
+}
+
+/* (the rest of your CSS for light/dark background-image remains unchanged) */
 
 
+
+
+
+/* LIGHT MODE background images */
+body:not(.dark-mode) .layer-back {
+  background-image: url('../images/layer-back-light.svg');
+}
+body:not(.dark-mode) .layer-mid {
+  background-image: url('../images/layer-mid-light.svg');
+}
+body:not(.dark-mode) .layer-front {
+  background-image: url('../images/layer-front-light.svg');
+}
+
+/* DARK MODE background images */
+body.dark-mode .layer-back {
+  background-image: url('../images/layer-back-dark.svg');
+}
+body.dark-mode .layer-mid {
+  background-image: url('../images/layer-mid-dark.svg');
+}
+body.dark-mode .layer-front {
+  background-image: url('../images/layer-front-dark.svg');
+}
+
+
+/* === PARALLAX SVG BACKGROUND LAYERS (Original Smaller-Motion Version) === */
+#parallax-layers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;            /* sits behind everything */
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout;
+}
+
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;   /* full-viewport cover, no zoom */
+  will-change: transform;
+  transition: none;         /* JS drives all translateY */
+  pointer-events: none;
+  user-select: none;
+}
+
+/* LIGHT MODE background images */
+body:not(.dark-mode) .layer-back  { background-image: url('../images/layer-back-light.svg'); }
+body:not(.dark-mode) .layer-mid   { background-image: url('../images/layer-mid-light.svg'); }
+body:not(.dark-mode) .layer-front { background-image: url('../images/layer-front-light.svg'); }
+
+/* DARK MODE background images */
+body.dark-mode .layer-back        { background-image: url('../images/layer-back-dark.svg'); }
+body.dark-mode .layer-mid         { background-image: url('../images/layer-mid-dark.svg'); }
+body.dark-mode .layer-front       { background-image: url('../images/layer-front-dark.svg'); }
+
+/* === PARALLAX ENHANCEMENTS === */
+
+/* Make main content semi-transparent to reveal parallax background */
+main.home-content,
+.featured,
+.article-grid article {
+  background: rgba(255, 255, 255, 0.85); /* light mode */
+  backdrop-filter: blur(2px);
+}
+
+body.dark-mode main.home-content,
+body.dark-mode .featured,
+body.dark-mode .article-grid article {
+  background: rgba(30, 30, 30, 0.85); /* dark mode */
+  backdrop-filter: blur(2px);
+}
+
+/* Animate parallax layers on page load */
+.layer {
+  opacity: 0;
+  animation: fadeInParallax 1s ease forwards;
+}
+
+@keyframes fadeInParallax {
+  to {
+    opacity: 1;
+  }
+}
+
+main.home-content {
+  background: transparent !important;
+}
+
+.featured,
+.article-grid article {
+  background: rgba(255, 255, 255, 0.85); /* soft white */
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode .featured,
+body.dark-mode .article-grid article {
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(4px);
+}
