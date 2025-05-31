@@ -576,3 +576,47 @@ body.dark-mode .article-grid article {
   background: rgba(30, 30, 30, 0.85);
   backdrop-filter: blur(4px);
 }
+
+/* === Enhanced Article Card Hover Effects === */
+
+/* 3D tilt + scale + glow pulse on hover */
+.featured,
+.article-grid article {
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+  perspective: 1000px;
+  will-change: transform, box-shadow;
+}
+.featured:hover,
+.article-grid article:hover {
+  transform: scale(1.03) rotateX(2deg) rotateY(2deg);
+  animation: pulseGlow 1.0s ease-in-out infinite alternate;
+}
+
+
+
+/* Subtle image zoom inside the card */
+.featured img,
+.article-grid article img {
+  transition: transform 0.5s ease;
+}
+.featured:hover img,
+.article-grid article:hover img {
+  transform: scale(1.05);
+}
+
+/* Pulse glow keyframes (one-shot, subtle) */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 24px rgba(90, 200, 90, 0.3),
+                0 0 2px rgba(0, 0, 0, 0.05),
+                0 20px 32px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(90, 200, 90, 0.1),
+                0 0 2px rgba(0, 0, 0, 0.02),
+                0 10px 16px rgba(0, 0, 0, 0.08);
+  }
+}
+
