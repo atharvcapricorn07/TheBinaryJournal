@@ -15,11 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
 
-  // Update mouse position relative to screen center (-1 to 1)
-  window.addEventListener("mousemove", (e) => {
-    mouseX = (e.clientX / windowWidth - 0.5) * 2;
-    mouseY = (e.clientY / windowHeight - 0.5) * 2;
-  }, { passive: true });
+  const isMobile = window.innerWidth <= 768;
+
+  if (!isMobile) {
+    // Mouse movement only on non-touch devices
+    window.addEventListener("mousemove", (e) => {
+      mouseX = (e.clientX / windowWidth - 0.5) * 2;
+      mouseY = (e.clientY / windowHeight - 0.5) * 2;
+    }, { passive: true });
+  }
 
   window.addEventListener("resize", () => {
     windowWidth = window.innerWidth;
@@ -35,11 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function animateParallax() {
     currentScroll = lerp(currentScroll, targetScroll, 0.05);
 
-    const scrollBack = currentScroll * 0.1;
-    const scrollMid = currentScroll * 0.4;
-    const scrollFront = currentScroll * 0.8;
+    const scrollBack  = currentScroll * (isMobile ? 0.05 : 0.1);
+    const scrollMid   = currentScroll * (isMobile ? 0.2  : 0.4);
+    const scrollFront = currentScroll * (isMobile ? 0.4  : 0.8);
 
-    const mouseIntensity = 10; // change to 20 for stronger effect
+    const mouseIntensity = isMobile ? 0 : 10; // No drift on mobile
     const mouseOffsetX = mouseX * mouseIntensity;
     const mouseOffsetY = mouseY * mouseIntensity;
 
