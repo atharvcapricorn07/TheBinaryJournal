@@ -5,16 +5,12 @@ window.addEventListener("DOMContentLoaded", () => {
   if (!canvas) {
     console.error("❌ Canvas element not found!");
     return;
-  } else {
-    console.log("✅ Canvas found.");
   }
 
   const ctx = canvas.getContext("2d");
   if (!ctx) {
     console.error("❌ Could not get 2D context.");
     return;
-  } else {
-    console.log("✅ 2D context acquired.");
   }
 
   let particles = [];
@@ -52,12 +48,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function getParticleColor() {
     return isLightMode()
-      ? "rgba(0,128,0,0.6)" // olive green in light mode
+      ? "rgba(255, 215, 0, 0.5)" // gold for contrast on green
       : "rgba(255,255,255,0.3)"; // soft white in dark mode
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+
     for (let p of particles) {
       p.x += Math.cos(p.a) * p.s;
       p.y += Math.sin(p.a) * p.s;
@@ -67,6 +64,15 @@ window.addEventListener("DOMContentLoaded", () => {
       if (p.y < 0) p.y = canvas.offsetHeight;
       if (p.y > canvas.offsetHeight) p.y = 0;
 
+      // Soft glow underneath
+      if (isLightMode()) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r + 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255, 215, 0, 0.1)";
+        ctx.fill();
+      }
+
+      // Main particle
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = getParticleColor();
@@ -92,7 +98,6 @@ window.addEventListener("DOMContentLoaded", () => {
   if (toggleBtn) {
     toggleBtn.addEventListener("click", () => {
       setTimeout(() => {
-        // Don't recreate particles, just update colors
         stopParticles();
         canvas.style.display = "block";
         draw();
