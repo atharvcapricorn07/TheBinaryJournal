@@ -420,12 +420,14 @@ body.home nav a.hide-on-home {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;      /* 👈 ensure at least full screen */
+  height: 300vh;          /* 👈 enough room for scroll motion */
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
   contain: layout;
 }
+
 
 .layer {
   position: absolute;
@@ -441,6 +443,25 @@ body.home nav a.hide-on-home {
   pointer-events: none;
   user-select: none;
 }
+
+@media screen and (max-width: 768px) {
+  .layer {
+    background-size: 160% !important; /* 👈 zoom in for mobile */
+  }
+
+  .layer-back {
+    opacity: 0.5;
+  }
+
+  .layer-mid {
+    opacity: 0.7;
+  }
+
+  .layer-front {
+    opacity: 0.9;
+  }
+}
+
 
 /* (the rest of your CSS for light/dark background-image remains unchanged) */
 
