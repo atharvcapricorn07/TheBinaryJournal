@@ -8,35 +8,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body class="home">
+  <!-- Parallax background layers -->
+  <div id="parallax-layers">
+    <div class="layer layer-back"></div>
+    <div class="layer layer-mid"></div>
+    <div class="layer layer-front"></div>
+  </div>
+
   <div id="dark-overlay"></div>
 
   <header class="hero header-with-bg">
-  <!-- Live animated canvas background -->
-  <canvas id="headerCanvas"></canvas>
-
-  <!-- All visible header content goes here -->
-  <div class="header-content">
-    <h1>The Binary Journal</h1>
-    <p class="tagline">Exploring the edge where code meets culture</p>
-    <nav>
-      <a href="index.html" class="hide-on-home">Home</a>
-    </nav>
-    <button class="theme-toggle" id="theme-toggle">Toggle Dark Mode</button>
-  </div>
-</header>
-
-
-
+    <canvas id="headerCanvas"></canvas>
+    <div class="header-content">
+      <h1>The Binary Journal</h1>
+      <p class="tagline">Exploring the edge where code meets culture</p>
+      <nav>
+        <a href="index.html" class="hide-on-home">Home</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle">Toggle Dark Mode</button>
+    </div>
+  </header>
 
   <main class="home-content">
     <h3>Recent Articles</h3>
     <section class="article-grid" id="article-grid">
-
-      <!-- First 5 articles with class "initial" -->
-      <!-- Remaining articles will be hidden by default on mobile -->
-      
-      <!-- Article 1 -->
-
       <article class="featured fade-in initial">
         <a href="articles/tesla_fsd.html">
           <img src="images/tesla_fsd.png" alt="tesla_fsd Illustration" />
@@ -244,10 +239,7 @@
     <p>By Atharv Kale • 5/2/2025</p>
   </div>
 </article>
-
-
     </section>
-
     <button id="read-more-btn" class="read-more">Read More</button>
   </main>
 
@@ -255,8 +247,9 @@
     <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
   </footer>
 
-  <!-- Your animation/theme/read-more JS -->
+  <!-- JavaScript -->
   <script src="js/animations.js" defer></script>
   <script src="js/header.js" defer></script>
+  <script src="js/background.js" defer></script>
 </body>
 </html>
