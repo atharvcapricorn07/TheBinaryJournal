@@ -620,3 +620,98 @@ body.dark-mode .article-grid article {
   }
 }
 
+.search-container {
+  max-width: 600px;
+  margin: 1rem auto 2rem;
+  text-align: center;
+}
+
+#search-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#search-input:focus {
+  border-color: #0078d7; /* your accent color */
+}
+
+h2.page-title {
+  text-align: center;
+  margin-bottom: 1.5rem; /* optional, to give some space below */
+}
+
+.header-content {
+  position: relative;
+  padding: 1rem 2rem; /* ensure some padding */
+}
+
+/* Position nav at top-left */
+.header-content nav {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  /* Remove any flex or centering styles if present */
+  display: block; /* make sure it doesn't stay flex */
+}
+
+.header-content nav a {
+  color: var(--nav-link-color); /* keep your color consistent */
+  text-decoration: none;
+  font-weight: 600;
+  /* spacing if multiple links */
+  margin-right: 1rem;
+}
+
+/* Default (Light Mode) */
+#search-input {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  outline: none;
+}
+
+/* Placeholder color in light mode */
+#search-input::placeholder {
+  color: #888;
+}
+
+/* Dark Mode */
+body.dark-mode #search-input {
+  background-color: #2b2b2b;
+  color: #eee;
+  border: 1px solid #555;
+}
+
+/* Placeholder color in dark mode */
+body.dark-mode #search-input::placeholder {
+  color: #aaa;
+}
+
+/* Optional: On focus styles for both modes */
+#search-input:focus {
+  border-color: #007acc;
+  box-shadow: 0 0 5px rgba(0, 122, 204, 0.5);
+}
+
+.search-container {
+  padding: 0 16px; /* add some horizontal padding */
+  box-sizing: border-box; /* ensure padding is included in width */
+  max-width: 100vw; /* prevent container from exceeding viewport */
+  overflow-x: hidden; /* hide any horizontal overflow */
+}
+
+#search-input {
+  width: 100%; /* make input fill the container width */
+  max-width: 100%; /* prevent input from stretching past container */
+  box-sizing: border-box; /* include padding and border in width */
+}
+
+
