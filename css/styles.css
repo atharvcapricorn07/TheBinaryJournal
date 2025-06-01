@@ -714,4 +714,126 @@ body.dark-mode #search-input::placeholder {
   box-sizing: border-box; /* include padding and border in width */
 }
 
+/* CTA Buttons */
+.cta-button {
+  display: inline-block;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+.cta-button:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+.cta-button:focus {
+  outline: 2px solid #888;
+  outline-offset: 3px;
+}
+
+/* Dark mode support */
+body.dark-mode .cta-button {
+  background-color: #fafafa;
+  color: #1e1e1e;
+}
+
+body.dark-mode .cta-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Minimalist Hero Section */
+.minimalist-hero {
+  text-align: center;
+  padding: 5rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.minimalist-hero h2 {
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.minimalist-hero h2 .highlight {
+  font-weight: 600;
+  color: var(--accent-color, #556b2f);
+}
+
+.minimalist-hero p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Centered CTA */
+.cta-button.centered {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+/* Frosted Glass Hero Section */
+.glass-hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 1rem;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1); /* Adjust for light/dark later */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  padding: 3rem 2rem;
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Respect original color of "The Binary Journal" */
+.keep-color {
+  color: inherit;
+  font-weight: 600;
+}
+
+/* Responsive Text */
+.glass-panel h2 {
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+}
+
+.glass-panel p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+}
+
+.cta-button.centered {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+/* Dark Mode Support */
+body.dark-mode .glass-panel {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
