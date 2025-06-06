@@ -1206,3 +1206,23 @@ body.dark-mode .about-text p {
     height: 160px;
   }
 }
+
+.cta-button.centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.terminal-widget {
+  margin: 3rem auto;
+  width: 100%;
+  max-width: 700px;
+  box-sizing: border-box;
+}
+
+.terminal-body, #terminal-output pre {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
