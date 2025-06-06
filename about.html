@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About Me – The Binary Journal</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <!-- Parallax background layers -->
+  <div id="parallax-layers">
+    <div class="layer layer-back"></div>
+    <div class="layer layer-mid"></div>
+    <div class="layer layer-front"></div>
+  </div>
+
+  <div id="dark-overlay"></div>
+
+  <!-- Header -->
+  <header class="hero header-with-bg">
+    <canvas id="headerCanvas"></canvas>
+    <div class="header-content">
+      <h1>The Binary Journal</h1>
+      <p class="tagline">Exploring the edge where code meets culture</p>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="articles.html">Articles</a>
+        <a href="about.html">About Me</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle">Toggle Dark Mode</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="home-content">
+    <section class="glass-panel about-section fade-in visible">
+
+      <img src="images/profile-picture.png" alt="Profile picture" class="about-image">
+      <div class="about-text">
+        <h2>Hi, I'm Atharv 👋</h2>
+        <p>This website is a personal project where I explore my passions in tech and writing. I love playing <strong>tennis</strong>, strategizing over <strong>chess</strong> boards, and diving deep into <strong>code</strong> to create things like <em>The Binary Journal</em>.</p>
+        <p>I built this site from scratch to merge storytelling with technology. Whether you're here for inspiration, knowledge, or curiosity — welcome!</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 The Binary Journal. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/animations.js" defer></script>
+  <script src="js/header.js" defer></script>
+  <script src="js/background.js" defer></script>
+</body>
+</html>
