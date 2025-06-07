@@ -1267,3 +1267,117 @@ body.dark-mode .about-text p {
   transform: rotateX(-120deg);
   box-shadow: 0 24px 40px rgba(0, 0, 0, 0.3);
 }
+
+body.synthwave {
+  background: linear-gradient(270deg, #3a0ca3, #7209b7, #f72585, #480ca8, #3a0ca3);
+  background-size: 1000% 1000%;
+  animation: synthwaveMove 20s ease infinite, hueCycle 60s linear infinite;
+  color: #f8f8f8;
+  font-family: 'Orbitron', sans-serif;
+  overflow-x: hidden;
+  transition: background 1s ease;
+}
+
+
+@keyframes synthwaveMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+
+
+
+
+/* Remove parallax when synthwave is active */
+body.synthwave #parallax-layers {
+  display: none !important;
+}
+
+body.synthwave header.hero.header-with-bg {
+  background: rgba(48, 43, 99, 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(255, 0, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+body.synthwave footer {
+  background: rgba(15, 12, 41, 0.8);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  color: #ccc;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.synthwave .terminal-widget,
+body.synthwave .featured,
+body.synthwave .glass-panel {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid #ff00cc;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+  border-radius: 10px;
+  color: #fff;
+}
+
+body.synthwave .featured-text h4 a {
+  color: #ff66cc;
+}
+
+body.synthwave .featured img {
+  border-radius: 10px;
+  border: 2px solid rgba(255, 0, 255, 0.2);
+}
+
+body.synthwave .cta-button {
+  background: linear-gradient(135deg, #ff0080, #7928ca);
+  color: white;
+  border: none;
+  padding: 0.75em 1.5em;
+  border-radius: 12px;
+  text-shadow: 0 0 8px #ff00cc;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(255, 0, 255, 0.5);
+}
+
+body.synthwave .cta-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+}
+
+
+body.synthwave .article-grid .featured:hover,
+body.synthwave .glass-panel:hover {
+  border-color: #ff00cc !important;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.6) !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+
+
+#glitch-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 0, 255, 0.05) 0px,
+    rgba(255, 0, 255, 0.05) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  mix-blend-mode: screen;
+  animation: glitchFlicker 0.15s infinite, hueCycle 60s linear infinite;
+  display: none; /* starts hidden until 'hi' is typed */
+}
