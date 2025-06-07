@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body class="home">
+  <!-- Glitch Breathing Background (hidden until activated) -->
+<div id="glitch-bg"></div>
 
   <!-- Parallax background layers -->
   <div id="parallax-layers">
@@ -17,6 +19,9 @@
   </div>
 
   <div id="dark-overlay"></div>
+  <!-- Glitch Overlay for Synthwave Transition -->
+  <div id="glitch-overlay"></div>
+
 
   <!-- Header -->
   <header class="hero header-with-bg">
@@ -52,20 +57,6 @@
     <section class="article-grid" id="article-grid">
 
       <!-- Article 1 -->
-
-      <article class="featured fade-in initial">
-        <a href="articles/ios-26.html">
-          <img src="images/ios-26.png" alt="ios-26 Illustration" />
-        </a>
-        <div class="featured-text">
-          <h4><a href="articles/ios-26">iOS 26: Apple's Next Leap in Mobile Innovation</a></h4>
-          <p>Apple's confirmed iOS 26 is the next big thing for the iPhone in 2025. Is it going to be a pointless upgrade or an actually new operating system?</p>
-          <br>
-          <p>By Atharv Kale • 6/6/2025</p>
-        </div>
-      </article>
-
-      
       <article class="featured fade-in initial">
         <a href="articles/lava_lamp.html">
           <img src="images/lava_lamp.png" alt="lava_lamp Illustration" />
@@ -86,6 +77,19 @@
         <div class="featured-text">
           <h4><a href="articles/tesla_fsd">Autopilot or Overhype? The Myth and Math Behind Tesla's Full Self-Driving</a></h4>
           <p>Tesla's Full Self Driving is the biggest automation thing in the automotive industry in the last 15 years. Is it a big facade or will it be the next big thing?</p>
+          <br>
+          <p>By Atharv Kale • 5/27/2025</p>
+        </div>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="featured fade-in initial">
+        <a href="articles/google_veo.html">
+          <img src="images/google_veo.png" alt="google_veo Illustration" />
+        </a>
+        <div class="featured-text">
+          <h4><a href="articles/google_veo">Google Veo: The Next Leap in AI-Generated Cinema</a></h4>
+          <p>Google Veo is Google's groundbreaking AI video generator that transforms simple prompts into cinematic footage.</p>
           <br>
           <p>By Atharv Kale • 5/27/2025</p>
         </div>
@@ -131,5 +135,43 @@ Type 'help' to get started.
   <script src="js/background.js" defer></script>
   <script src="js/readmore.js" defer></script>
   <script src="js/terminal.js" defer></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("terminal-input");
+    const output = document.getElementById("terminal-output");
+
+    input.addEventListener("keydown", function handleCommand(e) {
+      if (e.key === "Enter") {
+        const command = input.value.trim().toLowerCase();
+
+        if (command === "hi") {
+          e.preventDefault();  // stop browser default
+          e.stopImmediatePropagation(); // kill ALL other listeners (especially from terminal.js)
+
+          activateSynthwave();
+          output.textContent += "\nSynthwave mode activated.\n";
+          input.value = "";
+        }
+      }
+    }, true); // <-- USE CAPTURE MODE so this runs before any bubbling handlers
+  });
+
+  function activateSynthwave() {
+    document.body.classList.add("synthwave");
+
+    const glitchBg = document.getElementById("glitch-bg");
+    const glitchOverlay = document.getElementById("glitch-overlay");
+    const parallaxLayers = document.getElementById("parallax-layers");
+
+    if (glitchBg) glitchBg.style.display = "block";
+    if (glitchOverlay) glitchOverlay.style.display = "block";
+    if (parallaxLayers) parallaxLayers.style.display = "none";
+  }
+</script>
+
+
+
+
 </body>
 </html>
