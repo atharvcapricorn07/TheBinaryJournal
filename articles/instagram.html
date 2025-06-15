@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>The Instagram Story That Bricked Phones – The Binary Journal</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <meta name="description" content="The Binary Journal explores where code meets culture—tech reviews, digital ethics, AI, and more.">
+  <meta name="keywords" content="Binary Journal, tech blog, Instagram, iPhone crash, smartphone glitch, tech horror">
+  <meta name="author" content="Atharv Kale">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/png" href="../images/favicon.png" />
+</head>
+<body>
+  <header class="hero header-with-bg">
+    <canvas id="headerCanvas"></canvas>
+    <div class="header-content">
+      <h1>The Binary Journal</h1>
+      <p class="tagline">Exploring the edge where code meets culture</p>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../articles.html">Articles</a>
+        <a href="../about.html">About Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <article>
+      <div class="article-header">
+        <img src="../images/instagram.png" alt="Instagram Glitch illustration">
+        <div class="article-title-block">
+          <h2>The Instagram Story That Bricked Phones</h2>
+          <div class="article-meta">By Atharv Kale • June 15, 2025 • 6 min read</div>
+        </div>
+      </div>
+
+      <p>It started like any other day on Instagram. You’re tapping through stories, maybe half-watching a video with some music or memes—when suddenly your phone freezes. Not just a lag. Not just an app crash. The entire device becomes unresponsive. Seconds later, it restarts. Or worse—enters a bootloop, blackscreens, or just outright dies.</p>
+
+      <p>This wasn’t a fluke. Across Reddit, Discord, and tech forums, hundreds of users began reporting a strange and terrifying issue: a single Instagram story, when viewed, could crash your phone. Some described complete reboots. Others were forced into factory resets. And in the most extreme cases, iPhones were so unresponsive that they had to be restored using recovery mode—or couldn't be revived at all. And the strange part? It wasn’t malware. It wasn’t some sketchy website or side-loaded app. It was just a regular Instagram story. Posted by someone’s friend. Viewed inside Instagram’s own app.</p>
+
+      <p>So what was going on here? The short answer: Unicode. Specifically, malformed strings of characters that, when rendered by the system (often in a notification or media preview), trigger rendering bugs deep in the OS. Think back to the infamous “text bomb” bugs from iOS 11 and 12. Or that cursed Sindhi character that would instantly crash Messages. These were all character-based exploits—not viruses, not software injections, but just... text. And the Instagram glitch? Likely the same thing. Except hidden inside a story. One tap, and it would render something your OS wasn’t ready for. And that tiny rendering mistake? Enough to take the whole system down.</p>
+
+      <p>The reason this is especially dangerous inside Instagram is because stories are ephemeral, hard to track, and autoplay by default. It’s not like a suspicious email you can choose not to open. If your friend reposts a viral story from someone else—or if the glitch is embedded in a text box, sticker, or even background media—you might never even realize what caused the crash. You’ll just know your phone died after opening Instagram.</p>
+
+      <p>iPhones were hit the hardest, though some Android devices showed instability too. The reason comes down to how each OS handles malformed strings, with iOS being particularly vulnerable when rendering certain fonts or characters in notifications or media overlays. Add in how Instagram aggressively caches and preloads stories, and you’ve got the perfect storm: a platform that auto-renders, paired with an OS that panics on specific characters.</p>
+
+      <p>This raises uncomfortable questions about app safety and the limits of system resilience. If a single line of invisible characters can crash a phone—what else can slip through the cracks? How much should we trust third-party apps with real-time rendering inside our secure OS environment? And when platforms like Instagram optimize for speed, engagement, and autoplay—are they unknowingly bypassing the very guardrails meant to keep us safe?</p>
+
+      <p>Instagram, to their credit, issued a quick patch once the bug was identified. Apple also worked to mitigate the Unicode exploit in later iOS point releases. But for a brief, eerie moment, a story—a 15-second clip meant to disappear in 24 hours—became a phone killer. A ghost in the machine. A reminder that sometimes, even pixels can punch holes in our digital defenses.</p>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Binary Journal</p>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  });
+</script>
+  <script src="../js/header.js"></script>
+
+</body>
+</html>
