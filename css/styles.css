@@ -1516,3 +1516,53 @@ body.synthwave .glass-panel:hover {
   opacity: 0;
   pointer-events: none;
 }
+
+
+#back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 40px;
+  padding: 12px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 1000;
+  font-family: monospace;
+}
+
+/* Dark mode styling */
+body.dark-mode #back-to-top {
+  background-color: #111;
+  color: #0f0;
+}
+
+/* Light mode styling */
+body:not(.dark-mode) #back-to-top {
+  background-color: #eee;
+  color: #060;
+}
+
+/* Show when active */
+#back-to-top.show {
+  opacity: 0.9;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Optional hover effect */
+#back-to-top:hover {
+  opacity: 1;
+}
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+  #back-to-top {
+    display: none;
+  }
+}
+
