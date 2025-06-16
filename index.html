@@ -8,8 +8,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body class="home">
+  
+  <!-- Boot-up screen -->
+  <!-- Boot-up Screen -->
+   <div id="boot-screen">
+  <div id="boot-lines">
+    <div class="boot-line" style="animation-delay: 0s">&lt; Initializing system...</div>
+    <div class="boot-line" style="animation-delay: 1s">&lt; Decrypting articles...</div>
+    <div class="boot-line" style="animation-delay: 2s">&lt; Boot complete.</div>
+  </div>
+</div>
+
   <!-- Glitch Breathing Background (hidden until activated) -->
-<div id="glitch-bg"></div>
+  <div id="glitch-bg"></div>
 
   <!-- Parallax background layers -->
   <div id="parallax-layers">
@@ -19,9 +30,7 @@
   </div>
 
   <div id="dark-overlay"></div>
-  <!-- Glitch Overlay for Synthwave Transition -->
   <div id="glitch-overlay"></div>
-
 
   <!-- Header -->
   <header class="hero header-with-bg">
@@ -43,20 +52,16 @@
 
     <!-- Hero Mission Section -->
     <section id="hero" class="hero-section glass-hero">
-  <div class="glass-panel">
-    <h2>Welcome to <span class="keep-color">The Binary Journal</span></h2>
-    <p>Where tech meets story — ideas at the edge of code, culture, and curiosity.</p>
-    <a href="articles.html" class="cta-button centered">Explore All Articles</a>
-  </div>
-</section>
-
-
+      <div class="glass-panel">
+        <h2>Welcome to <span class="keep-color">The Binary Journal</span></h2>
+        <p>Where tech meets story — ideas at the edge of code, culture, and curiosity.</p>
+        <a href="articles.html" class="cta-button centered">Explore All Articles</a>
+      </div>
+    </section>
 
     <!-- Featured Articles -->
     <h2>Featured Articles</h2>
     <section class="article-grid" id="article-grid">
-
-      <!-- Article 1 -->
 
       <article class="featured fade-in initial">
         <a href="articles/instagram.html">
@@ -81,7 +86,7 @@
           <p>By Atharv Kale • 6/11/2025</p>
         </div>
       </article>
-      
+
       <article class="featured fade-in initial">
         <a href="articles/ios-26.html">
           <img src="images/ios-26.png" alt="ios-26 Illustration" />
@@ -93,35 +98,33 @@
           <p>By Atharv Kale • 6/6/2025</p>
         </div>
       </article>
-    
 
-      <!-- Article 2 -->
     </section>
+
     <!-- See All Articles Button -->
     <div style="text-align: center; margin-top: 2rem;">
       <a href="articles.html" class="cta-button">See All Articles →</a>
     </div>
 
+    <!-- Terminal Widget -->
     <section class="terminal-widget glass-panel" id="ascii-terminal">
-  <div class="terminal-header">
-    <span class="dot red"></span>
-    <span class="dot yellow"></span>
-    <span class="dot green"></span>
-    <span class="terminal-title">~/binary_journal$</span>
-  </div>
-  <div class="terminal-body" id="terminal-body">
-  <pre id="terminal-output">
+      <div class="terminal-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="terminal-title">~/binary_journal$</span>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <pre id="terminal-output">
 Welcome to The Binary Journal Terminal.
 Type 'help' to get started.
-  </pre>
-  <div class="terminal-input-line">
-    <span class="prompt">> </span>
-    <input type="text" id="terminal-input" autocomplete="off" />
-  </div>
-</div>
-
-</section>
-
+        </pre>
+        <div class="terminal-input-line">
+          <span class="prompt">> </span>
+          <input type="text" id="terminal-input" autocomplete="off" />
+        </div>
+      </div>
+    </section>
 
   </main>
 
@@ -136,43 +139,39 @@ Type 'help' to get started.
   <script src="js/background.js" defer></script>
   <script src="js/readmore.js" defer></script>
   <script src="js/terminal.js" defer></script>
+  <script src="js/bootup.js"></script>
 
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("terminal-input");
-    const output = document.getElementById("terminal-output");
+    document.addEventListener("DOMContentLoaded", () => {
+      const input = document.getElementById("terminal-input");
+      const output = document.getElementById("terminal-output");
 
-    input.addEventListener("keydown", function handleCommand(e) {
-      if (e.key === "Enter") {
-        const command = input.value.trim().toLowerCase();
+      input.addEventListener("keydown", function handleCommand(e) {
+        if (e.key === "Enter") {
+          const command = input.value.trim().toLowerCase();
 
-        if (command === "hi") {
-          e.preventDefault();  // stop browser default
-          e.stopImmediatePropagation(); // kill ALL other listeners (especially from terminal.js)
-
-          activateSynthwave();
-          output.textContent += "\nSynthwave mode activated.\n";
-          input.value = "";
+          if (command === "hi") {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            activateSynthwave();
+            output.textContent += "\nSynthwave mode activated.\n";
+            input.value = "";
+          }
         }
-      }
-    }, true); // <-- USE CAPTURE MODE so this runs before any bubbling handlers
-  });
+      }, true);
+    });
 
-  function activateSynthwave() {
-    document.body.classList.add("synthwave");
+    function activateSynthwave() {
+      document.body.classList.add("synthwave");
 
-    const glitchBg = document.getElementById("glitch-bg");
-    const glitchOverlay = document.getElementById("glitch-overlay");
-    const parallaxLayers = document.getElementById("parallax-layers");
+      const glitchBg = document.getElementById("glitch-bg");
+      const glitchOverlay = document.getElementById("glitch-overlay");
+      const parallaxLayers = document.getElementById("parallax-layers");
 
-    if (glitchBg) glitchBg.style.display = "block";
-    if (glitchOverlay) glitchOverlay.style.display = "block";
-    if (parallaxLayers) parallaxLayers.style.display = "none";
-  }
-</script>
-
-
-
-
+      if (glitchBg) glitchBg.style.display = "block";
+      if (glitchOverlay) glitchOverlay.style.display = "block";
+      if (parallaxLayers) parallaxLayers.style.display = "none";
+    }
+  </script>
 </body>
 </html>
