@@ -1607,5 +1607,29 @@ body:not(.dark-mode) #back-to-top {
   cursor: pointer;
 }
 
+/* Shared styles */
+.read-more-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Light mode (default) */
+body:not(.dark-mode) .read-more-btn {
+  background-color: #28a745; /* green */
+  color: white;
+}
+
+/* Dark mode */
+body.dark-mode .read-more-btn {
+  background-color: #1f6f3f; /* darker green */
+  color: white;
+}
+
 
 
