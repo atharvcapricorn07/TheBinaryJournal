@@ -1595,4 +1595,17 @@ body:not(.dark-mode) #back-to-top {
   margin: 1.5rem auto;
 }
 
+#read-more-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+
 
