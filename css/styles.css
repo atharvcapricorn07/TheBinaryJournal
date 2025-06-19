@@ -1632,4 +1632,42 @@ body.dark-mode .read-more-btn {
 }
 
 
+/* Hide helper class */
+.hidden {
+  display: none;
+}
+
+/* Base read more button */
+.read-more-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light mode */
+body:not(.dark-mode) .read-more-btn {
+  background-color: #28a745; /* bright green */
+  color: #ffffff;
+}
+
+/* Dark mode */
+body.dark-mode .read-more-btn {
+  background-color: #146c43; /* darker green */
+  color: #ffffff;
+}
+
+/* Optional: Hover effects */
+body:not(.dark-mode) .read-more-btn:hover {
+  background-color: #218838;
+}
+
+body.dark-mode .read-more-btn:hover {
+  background-color: #0f5132;
+}
 
