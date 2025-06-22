@@ -1702,3 +1702,23 @@ body.dark-mode .read-more-btn:hover {
   background-color: #0f5132 !important;
 }
 
+@media (min-width: 769px) {
+  .article-header img {
+    width: 180px;
+    max-width: 180px;
+    height: auto;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+
+  .article-header {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+.article-header img {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
