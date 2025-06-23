@@ -11,13 +11,14 @@
   
   <!-- Boot-up screen -->
   <!-- Boot-up Screen -->
-   <div id="boot-screen">
-  <div id="boot-lines">
-    <div class="boot-line" style="animation-delay: 0s">&lt; Initializing system...</div>
-    <div class="boot-line" style="animation-delay: 1s">&lt; Decrypting articles...</div>
-    <div class="boot-line" style="animation-delay: 2s">&lt; Boot complete.</div>
-  </div>
+   <!-- Loading Animation Screen -->
+<div id="boot-screen">
+  <video autoplay muted playsinline id="boot-video">
+    <source src="images/loading.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
 </div>
+
 
   <!-- Glitch Breathing Background (hidden until activated) -->
   <div id="glitch-bg"></div>
@@ -46,6 +47,7 @@
       <button class="theme-toggle" id="theme-toggle">Toggle Dark Mode</button>
     </div>
   </header>
+
   <!-- Main Content -->
   <main class="home-content">
 
@@ -62,18 +64,6 @@
     <h2>Featured Articles</h2>
     <section class="article-grid" id="article-grid">
 
-      <article class="featured fade-in initial">
-        <a href="articles/quantum_computing.html">
-          <img src="images/quantum.png" alt="quantum Illustration" />
-        </a>
-        <div class="featured-text">
-          <h4><a href="articles/quantum_computing"> Google’s Quantum Chip and the Multiverse Metaphor</a></h4>
-          <p>Google’s Willow chip achieves quantum milestones and sparks debate over multiverse metaphors.</p>
-          <br>
-          <p>By A.K • 6/22/2025</p>
-        </div>
-      </article>
-      
       <article class="featured fade-in initial">
         <a href="articles/instagram.html">
           <img src="images/instagram.png" alt="instagram Illustration" />
@@ -95,6 +85,18 @@
           <p>This wallpaper was bricking phones and rendering them useless. Was it malicious behaviour or an accident?</p>
           <br>
           <p>By A.K • 6/11/2025</p>
+        </div>
+      </article>
+
+      <article class="featured fade-in initial">
+        <a href="articles/ios-26.html">
+          <img src="images/ios-26.png" alt="ios-26 Illustration" />
+        </a>
+        <div class="featured-text">
+          <h4><a href="articles/ios-26">iOS 26: Apple's Next Leap in Mobile Innovation</a></h4>
+          <p>Apple just announced iOS 26, the next big update for the iPhone. Is it an ACTUAL change or just a marketing gimmick?</p>
+          <br>
+          <p>By A.K • 6/6/2025</p>
         </div>
       </article>
 
@@ -133,6 +135,22 @@ Type 'help' to get started.
   </footer>
 
   <!-- Scripts -->
+
+<script>
+  window.addEventListener("load", () => {
+    const bootScreen = document.getElementById("boot-screen");
+    const body = document.body;
+
+    // Fade out after ~2.6 seconds
+    setTimeout(() => {
+      bootScreen.style.opacity = "0";
+      bootScreen.style.pointerEvents = "none";
+      body.classList.add("ready");
+    }, 2600);
+  });
+</script>
+
+
   <script src="js/animations.js" defer></script>
   <script src="js/header.js" defer></script>
   <script src="js/background.js" defer></script>
