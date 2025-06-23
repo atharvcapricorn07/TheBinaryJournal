@@ -1721,4 +1721,46 @@ body.dark-mode .read-more-btn:hover {
   flex-shrink: 0;
   flex-grow: 0;
 }
+#boot-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s ease;
+  opacity: 1;
+  pointer-events: all;
+}
+
+#boot-video {
+  width: 10vw;
+  max-width: 400px;
+  max-height: auto;
+  opacity: 0;
+  animation: fadeInBoot 0.7s ease forwards, stayVisible 1.2s ease forwards 0.7s, fadeOutBoot 0.7s ease forwards 1.9s;
+}
+
+@keyframes fadeInBoot {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes stayVisible {
+  from { opacity: 1; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOutBoot {
+  to { opacity: 0; }
+}
+
+body.ready {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
 
