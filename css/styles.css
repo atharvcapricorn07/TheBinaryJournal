@@ -1764,3 +1764,7 @@ body.ready {
   transition: opacity 1s ease;
 }
 
+body.loading {
+  height: 100vh;
+  overflow: hidden;
+}
