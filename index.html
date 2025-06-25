@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<body class="home">
+<body class="home loading">
   
   <!-- Boot-up screen -->
   <!-- Boot-up Screen -->
@@ -138,16 +138,20 @@ Type 'help' to get started.
 
 <script>
   window.addEventListener("load", () => {
-    const bootScreen = document.getElementById("boot-screen");
-    const body = document.body;
+  const bootScreen = document.getElementById("boot-screen");
+  const body = document.body;
 
-    // Fade out after ~2.6 seconds
-    setTimeout(() => {
-      bootScreen.style.opacity = "0";
-      bootScreen.style.pointerEvents = "none";
-      body.classList.add("ready");
-    }, 2600);
-  });
+  // Fade out after ~2.6 seconds
+  setTimeout(() => {
+    bootScreen.style.opacity = "0";
+    bootScreen.style.pointerEvents = "none";
+
+    // Allow scrolling again
+    body.classList.remove("loading");
+    body.classList.add("ready");
+  }, 2600);
+});
+
 </script>
 
 
