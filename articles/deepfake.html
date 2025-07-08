@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
- 
 
 <head>
   <meta charset="UTF-8" />
   <title>Deepfakes – The Binary Journal</title>
   <link rel="stylesheet" href="../css/styles.css" />
-   <link rel="icon" type="image/png" href="images/favicon.png" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
+
 <body>
   <header class="hero header-with-bg">
     <canvas id="headerCanvas"></canvas>
@@ -19,16 +18,15 @@
       <nav>
         <a href="../index.html">Home</a>
         <a href="../articles.html">Articles</a>
-       <a href="../about.html">About Me</a>
+        <a href="../about.html">About Me</a>
       </nav>
-      
     </div>
   </header>
 
   <main class="article-container">
     <article>
       <div class="article-header">
-        <img src="../images/deepfake.png" alt="Deepfake illustration">
+        <img src="../images/deepfake.png" alt="Deepfake illustration" />
 
         <div class="article-title-block">
           <h2>Deepfakes: The Digital Deception</h2>
@@ -39,7 +37,7 @@
       <p>Deepfakes, a fusion of "deep learning" and "fake," represent one of the most startling advancements in AI technology. What began as a quirky form of digital entertainment has rapidly evolved into a tool with far-reaching consequences. From politics to celebrity culture, deepfakes are raising alarms about misinformation, ethics, and the future of digital media.</p>
 
       <blockquote>
-        “But the software can also create characters out of whole cloth, going beyond traditional editing software and expensive special effects tools used by Hollywood, blurring the line between fact and fiction to an extraordinary degree.”<br>
+        “But the software can also create characters out of whole cloth, going beyond traditional editing software and expensive special effects tools used by Hollywood, blurring the line between fact and fiction to an extraordinary degree.”<br />
         — <cite><a href="https://www.nytimes.com/2023/02/07/technology/artificial-intelligence-training-deepfake.html" target="_blank">The New York Times</a></cite>
       </blockquote>
 
@@ -55,22 +53,134 @@
 
       <p>As we move forward, it’s up to society—governments, tech companies, and individuals alike—to ensure that the power of deepfake technology is used responsibly and ethically. Only then can we hope to preserve the integrity of digital media and prevent its abuse in an era defined by virtual realities.</p>
     </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">🧠 AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container" style="display:none;">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
   </main>
 
   <footer>
     <p>&copy; 2025 The Binary Journal</p>
   </footer>
-<button id="back-to-top">↑ Back to Top</button>
+
+  <button id="back-to-top">↑ Back to Top</button>
 
   <script src="../js/scroll.js" defer></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
-  });
-</script>
- <script src="../js/header.js"></script>
+  <script src="../js/header.js" defer></script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
+    }
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return; // pause at 95% until model ready
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const text = article.innerText.slice(0, 1024);
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
 </body>
+
 </html>
