@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="_OWp8oUYIndBeIUPpaW5eSWb2uQ6yAWcBL69-gKhwfU" />
   <title>Escobar Fold 2 – The Binary Journal</title>
   <link rel="stylesheet" href="../css/styles.css" />
-  <meta name="description" content="The Binary Journal explores where code meets culture—tech reviews, digital ethics, AI, and more.">
-  <meta name="keywords" content="Binary Journal, tech blog, AI, code, technology, ethics, smartphones, Samsung, Apple">
-  <meta name="author" content="Binary Staff">
-  <meta name="robots" content="index, follow">
-   <link rel="icon" type="image/png" href="images/favicon.png" />
+  <meta name="description" content="The Binary Journal explores where code meets culture—tech reviews, digital ethics, AI, and more." />
+  <meta name="keywords" content="Binary Journal, tech blog, AI, code, technology, ethics, smartphones, Samsung, Apple" />
+  <meta name="author" content="Binary Staff" />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 </head>
+
 <body>
   <header class="hero header-with-bg">
     <canvas id="headerCanvas"></canvas>
@@ -26,14 +25,13 @@
         <a href="../articles.html">Articles</a>
         <a href="../about.html">About Me</a>
       </nav>
-      
     </div>
   </header>
 
   <main class="article-container">
     <article>
       <div class="article-header">
-        <img src="../images/escobar.png" alt="Escobar Fold 2 illustration">
+        <img src="../images/escobar.png" alt="Escobar Fold 2 illustration" />
 
         <div class="article-title-block">
           <h2>Escobar Fold 2: Gold Foil or Fool's Gold?</h2>
@@ -43,10 +41,10 @@
 
       <p>In early 2020, Escobar Inc., a company associated with Roberto Escobar—the brother of notorious drug lord Pablo Escobar—unveiled the Escobar Fold 2. Marketed as a revolutionary foldable smartphone priced at $399, it promised to rival high-end devices like the Samsung Galaxy Fold, which retailed for nearly $2,000.</p>
 
-      <p>The promotional campaign was as audacious as its pricing. Videos featured models destroying Samsung phones, accompanied by bold slogans like “Rest in Peace Samsung. The company even bought the domain "ripsamsung.com" and "ripapple.com" which redirected to the Escobar Inc. Website. Fortunetly, those websites have been taken down and don't go to the Escobar Inc. Website.</p>
+      <p>The promotional campaign was as audacious as its pricing. Videos featured models destroying Samsung phones, accompanied by bold slogans like “Rest in Peace Samsung.” The company even bought the domains "ripsamsung.com" and "ripapple.com" which redirected to the Escobar Inc. website. Fortunately, those websites have been taken down and don't lead to Escobar Inc.'s site anymore.</p>
 
       <blockquote>
-        “From using the phone just for a little bit, it's pretty clear this appears to be a legit Samsung Galaxy Fold.”<br>
+        “From using the phone just for a little bit, it's pretty clear this appears to be a legit Samsung Galaxy Fold.”<br />
         — <cite><a href="https://www.iflscience.com/new-smartphone-launched-pablo-escobars-brother-just-samsung-wrapped-foil-55354" target="_blank">IFLScience</a></cite>
       </blockquote>
 
@@ -54,26 +52,138 @@
 
       <p>Further investigations uncovered that many customers who ordered the device never received it. Reports suggested that Escobar Inc. selectively fulfilled orders, primarily shipping devices to influencers and media personalities to generate buzz, while regular consumers were left empty-handed. Some even reported receiving unrelated items, such as books, instead of the promised smartphone.</p>
 
-      <p>This pattern wasn't new for Escobar Inc. Their previous release, the Escobar Fold 1, was essentially a rebranded Royole FlexPai, and it too faced criticism for non-delivery and misleading marketing. The company's tactics raised significant concerns about consumer fraud and deceptive business practices. Their entire game plan was a "rinse and repeat" system, where they would pretend to produce their own phone while simply re-branding another company's phone. Once the traction died down, they would "produce" a new phone and let the hype speak for itself. Their cheek of it is when tech YouTuber, MKBHD, reviewed the Escobar Fold 2, he was able to easily peel away the gold tinfoil revealing the bright and bold SAMSUNG logo on the phone hinge, revealing the phone, and the comany's, true colors.</p>
+      <p>This pattern wasn't new for Escobar Inc. Their previous release, the Escobar Fold 1, was essentially a rebranded Royole FlexPai, and it too faced criticism for non-delivery and misleading marketing. The company's tactics raised significant concerns about consumer fraud and deceptive business practices. Their entire game plan was a "rinse and repeat" system, where they pretended to produce their own phone while simply rebranding another company's phone. Once the traction died down, they would "produce" a new phone and let the hype speak for itself. The cheek of it is when tech YouTuber MKBHD reviewed the Escobar Fold 2, he easily peeled away the gold tinfoil revealing the bright and bold SAMSUNG logo on the phone hinge, revealing the phone—and the company's—true colors.</p>
 
       <p>The Escobar Fold 2 saga serves as a cautionary tale about too-good-to-be-true deals and the importance of skepticism in the face of aggressive marketing. It underscores the need for consumers to conduct thorough research and rely on reputable sources before making purchases, especially when offers seem unusually enticing.</p>
     </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">🧠 AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container" style="display:none;">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
   </main>
 
   <footer>
     <p>&copy; 2025 The Binary Journal</p>
   </footer>
-<button id="back-to-top">↑ Back to Top</button>
+
+  <button id="back-to-top">↑ Back to Top</button>
 
   <script src="../js/scroll.js" defer></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
-  });
-</script>
-  <script src="../js/header.js"></script>
+  <script src="../js/header.js" defer></script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
+    }
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return; // pause at 95% until model ready
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const text = article.innerText.slice(0, 1024);
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
 </body>
+
 </html>
