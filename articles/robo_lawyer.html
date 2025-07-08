@@ -175,7 +175,11 @@
         return;
       }
 
-      const text = article.innerText.slice(0, 1024);
+      const paragraphs = article.querySelectorAll("p");
+let fullText = "";
+paragraphs.forEach(p => fullText += p.innerText + "\n");
+const text = fullText.slice(0, 2048); // increase limit safely if needed
+
       summaryBox.innerText = "🧠 Summarizing...";
       worker.postMessage({ type: 'summarize', payload: text });
     }
