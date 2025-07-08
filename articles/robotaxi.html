@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Tesla Robotaxi: Autonomy Meets Attention Economy – The Binary Journal</title>
@@ -12,7 +11,6 @@
   <link rel="icon" type="image/png" href="../images/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-
 <body>
   <header class="hero header-with-bg">
     <canvas id="headerCanvas"></canvas>
@@ -38,27 +36,29 @@
       </div>
 
       <p>On August 8th, 2025, Elon Musk took the stage in Austin to reveal what he called “the most transformative vehicle since the Model T.” Enter the <strong>Tesla Robotaxi</strong>: a fully autonomous, steering wheel–free EV designed not just to drive itself—but to upend how we think about ownership, cities, and even boredom.</p>
-
       <p>The Robotaxi isn’t a modified Model 3. It’s an entirely new vehicle: low-slung, futuristic, and shockingly symmetrical. With no front or rear seats in the traditional sense, it resembles a luxury living room on wheels. Large touch displays, reclining pods, adjustable lighting, and panoramic glass give it more in common with a lounge than a car. Think sci-fi shuttle—just street legal.</p>
-
       <p>What sets it apart, of course, is its lack of a driver. This isn’t semi-autonomous. There’s <em>no</em> steering wheel. No pedals. No gear shift. Tesla claims it has reached “Level 4+ autonomy,” with vehicles relying solely on its Full Self-Driving (FSD) neural network and an array of cameras, radar, and AI accelerators powered by its in-house Dojo supercomputer.</p>
-
       <p>Within hours, hashtags like #Robotaxi and #TeslaAutonomy were trending. Tech Twitter called it bold. Regulators called it premature. Critics called it dangerous. But everyone agreed on one thing: this was the clearest signal yet that Tesla wasn’t just a car company. It was going after the ride-hailing industry, the gig economy, and the very concept of driving.</p>
-
       <p>Musk’s vision? A world where anyone with a Tesla can add it to the “Tesla Network,” allowing their car to operate autonomously when not in use—picking up passengers, earning money, and returning home before the owner even notices. No Uber, no drivers, no commissions. Just pure software-defined transport.</p>
-
       <p>The economic implications are wild. Tesla promises rides cheaper than the subway. For cities already choked with traffic, that could mean massive disruption. No tips, no delays, no road rage. But also: no drivers, no human judgment, and no accountability when something goes wrong. The first crash—inevitable in any rollout—will spark debate not just about safety, but about responsibility, ethics, and liability.</p>
-
       <p>But this isn’t just a transport revolution. It’s a content one too. The Robotaxi isn’t just a car—it’s a screen. Tesla announced partnerships with streaming services and gaming platforms. Ads, podcasts, short films—all delivered during the ride. It’s a new node in the attention economy: a rolling entertainment hub with your eyeballs as the currency.</p>
-
       <p>Some privacy advocates are already sounding alarms. Tesla has always been data-hungry, logging driver behavior and road conditions in real time. With Robotaxi, that data collection extends to passengers too. Facial recognition for safety? Microphones for “voice commands”? Telemetry for ads? It’s all on the table. And given Tesla’s vertical integration, there’s little oversight beyond Elon himself.</p>
-
       <p>Still, the vision is seductive: a world where you never drive, never park, never wait. Cities with fewer parking lots and more green space. Lower transportation costs. Cleaner air. Greater mobility for seniors and disabled users. These are real, tangible benefits. The challenge will be delivering them without turning cities into gamified, ad-soaked rideshare feeds.</p>
-
       <p>Robotaxi represents a philosophical shift. Driving used to be a symbol of freedom. Now, freedom is not having to drive. But what we do with that freedom—who profits from it, who’s tracked, who’s left out—will determine whether this is liberation or just another upgrade to our algorithmic enclosures.</p>
-
       <p>So is the Tesla Robotaxi the future of transit? Probably. Is it also a harbinger of a hyper-commercialized, surveillance-tinged ride into tomorrow? Also yes. Welcome aboard.</p>
     </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">🧠 AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
   </main>
 
   <footer>
@@ -67,14 +67,114 @@
   <button id="back-to-top">↑ Back to Top</button>
 
   <script src="../js/scroll.js" defer></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
+<script src="../js/header.js" defer></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  });
+</script>
+
+<script type="module">
+  let worker = null;
+  let modelReady = false;
+  let progressInterval = null;
+  let progressValue = 0;
+  let speedUp = false;
+
+  function updateProgress(percent, label) {
+    const progressBar = document.getElementById("progress-bar");
+    const progressLabel = document.getElementById("progress-label");
+    progressBar.style.width = `${percent}%`;
+    progressLabel.innerText = label;
+  }
+
+  function animateProgressBar() {
+    const target = 95;
+    progressValue = 0;
+    speedUp = false;
+
+    progressInterval = setInterval(() => {
+      if (progressValue >= 100) {
+        clearInterval(progressInterval);
+        return;
       }
-    });
-  </script>
-  <script src="../js/header.js"></script>
+      if (!speedUp && progressValue >= target) {
+        return; // pause at 95% until model loads
+      }
+      progressValue += speedUp ? 5 : 0.5;
+      updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+    }, 100);
+  }
+
+  function initWorker() {
+    try {
+      worker = new Worker('../js/modelWorker.js', { type: 'module' });
+
+    } catch (err) {
+      console.error("❌ Failed to create worker:", err);
+      document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+      return;
+    }
+
+    document.getElementById("progress-container").style.display = "block";
+    animateProgressBar();
+    worker.postMessage('load');
+
+    worker.onmessage = (event) => {
+      const { status, result, error } = event.data;
+
+      if (status === 'ready') {
+        modelReady = true;
+        speedUp = true;
+        const syncTo100 = setInterval(() => {
+          if (progressValue >= 100) {
+            clearInterval(syncTo100);
+            updateProgress(100, "✅ Model loaded!");
+            setTimeout(() => {
+              document.getElementById("progress-container").style.display = "none";
+            }, 1000);
+          }
+        }, 100);
+      }
+
+      if (status === 'summary') {
+        document.getElementById("summary-output").innerText = result;
+      }
+
+      if (status === 'error') {
+        document.getElementById("summary-output").innerText = `❌ ${error}`;
+        console.error(error);
+      }
+    };
+
+    worker.onerror = (err) => {
+      console.error("❌ Worker crashed:", err);
+      document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+    };
+  }
+
+  function summarizeArticle() {
+    const summaryBox = document.getElementById("summary-output");
+    const article = document.querySelector(".article-container article");
+
+    if (!modelReady) {
+      summaryBox.innerText = "⏳ Still loading AI model...";
+      return;
+    }
+
+    const text = article.innerText.slice(0, 1024);
+    summaryBox.innerText = "🧠 Summarizing...";
+    worker.postMessage({ type: 'summarize', payload: text });
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    initWorker();
+    document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+  });
+</script>
 
 </body>
 </html>
