@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-  
 
 <head>
   <meta charset="UTF-8" />
@@ -8,8 +7,8 @@
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 </head>
+
 <body>
   <header class="hero header-with-bg">
     <canvas id="headerCanvas"></canvas>
@@ -21,14 +20,13 @@
         <a href="../articles.html">Articles</a>
         <a href="../about.html">About Me</a>
       </nav>
-      
     </div>
   </header>
 
   <main class="article-container">
     <article>
       <div class="article-header">
-        <img src="../images/google_veo.png" alt="Google Veo preview">
+        <img src="../images/google_veo.png" alt="Google Veo preview" />
 
         <div class="article-title-block">
           <h2>Google Veo: The Next Leap in AI-Generated Cinema</h2>
@@ -43,8 +41,8 @@
       <p>Google trained Veo on massive datasets of video and audio, teaching it not only how things look but how they move, react, and interact. The model incorporates temporal coherence, so frames don’t jump or glitch. And its ability to interpret creative prompts, metaphors, or stylized requests is surprisingly refined.</p>
 
       <blockquote>
-        “Veo isn’t just about making video generation possible — it’s about making it beautiful, useful, and intuitive for creators of all kinds.”
-        <br>— Eli Collins, VP of Product at Google DeepMind
+        “Veo isn’t just about making video generation possible — it’s about making it beautiful, useful, and intuitive for creators of all kinds.”<br />
+        — Eli Collins, VP of Product at Google DeepMind
       </blockquote>
 
       <p>Veo isn’t just a gimmick for tech demos. Google envisions it as a serious tool for filmmakers, educators, advertisers, and indie creators. Want to pitch a scene? Storyboard an idea? Produce marketing content without a camera crew? Veo gives you a director’s chair — and an AI film crew to match.</p>
@@ -60,22 +58,135 @@
 
       <p>In the hands of millions, it could change how stories are told, how knowledge is shared, and how creativity manifests. Whether that’s exciting or unsettling depends on how ready we are for a future where anyone can create Hollywood-level visuals... using just their imagination.</p>
     </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">🧠 AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container" style="display:none;">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
   </main>
 
   <footer>
     <p>&copy; 2025 The Binary Journal</p>
   </footer>
-<button id="back-to-top">↑ Back to Top</button>
+
+  <button id="back-to-top">↑ Back to Top</button>
 
   <script src="../js/scroll.js" defer></script>
+  <script src="../js/header.js" defer></script>
+
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
     }
-  });
-</script>
-  <script src="../js/header.js"></script>
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return;
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const text = article.innerText.slice(0, 1024);
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
 
 </body>
+
 </html>
