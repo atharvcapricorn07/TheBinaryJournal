@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="UTF-8" />
   <title>Elon Jet Tracker – The Binary Journal</title>
   <link rel="stylesheet" href="../css/styles.css" />
-   <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 </head>
+
 <body>
   <header class="hero header-with-bg">
     <canvas id="headerCanvas"></canvas>
@@ -21,14 +20,13 @@
         <a href="../articles.html">Articles</a>
         <a href="../about.html">About Me</a>
       </nav>
-      
     </div>
   </header>
 
   <main class="article-container">
     <article>
       <div class="article-header">
-        <img src="../images/elon_jet.png" alt="Flight radar with private jet icon">
+        <img src="../images/elon_jet.png" alt="Flight radar with private jet icon" />
 
         <div class="article-title-block">
           <h2>Elon's Flight Fiasco</h2>
@@ -39,7 +37,7 @@
       <p>In a world increasingly shaped by digital transparency and open data, one teenager took that principle to the skies—literally. Jack Sweeney, a 19-year-old college student, built a Twitter bot that tracked the private jet of none other than Elon Musk. What started as a side project quickly turned into a high-stakes story about privacy, power, and the boundaries of technology.</p>
 
       <blockquote>
-        “Can you take this down?”<br>
+        “Can you take this down?”<br />
         — Elon Musk, in a direct message to Jack Sweeney
       </blockquote>
 
@@ -53,22 +51,134 @@
 
       <p>The story of Jack Sweeney and Elon Musk is more than a quirky headline—it’s a preview of a future where data isn’t just information; it’s power. As technology enables ordinary people to hold the powerful accountable, the line between privacy and transparency continues to blur. One thing’s for sure: in the age of automation, nothing flies under the radar anymore.</p>
     </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">🧠 AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container" style="display:none;">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
   </main>
 
   <footer>
     <p>&copy; 2025 The Binary Journal</p>
   </footer>
-<button id="back-to-top">↑ Back to Top</button>
+
+  <button id="back-to-top">↑ Back to Top</button>
 
   <script src="../js/scroll.js" defer></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
-  });
-</script>
-  <script src="../js/header.js"></script>
+  <script src="../js/header.js" defer></script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
+    }
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return; // pause at 95% until model ready
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const text = article.innerText.slice(0, 1024);
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
 </body>
+
 </html>
