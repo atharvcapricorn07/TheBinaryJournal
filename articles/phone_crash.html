@@ -5,13 +5,12 @@
   <meta name="google-site-verification" content="_OWp8oUYIndBeIUPpaW5eSWb2uQ6yAWcBL69-gKhwfU" />
   <title>The Wallpaper That Killed Phones – The Binary Journal</title>
   <link rel="stylesheet" href="../css/styles.css" />
-  <meta name="description" content="The Binary Journal explores where code meets culture—tech reviews, digital ethics, AI, and the strange tale of a photograph that crashed Android phones.">
-  <meta name="keywords" content="Binary Journal, Android wallpaper bug, cursed image, phone crash, smartphone bugs, tech culture, ICC profile, color space, rendering engine">
-  <meta name="author" content="A.K">
-  <meta name="robots" content="index, follow">
+  <meta name="description" content="The Binary Journal explores where code meets culture—tech reviews, digital ethics, AI, and the strange tale of a photograph that crashed Android phones." />
+  <meta name="keywords" content="Binary Journal, Android wallpaper bug, cursed image, phone crash, smartphone bugs, tech culture, ICC profile, color space, rendering engine" />
+  <meta name="author" content="A.K" />
+  <meta name="robots" content="index, follow" />
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 </head>
 <body>
   <header class="hero header-with-bg">
@@ -30,7 +29,7 @@
   <main class="article-container">
     <article>
       <div class="article-header">
-        <img src="../images/phone_crash.png" alt="Glacier National Park wallpaper that crashed Android phones">
+        <img src="../images/phone_crash.png" alt="Glacier National Park wallpaper that crashed Android phones" />
 
         <div class="article-title-block">
           <h2>The Wallpaper That Killed Phones</h2>
@@ -55,21 +54,133 @@
 
       <p>In retrospect, this bug wasn’t catastrophic. Nobody was hacked. No data was stolen. But it became legendary precisely because it felt like something out of a sci-fi novel. A photograph, stripped of intent, became a kind of passive-aggressive software virus. A visual DoS. It reminded developers to be careful with image rendering. It reminded users to back up their data. And it reminded all of us that even a still image can crash the world’s most widely used mobile operating system—if the math is just wrong enough.</p>
     </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">🧠 AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container" style="display:none;">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
   </main>
 
   <footer>
     <p>&copy; 2025 The Binary Journal</p>
   </footer>
-<button id="back-to-top">↑ Back to Top</button>
+  
+  <button id="back-to-top">↑ Back to Top</button>
 
   <script src="../js/scroll.js" defer></script>
+  <script src="../js/header.js" defer></script>
+
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-    }
-  });
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
   </script>
-  <script src="../js/header.js"></script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
+    }
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return;
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const text = article.innerText.slice(0, 1024);
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
 </body>
 </html>
