@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <meta name="google-site-verification" content="_OWp8oUYIndBeIUPpaW5eSWb2uQ6yAWcBL69-gKhwfU" />
+  <meta charset="UTF-8" />
+  <title>Even Reality G1s – The Binary Journal</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <meta name="description" content="The Binary Journal explores where code meets culture—tech reviews, digital ethics, AI, and more.">
+  <meta name="keywords" content="Binary Journal, tech blog, AR glasses, Even Reality, G1s, wearable tech, immersive tech">
+  <meta name="author" content="Binary Staff">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+</head>
+<body>
+  <header class="hero header-with-bg">
+    <canvas id="headerCanvas"></canvas>
+    <div class="header-content">
+      <h1>The Binary Journal</h1>
+      <p class="tagline">Exploring the edge where code meets culture</p>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../articles.html">Articles</a>
+        <a href="../about.html">About Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <article>
+      <div class="article-header">
+        <img src="../images/evenrealities.png" alt="Even Reality G1s illustration">
+        <div class="article-title-block">
+          <h2>Even Reality G1s: Blurring the Lines Between World and Wearable</h2>
+          <div class="article-meta">By A.K • July 10 2025 • 6 min read</div>
+        </div>
+      </div>
+
+      <p>The Even Reality G1s are not just another attempt at augmented reality—they feel like the tipping point. With a featherlight frame and near-invisible lenses, these AR glasses challenge the idea that immersive tech must look and feel like a sci-fi headset. Wearing them in public doesn’t draw stares, and that subtlety is their first major success.</p>
+
+      <p>Inside the glasses, micro OLED displays project crisp overlays directly into your field of vision, indistinguishable from the real world at a glance. Whether it’s navigation arrows hovering on the road or real-time translation of signs in foreign languages, the tech doesn’t shout—it whispers, assisting without overwhelming. Voice controls are fluid, and eye tracking, while not flawless, adds an eerily intuitive layer to everyday use.</p>
+
+      <p>Battery life has long been a bottleneck for wearable tech, but Even Reality seems to have made an unflashy breakthrough. The G1s last nearly a full day on mixed use, thanks to dynamic refresh tech that adapts performance based on environment and task load. It’s smart power efficiency—not brute force—that keeps them running quietly in the background.</p>
+
+      <blockquote>
+        “This isn’t just a pair of glasses with a screen. It’s the first time I’ve felt like the digital world isn’t being added on—it’s just there.”
+      </blockquote>
+
+      <p>Yet, it’s the use cases—not the tech—that make the G1s stand out. Surgeons are using them for heads-up vitals during operations. Architects overlay blueprints onto construction sites. Cyclists see traffic data appear on their route in real-time. And yes, students are already using them to peek at definitions mid-lecture. The glasses aren’t built for one niche; they’re a platform disguised as eyewear.</p>
+
+      <p>Still, the questions haven’t gone away. Privacy advocates warn about the potential for covert recording, even though the G1s require audible or gesture-based commands to do so. Others ask whether this always-on digital layer will detach us from the raw world around us. Even Reality, for its part, says the future isn’t about escape—it’s about enhancement.</p>
+
+      <p>Whether you see them as a productivity tool, a privacy nightmare, or just a really cool gadget, one thing is clear: the G1s mark a shift. They’re not an experiment—they’re a signal. The era of heads-down screens may finally be giving way to something more ambient, more embedded, and far closer to our eyes than ever before.</p>
+    </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Binary Journal</p>
+  </footer>
+  <button id="back-to-top">↑ Back to Top</button>
+
+  <script src="../js/scroll.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+  <script src="../js/header.js"></script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
+    }
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return;
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const paragraphs = article.querySelectorAll("p");
+      let fullText = "";
+      paragraphs.forEach(p => fullText += p.innerText + "\n");
+      const text = fullText.slice(0, 2048);
+
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
+</body>
+</html>
