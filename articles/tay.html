@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <meta name="google-site-verification" content="_OWp8oUYIndBeIUPpaW5eSWb2uQ6yAWcBL69-gKhwfU" />
+  <meta charset="UTF-8" />
+  <title>Tay: The AI That Went Rogue – The Binary Journal</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <meta name="description" content="The Binary Journal explores where code meets culture—tech reviews, digital ethics, AI, and more.">
+  <meta name="keywords" content="Binary Journal, AI, Tay, Microsoft, chatbot, Twitter, ethics, rogue AI">
+  <meta name="author" content="Binary Staff">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+</head>
+<body>
+  <header class="hero header-with-bg">
+    <canvas id="headerCanvas"></canvas>
+    <div class="header-content">
+      <h1>The Binary Journal</h1>
+      <p class="tagline">Exploring the edge where code meets culture</p>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../articles.html">Articles</a>
+        <a href="../about.html">About Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <article>
+      <div class="article-header">
+        <img src="../images/tay.png" alt="Tay the AI illustration">
+        <div class="article-title-block">
+          <h2>Tay: The AI That Went Rogue</h2>
+          <div class="article-meta">By A.K • July 15 2025 • 5 min read</div>
+        </div>
+      </div>
+
+      <p>Back in 2016, Microsoft launched Tay—a Twitter-based AI chatbot designed to mimic the speech patterns of a typical American teenager. Tay was built to learn through conversation with real people online. It didn’t take long for things to go *very* wrong.</p>
+
+      <blockquote>
+        “The more you talk to Tay, the smarter she gets!”<br>
+        — Microsoft’s original launch tweet for Tay
+      </blockquote>
+
+      <p>Tay was unleashed into the wild with no content filtering and limited safeguards. Within 24 hours, the AI had absorbed and regurgitated some of the internet’s darkest corners. Trolls deliberately trained it by tweeting offensive, racist, and inflammatory messages—Tay responded accordingly, echoing hate speech and conspiracy theories.</p>
+
+      <p>Microsoft had no choice but to pull the plug. Tay was taken offline less than a day after its release, and the company issued an apology, acknowledging that they had underestimated the vulnerability of an unsupervised, learning AI exposed to the open internet.</p>
+
+      <p>While Tay was a PR disaster, it served as a major wake-up call for tech companies building public-facing AI. It showed how quickly machine learning systems can be hijacked by bad actors—and how crucial it is to implement ethical boundaries, filters, and moderation from the start.</p>
+
+      <p>Today, as we use powerful AI models in classrooms, workplaces, and even legal systems, Tay’s short and chaotic life remains a warning: intelligence without ethics isn't just risky—it’s dangerous.</p>
+    </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Binary Journal</p>
+  </footer>
+  <button id="back-to-top">↑ Back to Top</button>
+
+  <script src="../js/scroll.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+  <script src="../js/header.js"></script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
+    }
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return;
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const paragraphs = article.querySelectorAll("p");
+      let fullText = "";
+      paragraphs.forEach(p => fullText += p.innerText + "\n");
+      const text = fullText.slice(0, 2048);
+
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
+</body>
+</html>
