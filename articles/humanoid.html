@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="google-site-verification" content="_OWp8oUYIndBeIUPpaW5eSWb2uQ6yAWcBL69-gKhwfU" />
+  <meta charset="UTF-8" />
+  <title>Humanoid Robots and the Race for Real AI – The Binary Journal</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <meta name="description" content="The Binary Journal explores where code meets culture—tech reviews, digital ethics, AI, and more." />
+  <meta name="keywords" content="Binary Journal, tech blog, humanoid robot, Tesla Optimus, robotics, AI, Elon Musk" />
+  <meta name="author" content="Binary Staff" />
+  <meta name="robots" content="index, follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+</head>
+
+<body>
+  <header class="hero header-with-bg">
+    <canvas id="headerCanvas"></canvas>
+    <div class="header-content">
+      <h1>The Binary Journal</h1>
+      <p class="tagline">Exploring the edge where code meets culture</p>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../articles.html">Articles</a>
+        <a href="../about.html">About Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <article>
+      <div class="article-header">
+        <img src="../images/humanoid.png" alt="Humanoid robot illustration" />
+        <div class="article-title-block">
+          <h2>Humanoid Robots and the Race for Real AI</h2>
+          <div class="article-meta">By A.K • July 20 2025 • 7 min read</div>
+        </div>
+      </div>
+
+      <p>When Tesla unveiled its Optimus humanoid robot, it wasn't just another tech demo—it was a statement. A declaration that robotics was no longer relegated to factory arms and vacuum cleaners. Elon Musk promised a robot that would one day replace human labor across dangerous and dull jobs. But reality, as it often does, hit back hard.</p>
+
+      <p>Fast forward to mid-2025, and the robot revolution has stalled. Tesla recently paused Optimus production due to performance and reliability issues: overheating joints, unreliable battery life, and poor grip control. It’s a reminder that building a humanoid robot isn’t just a hardware problem—it’s an AI problem, too.</p>
+
+      <p>The company’s pivot is telling. With Autopilot veteran Ashok Elluswamy now steering the Optimus program, focus has shifted from physical dexterity to cognitive intelligence. Tesla plans to integrate its in-house language model Grok into Optimus—giving the robot semantic understanding to interact more naturally with the world around it.</p>
+
+      <p>But big promises remain unfulfilled. Despite Musk’s claims that Optimus will be performing factory tasks by year’s end and scaling to millions by 2029, experts remain skeptical. "It’s one thing to choreograph a demo," notes MIT roboticist Priya Khanna, "but real-world dexterity and generalization are far harder."</p>
+
+      <p>The race isn’t Tesla’s alone. Companies like Figure AI, Agility Robotics, and Apptronik are racing to deploy humanoids in logistics and retail. Meanwhile, Boston Dynamics continues pushing the boundaries of mobility—but with limited autonomy. Everyone’s gunning for the same prize: a robot that’s not just human-shaped, but human-smart.</p>
+
+      <p>It’s a cultural question as much as a technical one. Are we prepared to coexist with machines that walk, talk, and work like us? The answer, like the robots themselves, is still under construction.</p>
+    </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Binary Journal</p>
+  </footer>
+  <button id="back-to-top">↑ Back to Top</button>
+
+  <script src="../js/scroll.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+  <script src="../js/header.js"></script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
+    }
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return;
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const paragraphs = article.querySelectorAll("p");
+      let fullText = "";
+      paragraphs.forEach(p => fullText += p.innerText + "\n");
+      const text = fullText.slice(0, 2048);
+
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
+</body>
+
+</html>
