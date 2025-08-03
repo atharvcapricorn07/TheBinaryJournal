@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <meta name="google-site-verification" content="_OWp8oUYIndBeIUPpaW5eSWb2uQ6yAWcBL69-gKhwfU" />
+  <meta charset="UTF-8" />
+  <title>Bias in the Breakroom: Can AI Hiring Ever Be Truly Fair? – The Binary Journal</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <meta name="description" content="AI is transforming recruitment. But can algorithmic hiring tools ever escape the bias they’re trained on? A deep dive from The Binary Journal.">
+  <meta name="keywords" content="AI hiring, recruitment bias, HR automation, algorithmic discrimination, ethical AI, Binary Journal, AI ethics, hiring algorithms, job seekers">
+  <meta name="author" content="Binary Staff">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+</head>
+
+<body>
+  <header class="hero header-with-bg">
+    <canvas id="headerCanvas"></canvas>
+    <div class="header-content">
+      <h1>The Binary Journal</h1>
+      <p class="tagline">Exploring the edge where code meets culture</p>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../articles.html">Articles</a>
+        <a href="../about.html">About Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <article>
+      <div class="article-header">
+        <img src="../images/hiring.jpg" alt="AI hiring illustration showing automation in recruitment">
+        <div class="article-title-block">
+          <h2>Bias in the Breakroom: Can AI Hiring Ever Be Truly Fair?</h2>
+          <div class="article-meta">By A.K • August 3 2025 • 8 min read</div>
+        </div>
+      </div>
+
+      <p>From résumés to recommendations, artificial intelligence is transforming how companies hire. Automated systems can sort thousands of applications in seconds, score candidates based on patterns, and even conduct initial interviews via AI avatars. But as the pace of innovation accelerates, so does a critical ethical concern: <strong>can AI hiring ever truly be unbiased?</strong></p>
+
+      <h3>The Rise of Algorithmic Recruitment</h3>
+      <p>HR departments increasingly rely on tools like <a href="https://www.hirevue.com/" target="_blank">HireVue</a>, Pymetrics, and LinkedIn Recruiter to automate stages of the hiring funnel. These platforms promise improved efficiency, reduced human error, and more “objective” candidate evaluations. But behind the scenes, many of these systems are trained on historical hiring data—data that often reflects societal and organizational biases.</p>
+
+      <p>For example, Amazon’s now-defunct AI hiring model notoriously downgraded resumes that included the word “women’s” (e.g., “women’s chess club captain”), having learned from past male-dominated hiring patterns. The model wasn’t malicious—it was simply mirroring the data it was fed.</p>
+
+      <blockquote>
+        “AI systems learn from historical data. If that data is biased, the system is biased.”<br>
+        — <a href="https://hbr.org/2021/07/ai-based-hiring-needs-an-overhaul" target="_blank">Harvard Business Review</a>
+      </blockquote>
+
+      <h3>How Bias Creeps In</h3>
+      <p>Bias in AI doesn’t always manifest overtly. Sometimes it hides in correlations that seem harmless on the surface. Applicants from certain ZIP codes might be filtered out based on location-based proxies. Gaps in employment—often related to caregiving—might lower a candidate’s score, disproportionately impacting women and parents. Even the type of language used in cover letters (assertive vs. collaborative) may shift ranking results.</p>
+
+      <p>In facial recognition-based interviews, non-native English speakers or neurodivergent individuals may score poorly based on intonation, eye contact, or facial expression—traits that may have nothing to do with actual job performance.</p>
+
+      <h3>Opacity and Accountability</h3>
+      <p>Perhaps most concerning is the lack of transparency in many of these tools. Job applicants are rarely told why they were filtered out. Hiring managers may not understand how the model made its decisions. And vendors often protect their algorithms as proprietary “black boxes.”</p>
+
+      <p>Even when audits are performed, companies often test models on narrow datasets that fail to represent diverse candidate pools. And unless legislation mandates regular bias audits, many issues remain buried—until a high-profile scandal brings them to light.</p>
+
+      <h3>Efforts Toward Fairness</h3>
+      <p>Despite these concerns, not all is bleak. Companies like LinkedIn, IBM, and Indeed are now implementing “fairness-aware” machine learning models and bias mitigation pipelines. LinkedIn, for example, has a dedicated <a href="https://engineering.linkedin.com/blog/2021/engineering-responsible-ai-at-linkedin" target="_blank">Responsible AI team</a> that reviews major algorithmic systems for fairness and transparency.</p>
+
+      <p>In 2023, New York City became one of the first jurisdictions to regulate algorithmic hiring tools. Under its Automated Employment Decision Tool (AEDT) law, employers must conduct annual bias audits and notify applicants when AI tools are used. While enforcement has been inconsistent, it marks a step toward greater algorithmic accountability.</p>
+
+      <h3>The Role of Candidates</h3>
+      <p>Many job seekers now tailor their resumes for AI systems—optimizing keywords, avoiding gaps, and formatting documents in plain text. But not everyone knows how to “game” the system, raising equity concerns. Should job hunting be about strategic formatting—or actual qualifications?</p>
+
+      <p>At the same time, some candidates are using AI tools of their own—like ChatGPT for cover letters or InterviewWarmup by Google. The arms race between human and machine continues to evolve.</p>
+
+      <h3>So, Can AI Hiring Ever Be Fair?</h3>
+      <p>The answer, like the technology itself, is complex. AI has the potential to reduce individual bias—if implemented thoughtfully. It can help surface overlooked talent, increase consistency, and flag red flags. But without oversight, it also risks codifying and amplifying the very biases it aims to avoid.</p>
+
+      <p>Ultimately, fairness in AI hiring isn’t just about better code—it’s about <em>better values</em>. Organizations must prioritize transparency, inclusivity, and human oversight. Regulators must step in when companies won’t. And technologists must build systems that reflect not just efficiency, but equity.</p>
+
+      <p>Because at the end of the day, a résumé is more than data—it’s a story. And stories deserve more than just a filter.</p>
+    </article>
+
+    <section style="text-align: center; margin-top: 40px;">
+      <button class="read-more-btn" id="summarize-btn">AI Summary</button>
+      <p id="summary-output" style="margin-top: 1rem; font-style: italic;"></p>
+    </section>
+
+    <div id="progress-container">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <p id="progress-label">Loading model...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Binary Journal</p>
+  </footer>
+  <button id="back-to-top">↑ Back to Top</button>
+
+  <script src="../js/scroll.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+  <script src="../js/header.js"></script>
+
+  <script type="module">
+    let worker = null;
+    let modelReady = false;
+    let progressInterval = null;
+    let progressValue = 0;
+    let speedUp = false;
+
+    function updateProgress(percent, label) {
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      progressBar.style.width = `${percent}%`;
+      progressLabel.innerText = label;
+    }
+
+    function animateProgressBar() {
+      const target = 95;
+      progressValue = 0;
+      speedUp = false;
+
+      progressInterval = setInterval(() => {
+        if (progressValue >= 100) {
+          clearInterval(progressInterval);
+          return;
+        }
+        if (!speedUp && progressValue >= target) {
+          return;
+        }
+        progressValue += speedUp ? 5 : 0.5;
+        updateProgress(Math.min(progressValue, 100), `🔄 Loading... (${Math.floor(progressValue)}%)`);
+      }, 100);
+    }
+
+    function initWorker() {
+      try {
+        worker = new Worker('../js/modelWorker.js', { type: 'module' });
+      } catch (err) {
+        console.error("❌ Failed to create worker:", err);
+        document.getElementById("summary-output").innerText = "❌ Could not initialize model worker.";
+        return;
+      }
+
+      document.getElementById("progress-container").style.display = "block";
+      animateProgressBar();
+      worker.postMessage('load');
+
+      worker.onmessage = (event) => {
+        const { status, result, error } = event.data;
+
+        if (status === 'ready') {
+          modelReady = true;
+          speedUp = true;
+          const syncTo100 = setInterval(() => {
+            if (progressValue >= 100) {
+              clearInterval(syncTo100);
+              updateProgress(100, "✅ Model loaded!");
+              setTimeout(() => {
+                document.getElementById("progress-container").style.display = "none";
+              }, 1000);
+            }
+          }, 100);
+        }
+
+        if (status === 'summary') {
+          document.getElementById("summary-output").innerText = result;
+        }
+
+        if (status === 'error') {
+          document.getElementById("summary-output").innerText = `❌ ${error}`;
+          console.error(error);
+        }
+      };
+
+      worker.onerror = (err) => {
+        console.error("❌ Worker crashed:", err);
+        document.getElementById("summary-output").innerText = "❌ Worker crashed. See console.";
+      };
+    }
+
+    function summarizeArticle() {
+      const summaryBox = document.getElementById("summary-output");
+      const article = document.querySelector(".article-container article");
+
+      if (!modelReady) {
+        summaryBox.innerText = "⏳ Still loading AI model...";
+        return;
+      }
+
+      const paragraphs = article.querySelectorAll("p");
+      let fullText = "";
+      paragraphs.forEach(p => fullText += p.innerText + "\n");
+      const text = fullText.slice(0, 2048);
+
+      summaryBox.innerText = "🧠 Summarizing...";
+      worker.postMessage({ type: 'summarize', payload: text });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initWorker();
+      document.getElementById("summarize-btn").addEventListener("click", summarizeArticle);
+    });
+  </script>
+</body>
+</html>
